@@ -20,12 +20,16 @@ module.exports = {
       }], ...sharedPresets],
     }
   },
-  plugins: [["module-resolver",
-    {
-      "root": "./",
-      "alias": {
-        "@": ["./src"]
-      },
-      "extensions": [".ts", ".tsx"]
-    }]]
+  plugins: [
+    "babel-plugin-bin-shebang",
+    ["module-resolver",
+      {
+        "root": "./",
+        "alias": {
+          "@": ["./src"]
+        },
+        "extensions": [".ts", ".tsx"]
+      }
+    ]
+  ]
 }

@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import yargs from "yargs/yargs";
 import { hideBin } from "yargs/helpers";
 
@@ -22,3 +24,5 @@ yargs(hideBin(process.argv))
    description: 'Émettre plus de détails'
  })
  .parse()
+
+console.log("ici !!")

@@ -7,7 +7,6 @@ chai.should();
 chai.use(chaiAsPromised);
 
 import { proxy } from "@constl/ipa"
-// import { adresseOrbiteValide } from "@constl/ipa/client";
 
 import générerClient from "@/client";
 import lancerServeur from "@/serveur";
