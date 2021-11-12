@@ -4,7 +4,7 @@ import ws from "ws";
 
 import ipa from "./ipa";
 
-export default (port?: number) => {
+export default (port?: number): ()=>void => {
   port = port || 5000;
 
   const app = express();
@@ -17,9 +17,16 @@ export default (port?: number) => {
   // the same ws upgrade process described here:
   // https://www.npmjs.com/package/ws#multiple-servers-sharing-a-single-https-server
   const server = app.listen(port);
+
   server.on('upgrade', (request, socket, head) => {
+    // @ts-ignore
     wsServer.handleUpgrade(request, socket, head, socket => {
       wsServer.emit('connection', socket, request);
     });
   });
+
+  return () => {
+    wsServer.close()
+    server.close()
+  }
 }

@@ -1,60 +1,74 @@
 import ws from "ws";
 
-import {
-  MessageDeTravailleur,
-  MessageErreurDeTravailleur,
-  MessagePourTravailleur,
-} from "@constl/ipa/lib/proxy/proxy";
-import GestionnaireClient from "@constl/ipa/lib/proxy/gestionnaireClient";
+import { proxy } from "@constl/ipa";
 
 let n = 0
 const prises: {[key: string]: ws.WebSocket} = {}
 
-const fMessage = (message: MessageDeTravailleur) => {
-  const [idPrise, idMessage] = message.id.split(":");
-  const prise = prises[idPrise.toString()];
-  if (prise) {
-    message.id = idMessage;
-    prise.send(message);
+const obtPrisesRéponseMessage = (idMessage?: string): {prise: ws.WebSocket, id?: string}[] => {
+  let prisesFinales: {prise: ws.WebSocket, id?: string}[] = [];
+  let id: string;
+
+  if (idMessage) {
+    const [idPrise, id_] = idMessage.split(":");
+    id = id_
+    const prise = prises[idPrise.toString()];
+    prisesFinales.push({prise, id});
+
+  } else {
+    prisesFinales = Object.values(prises).map(prise=>{return {prise}})
   }
+
+  return prisesFinales
+}
+
+const fMessage = (message: proxy.proxy.MessageDeTravailleur) => {
+  const { id } = message;
+  const prisesPourMessage = obtPrisesRéponseMessage(id)
+
+  prisesPourMessage.forEach(prise => {
+    prise.prise.send(JSON.stringify({
+      ...message,
+      id: prise.id
+    }))
+  })
+
 }
 
 const fErreur = (erreur: Error, id?: string) => {
-  let prisesPourMessage: ws.WebSocket[] = [];
+  console.log({erreur})
 
-  const messageErreur: MessageErreurDeTravailleur = {
+  const messageErreur: proxy.proxy.MessageErreurDeTravailleur = {
     type: "erreur",
     erreur,
   };
 
-  if (id) {
-    const [idPrise, idMessage] = id.split(":");
-    const prise = prises[idPrise.toString()];
-    prisesPourMessage.push(prise);
-
-    messageErreur.id = idMessage;
-  } else {
-    prisesPourMessage = Object.values(prises)
-  }
-
-  prisesPourMessage.forEach(p=>p.send(messageErreur))
+  const prisesPourMessage = obtPrisesRéponseMessage(id)
+  prisesPourMessage.forEach(
+    p=>p.prise.send(JSON.stringify({
+      ...messageErreur, id: p.id
+    }))
+  )
 };
 
-const client = new GestionnaireClient(fMessage, fErreur);
+
+const client = new proxy.gestionnaireClient.default(fMessage, fErreur);
 
 
 export default (serveur: ws.Server): void => {
-  serveur.on('connection', socket => {
+  serveur.on('connection', prise => {
     n++
-    socket.on(
+    const n_prise = n.toString()
+    prises[n.toString()] = prise;
+    prise.on(
       'message', message => {
-        const messageDécodé: MessagePourTravailleur = JSON.parse(message.toString())
-        messageDécodé.id = `${n}:${messageDécodé.id}`
+        const messageDécodé: proxy.proxy.MessagePourTravailleur = JSON.parse(message.toString())
+        if (messageDécodé.id) messageDécodé.id = `${n_prise}:${messageDécodé.id}`
         client.gérerMessage(messageDécodé)
       }
     );
-    socket.on("close", () => {
-      const idPrise = Object.entries(prises).find(p=>p[1] === socket)?.[0];
+    prise.on("close", () => {
+      const idPrise = Object.entries(prises).find(p=>p[1] === prise)?.[0];
       if (idPrise) delete prises[idPrise];
     })
   })
