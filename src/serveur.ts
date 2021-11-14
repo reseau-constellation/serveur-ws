@@ -1,11 +1,11 @@
-
 import express from "express";
 import ws from "ws";
+import trouverUnPort from "find-free-port";
 
 import ipa from "./ipa";
 
-export default (port?: number): ()=>void => {
-  port = port || 5000;
+export default async (port?: number): Promise<{fermerServeur: ()=>void, port: number}> => {
+  port = port || (await trouverUnPort(5000))[0];
 
   const app = express();
   // https://masteringjs.io/tutorials/express/websockets
@@ -24,9 +24,9 @@ export default (port?: number): ()=>void => {
       wsServer.emit('connection', socket, request);
     });
   });
-
-  return () => {
+  const fermerServeur = () => {
     wsServer.close()
     server.close()
   }
+  return { fermerServeur, port}
 }

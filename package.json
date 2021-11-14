@@ -9,7 +9,7 @@
     "require": "./lib/cjs/index.js",
     "import": "./lib/esm/index.js"
   },
-  "repository": "https://github.com/reseau-constellation/serveur",
+  "repository": "https://github.com/reseau-constellation/serveur-ws",
   "author": "Julien Jean Malard-Adam",
   "license": "AGPL-3.0",
   "private": false,
@@ -26,8 +26,10 @@
   "dependencies": {
     "@localfirst/auth": "^1.0.1",
     "bufferutil": "^4.0.5",
+    "chalk": "^4.1.2",
     "express": "^4.17.1",
     "isomorphic-ws": "^4.0.1",
+    "ora": "^6.0.1",
     "ws": "^8.2.3"
   },
   "devDependencies": {

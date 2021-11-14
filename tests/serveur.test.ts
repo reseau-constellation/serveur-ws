@@ -1,4 +1,3 @@
-import trouverUnPort from "find-free-port";
 import chai, { expect } from "chai";
 import chaiAsPromised from "chai-as-promised";
 import rimraf from "rimraf";
@@ -24,12 +23,11 @@ describe("Serveurs", function () {
     this.timeout(10000);
     let monClient:  proxy.proxy.ProxyClientConstellation;
     let fermerServeur: () => void
+    let port: number
     let fermerClient: () => void
 
     before(async ()=>{
-      const port = (await trouverUnPort(5000))[0];
-
-      fermerServeur = lancerServeur(port);
+      ({fermerServeur, port} = await lancerServeur());
       ({client: monClient, fermerClient } = générerClient(port));
     })
 
@@ -76,12 +74,12 @@ describe("Serveurs", function () {
     let client2: proxy.proxy.ProxyClientConstellation;
 
     let fermerServeur: () => void;
+    let port: number;
     let fermerClient1: () => void;
     let fermerClient2: () => void;
 
     before(async ()=>{
-      const port = (await trouverUnPort(5000))[0];
-      fermerServeur = lancerServeur(port);
+      ({ fermerServeur, port } = await lancerServeur(port));
       ({client: client1, fermerClient: fermerClient1 } = générerClient(port));
       ({client: client2, fermerClient: fermerClient2 } = générerClient(port));
     })
