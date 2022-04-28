@@ -1,6 +1,6 @@
 {
   "name": "@constl/serveur",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Un serveur Constellation pour connecter à d'autres applications locales",
   "main": "lib/cjs/index.js",
   "module": "lib/esm/index.js",
