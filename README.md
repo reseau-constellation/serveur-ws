@@ -20,13 +20,20 @@ de la ligne de commande.
 Si vous comptez simplement utiliser le serveur Constellation (y compris pour une
 analyse en Python ou en R), c'est ceci ce que vous voulez.
 
+`yarn global add @constl/serveur`
+
+Ou bien :
+
 `npm install -g @constl/serveur`
 
 ### Ligne de commande
+Pour lancer le serveur :
 `constl lancer [-p <port>] [-b]`
 
+Pour obtenir le numéro de la version :
 `constl version`
 
+Pour obtenir de l'aide :
 `constl -a`
 
 ## Utilisation dans un autre projet

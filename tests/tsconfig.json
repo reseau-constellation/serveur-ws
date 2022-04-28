@@ -1,7 +1,7 @@
 {
   "extends": "./../tsconfig.json",
-  "esModuleInterop": true,
-  "include": [
-    "./**/*.ts",
-  ],
+  "include": ["./**/*.ts"],
+  "compilerOptions": {
+    "rootDir": "./"
+  }
 }

@@ -20,25 +20,27 @@
     "compiler:bundles": "cross-env BABEL_ENV=esmBundled rollup -c",
     "déclarations": "tsc -p tsconfig.json",
     "compiler": "yarn nettoyer && yarn compiler:esm && yarn compiler:cjs && yarn compiler:bundles && yarn déclarations",
-    "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' ts-mocha \"tests/**/*.test.ts\" --exit --require mocha-steps -r tsconfig-paths/register",
+    "formatter": "yarn prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\" && yarn eslint --ext .js,.ts src",
+    "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' yarn ts-mocha \"tests/**/*.test.ts\" --exit --require mocha-steps -r tsconfig-paths/register",
+    "test2": "env TS_NODE_PROJECT='tests/tsconfig.json' mocha --require ts-node/register --extensions ts,tsx --watch --watch-files src 'tests/**/*.{ts,tsx}'",
     "publier": "yarn compiler && yarn publish --access public"
   },
   "dependencies": {
-    "@localfirst/auth": "^1.0.1",
     "bufferutil": "^4.0.5",
     "chalk": "^4.1.2",
     "express": "^4.17.1",
     "find-free-port": "^2.0.0",
     "isomorphic-ws": "^4.0.1",
     "ora": "^6.0.1",
-    "ws": "^8.2.3"
+    "ws": "^8.2.3",
+    "yargs": "^17.2.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.16.0",
     "@babel/core": "^7.16.0",
     "@babel/preset-env": "^7.16.0",
     "@babel/preset-typescript": "^7.16.0",
-    "@constl/ipa": "^0.1.13",
+    "@constl/ipa": "^0.2.1",
     "@rollup/plugin-babel": "^5.3.0",
     "@rollup/plugin-commonjs": "^21.0.1",
     "@rollup/plugin-json": "^4.1.0",
@@ -52,17 +54,29 @@
     "@types/rimraf": "^3.0.2",
     "@types/ws": "^8.2.0",
     "@types/yargs": "^17.0.5",
+    "@typescript-eslint/eslint-plugin": "^5.4.0",
+    "@typescript-eslint/parser": "^5.4.0",
     "babel-plugin-bin-shebang": "^1.0.3",
     "babel-plugin-module-resolver": "^4.1.0",
     "chai": "^4.3.4",
     "chai-as-promised": "^7.1.1",
     "cross-env": "^7.0.3",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^5.1.1",
+    "jest": "27",
     "mocha": "^9.1.3",
     "mocha-steps": "^1.3.0",
+    "prettier": "^2.5.0",
     "rimraf": "^3.0.2",
     "rollup": "^2.59.0",
     "rollup-plugin-node-gyp": "^0.1.0",
     "rollup-plugin-terser": "^7.0.2",
+    "ts-jest": "^27.1.4",
     "ts-mocha": "^8.0.0",
     "typescript": "^4.4.4"
   },
@@ -73,6 +87,21 @@
     "lib"
   ],
   "peerDependencies": {
-    "@constl/ipa": "^0.1.13"
+    "@constl/ipa": "^0.2.0"
+  },
+  "jest": {
+    "preset": "ts-jest/presets/default-esm",
+    "modulePathIgnorePatterns": [
+      "<rootDir>/dist/",
+      "<rootDir>/node_modules/"
+    ],
+    "extensionsToTreatAsEsm": [
+      ".ts"
+    ],
+    "globals": {
+      "ts-jest": {
+        "useESM": true
+      }
+    }
   }
 }
