@@ -4,7 +4,7 @@ Un serveur websocket local pour Constellation.
 Ceci n'est pas apte à être utilisé en tant que serveur publique ! Entre autres
 limitations, il n'y a aucun contrôle d'authentification. Il est donc configuré
 afin d'être uniquement disponible sur `localhost`. Ce serveur est dédié
-uniquement à la communication inter-procès sur le même ordinateur, lorsque
+uniquement à la communication entre processus sur le même ordinateur, lorsque
 des codes en autres langues informatiques (Python, R) veulent accéder un nœud
 Constellation local.
 
