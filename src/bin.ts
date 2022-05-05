@@ -56,7 +56,7 @@ yargs(hideBin(process.argv))
 
       const { port } = await lancerServeur({
         port: argv.port ? Number.parseInt(argv.port) : undefined,
-        optsConstellation
+        optsConstellation,
       });
       if (argv.bavard) {
         // spinner!.stop()

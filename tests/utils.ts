@@ -1,21 +1,16 @@
-
 export class EncryptionBidon {
-  clefs : { publique: string, secrète: string};
-  nom = "bidon"
+  clefs: { publique: string; secrète: string };
+  nom = "bidon";
 
   constructor() {
-    this.clefs = { publique: "abc", secrète: "def"};
+    this.clefs = { publique: "abc", secrète: "def" };
   }
 
-  encrypter(
-    message: string,
-  ): string {
+  encrypter(message: string): string {
     return [...message].reverse().join();
   }
 
-  décrypter(
-    message: string,
-  ): string {
+  décrypter(message: string): string {
     return [...message].reverse().join();
   }
 

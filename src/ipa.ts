@@ -54,31 +54,34 @@ const fErreur = (erreur: Error, id?: string) => {
   );
 };
 
-
 export default (
   serveur: ws.Server,
-  constellation: client.optsConstellation | proxy.gestionnaireClient.default = {}
-): () => void => {
+  constellation:
+    | client.optsConstellation
+    | proxy.gestionnaireClient.default = {}
+): (() => void) => {
   let client: proxy.gestionnaireClient.default;
-  let fFermer: () => void;
+  let fFermer: () => void;
 
   if (constellation instanceof proxy.gestionnaireClient.default) {
-    client = constellation
+    client = constellation;
     fFermer = () => {
       // On ne ferme pas le client s'il a été fourni de l'extérieur
-    }
+    };
   } else {
     client = new proxy.gestionnaireClient.default(
-      fMessage, fErreur, constellation
+      fMessage,
+      fErreur,
+      constellation
     );
     fFermer = () => {
       client.fermer();
-    }
+    };
   }
 
   serveur.on("connection", (prise) => {
     n++;
-    const n_prise = n.toString();  // Sauvegarder une référence au numéro de la prise ici
+    const n_prise = n.toString(); // Sauvegarder une référence au numéro de la prise ici
 
     prises[n.toString()] = prise;
     prise.on("message", (message) => {

@@ -1,42 +1,26 @@
+import { once } from "events"
 import ws from "isomorphic-ws";
 import { proxy } from "@constl/ipa";
 
-export class Client extends proxy.proxy.téléClient {
+export class ProxyClientWS extends proxy.proxy.ClientProxifiable {
   connexion: ws.WebSocket;
 
-  _messagesEnAttente: proxy.messages.MessagePourTravailleur[];
-
-  constructor(port: number) {
-    super();
-    this._messagesEnAttente = [];
-
-    this.connexion = new ws.WebSocket(`ws://localhost:${port}`);
-    this.connexion.on("open", () => {
-      this.connexionOuverte();
-    });
+  constructor(connexion: ws.WebSocket, souleverErreurs = false) {
+    super(souleverErreurs);
+    this.connexion = connexion
 
     this.connexion.on("message", (é) => {
       const message = JSON.parse(é.toString());
-      this.emit("message", message);
+      this.événements.emit("message", message);
     });
 
     this.connexion.onerror = (e) => {
-      this.emit("erreur", e);
+      this.événements.emit("erreur", e);
     };
   }
 
-  connexionOuverte() {
-    for (const m of this._messagesEnAttente) {
-      this.connexion.send(JSON.stringify(m));
-    }
-  }
-
-  recevoirMessage(message: proxy.messages.MessagePourTravailleur): void {
-    if (this.connexion.readyState === 0) {
-      this._messagesEnAttente.unshift(message);
-    } else {
-      this.connexion.send(JSON.stringify(message));
-    }
+  envoyerMessage(message: proxy.messages.MessagePourTravailleur): void {
+    this.connexion.send(JSON.stringify(message))
   }
 
   fermer(): void {
@@ -44,19 +28,18 @@ export class Client extends proxy.proxy.téléClient {
   }
 }
 
-export default (
+export default async (
   port: number,
-  souleverErreurs = false,
-): {
+  souleverErreurs = false
+): Promise<{
   client: proxy.proxy.ProxyClientConstellation;
   fermerClient: () => void;
-} => {
-  const ipaWS = new Client(port);
+}> => {
+  const connexion = new ws.WebSocket(`ws://localhost:${port}`);
+  await once(connexion, "open")
+  const client = new ProxyClientWS(connexion, souleverErreurs);
   return {
-    client: proxy.proxy.default(
-      ipaWS,
-      souleverErreurs,
-    ),
-    fermerClient: () => ipaWS.fermer(),
+    client: proxy.proxy.générerProxy(client),
+    fermerClient: () => client.fermer(),
   };
 };

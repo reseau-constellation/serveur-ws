@@ -23,7 +23,7 @@ export default {
       plugins: [terser()],
       sourcemap: true,
     },
-    /*{
+    {
       file: "lib/bundles/bundle.umd.js",
       format: "umd",
       name: "myLibrary",
@@ -35,7 +35,7 @@ export default {
       name: "myLibrary",
       plugins: [terser()],
       sourcemap: true,
-    },*/
+    },
   ],
   inlineDynamicImports: true,
   plugins: [

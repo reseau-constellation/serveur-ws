@@ -2,13 +2,18 @@ import express from "express";
 import ws from "ws";
 import trouverUnPort from "find-free-port";
 
-import { client, proxy } from "@constl/ipa"
+import { client, proxy } from "@constl/ipa";
 
 import ipa from "./ipa";
 
-export default async ({ port, optsConstellation = {} }: {
-  port?: number,
-  optsConstellation: client.optsConstellation | proxy.gestionnaireClient.default
+export default async ({
+  port,
+  optsConstellation = {},
+}: {
+  port?: number;
+  optsConstellation:
+    | client.optsConstellation
+    | proxy.gestionnaireClient.default;
 }): Promise<{ fermerServeur: () => void; port: number }> => {
   port = port || (await trouverUnPort(5000))[0];
 
@@ -16,7 +21,7 @@ export default async ({ port, optsConstellation = {} }: {
   // https://masteringjs.io/tutorials/express/websockets
 
   const wsServer = new ws.Server({ noServer: true });
-  const fermerClient = ipa(wsServer, optsConstellation);
+  const fermerConstellation = ipa(wsServer, optsConstellation);
 
   // `server` is a vanilla Node.js HTTP server, so use
   // the same ws upgrade process described here:
@@ -24,7 +29,6 @@ export default async ({ port, optsConstellation = {} }: {
   const server = app.listen(port);
 
   server.on("upgrade", (request, socket, head) => {
-    // @ts-ignore
     wsServer.handleUpgrade(request, socket, head, (socket) => {
       wsServer.emit("connection", socket, request);
     });
@@ -32,7 +36,7 @@ export default async ({ port, optsConstellation = {} }: {
   const fermerServeur = () => {
     wsServer.close();
     server.close();
-    if (fermerClient) fermerClient();
+    if (fermerConstellation) fermerConstellation();
   };
   return { fermerServeur, port };
 };

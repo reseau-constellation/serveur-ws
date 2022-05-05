@@ -1,12 +1,14 @@
 import chai, { expect } from "chai";
 import chaiAsPromised from "chai-as-promised";
-import rimraf from "rimraf"
+import rimraf from "rimraf";
 
 import { proxy } from "@constl/ipa";
 
 import { EncryptionBidon } from "./utils";
-import générerClient from "@/client";
+
 import lancerServeur from "@/serveur";
+import générerClient from "@/client";
+
 
 chai.should();
 chai.use(chaiAsPromised);
@@ -15,16 +17,16 @@ const effacerFichiers = () => {
   rimraf.sync("orbite-cnstl");
   rimraf.sync("sfip-cnstl");
   rimraf.sync("_stockageTemp");
-}
+};
 
 describe("Serveurs", function () {
   let fermerServeur: () => void;
   let port: number;
 
   before(async () => {
-     ({ fermerServeur, port } = await lancerServeur({
-       optsConstellation: { encryption: new EncryptionBidon() }
-     }));
+    ({ fermerServeur, port } = await lancerServeur({
+      optsConstellation: { encryption: new EncryptionBidon() },
+    }));
   });
 
   after(async () => {
@@ -39,7 +41,7 @@ describe("Serveurs", function () {
     let monClient: proxy.proxy.ProxyClientConstellation;
 
     before(async () => {
-      ({ client: monClient, fermerClient } = générerClient(port));
+      ({ client: monClient, fermerClient } = await générerClient(port));
     });
 
     after(async () => {
@@ -86,17 +88,17 @@ describe("Serveurs", function () {
 
     let fermerClient1: () => void;
     let fermerClient2: () => void;
-    const fsOublier: (()=>void)[] = [];
+    const fsOublier: (() => void)[] = [];
 
     before(async () => {
-      ({ client: client1, fermerClient: fermerClient1 } = générerClient(port));
-      ({ client: client2, fermerClient: fermerClient2 } = générerClient(port));
+      ({ client: client1, fermerClient: fermerClient1 } = await générerClient(port));
+      ({ client: client2, fermerClient: fermerClient2 } = await générerClient(port));
     });
 
     after(() => {
       if (fermerClient1) fermerClient1();
       if (fermerClient2) fermerClient2();
-      fsOublier.forEach(f=>f());
+      fsOublier.forEach((f) => f());
     });
 
     it("Action", async () => {
@@ -109,19 +111,25 @@ describe("Serveurs", function () {
       expect(idOrbite1).to.equal(idOrbite2);
     });
     it("Suivre", async () => {
-      let courriel1: string|undefined = undefined;
-      let courriel2: string|undefined = undefined;
+      let courriel1: string | null = null;
+      let courriel2: string | null = null;
 
       fsOublier.push(
-        await client1.profil!.suivreCourriel(courriel => courriel1 = courriel)
+        await client1.profil!.suivreCourriel(
+          (courriel) => (courriel1 = courriel)
+        )
       );
       fsOublier.push(
-        await client2.profil!.suivreCourriel(courriel => courriel2 = courriel)
+        await client2.profil!.suivreCourriel(
+          (courriel) => (courriel2 = courriel)
+        )
       );
 
       await client1.profil!.sauvegarderCourriel("julien.malard@mail.mcgill.ca");
-      await new Promise(résoudre => setTimeout(résoudre, 2000))
-      expect(courriel1).to.equal(courriel2).to.equal("julien.malard@mail.mcgill.ca");
+      await new Promise((résoudre) => setTimeout(résoudre, 2000));
+      expect(courriel1)
+        .to.equal(courriel2)
+        .to.equal("julien.malard@mail.mcgill.ca");
     });
 
     it("Erreur", async () => {
@@ -132,5 +140,4 @@ describe("Serveurs", function () {
       expect(() => client2.jeNeSuisPasUnAtribut.ouUneFonction()).to.throw;
     });
   });
-
 });
