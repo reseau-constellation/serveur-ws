@@ -3,8 +3,9 @@ import chaiAsPromised from "chai-as-promised";
 import rimraf from "rimraf";
 
 import { proxy } from "@constl/ipa";
-
-import { EncryptionBidon } from "./utils";
+import { mkdtempSync } from "fs";
+import { tmpdir } from "os";
+import { sep, join } from "path";
 
 import lancerServeur from "@/serveur";
 import générerClient from "@/client";
