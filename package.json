@@ -19,7 +19,7 @@
     "compiler:cjs": "cross-env BABEL_ENV=cjs babel src --extensions '.ts' --out-dir 'lib/cjs' --source-maps",
     "compiler:bundles": "cross-env BABEL_ENV=esmBundled rollup -c",
     "déclarations": "tsc -p tsconfig.json",
-    "compiler": "yarn nettoyer && yarn compiler:esm && yarn compiler:cjs && yarn compiler:bundles && yarn déclarations",
+    "compiler": "yarn nettoyer && yarn compiler:esm && yarn compiler:cjs && yarn déclarations",
     "formatter": "yarn prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\" && yarn eslint --ext .js,.ts src",
     "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' yarn ts-mocha \"tests/**/*.test.ts\" --exit --require mocha-steps -r tsconfig-paths/register",
     "test2": "yarn ts-mocha --loader=ts-node/esm 'tests/**/*.{ts,js}'",
@@ -33,6 +33,7 @@
     "find-free-port": "^2.0.0",
     "isomorphic-ws": "^4.0.1",
     "ora": "^6.0.1",
+    "pkginfo": "^0.4.1",
     "ws": "^8.2.3",
     "yargs": "16"
   },
@@ -41,6 +42,7 @@
     "@babel/core": "^7.16.0",
     "@babel/preset-env": "^7.16.0",
     "@babel/preset-typescript": "^7.16.0",
+    "@constl/ipa": "^0.4.4",
     "@rollup/plugin-babel": "^5.3.0",
     "@rollup/plugin-commonjs": "^22.0.0",
     "@rollup/plugin-json": "^4.1.0",
@@ -86,6 +88,6 @@
     "lib"
   ],
   "peerDependencies": {
-    "@constl/ipa": "^0.3.0"
+    "@constl/ipa": "^0.4.4"
   }
 }
