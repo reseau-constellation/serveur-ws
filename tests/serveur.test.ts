@@ -14,19 +14,29 @@ import générerClient from "@/client";
 chai.should();
 chai.use(chaiAsPromised);
 
-const effacerFichiers = () => {
-  rimraf.sync("orbite-cnstl");
-  rimraf.sync("sfip-cnstl");
-  rimraf.sync("_stockageTemp");
-};
 
 describe("Serveurs", function () {
   let fermerServeur: () => void;
   let port: number;
+  let dirTemp: string;
+
+  const effacerFichiers = () => {
+    rimraf.sync(dirTemp);
+  };
 
   before(async () => {
+    dirTemp =  mkdtempSync(`${tmpdir()}${sep}`);
+
     ({ fermerServeur, port } = await lancerServeur({
-      optsConstellation: { encryption: new EncryptionBidon() },
+      optsConstellation: {
+        orbite: {
+          dossier: join(dirTemp, "dossierSFIP"),
+          sfip: {
+            dossier: join(dirTemp, "dossierOrbite")
+          }
+        },
+        dossierStockageLocal: join(dirTemp, "stockageLocal")
+      },
     }));
   });
 
@@ -58,18 +68,16 @@ describe("Serveurs", function () {
     it("Suivre", async () => {
       let noms: { [key: string]: string } | undefined;
 
-      const oublierNoms = await monClient.profil!.suivreNoms((n) => (noms = n));
+      const oublierNoms = await monClient.profil!.suivreNoms({f: (n) => (noms = n)});
       expect(noms).to.exist.and.to.be.an.empty("object");
 
-      await monClient.profil!.sauvegarderNom("fr", "Julien Jean Malard-Adam");
+      await monClient.profil!.sauvegarderNom({langue: "fr", nom: "Julien Jean Malard-Adam"});
       expect(noms).to.deep.equal({ fr: "Julien Jean Malard-Adam" });
 
       oublierNoms();
 
-      await monClient.profil!.sauvegarderNom("es", "Julien Jean Malard-Adam");
-      expect(Object.keys(noms!))
-        .to.have.lengthOf(1)
-        .and.include.members(["fr"]);
+      await monClient.profil!.sauvegarderNom({langue: "es", nom: "Julien Jean Malard-Adam"});
+      expect(noms).to.deep.equal({ fr: "Julien Jean Malard-Adam" });
     });
 
     it("Erreur", async () => {
@@ -117,16 +125,16 @@ describe("Serveurs", function () {
 
       fsOublier.push(
         await client1.profil!.suivreCourriel(
-          (courriel) => (courriel1 = courriel)
+          { f: (courriel) => (courriel1 = courriel) }
         )
       );
       fsOublier.push(
         await client2.profil!.suivreCourriel(
-          (courriel) => (courriel2 = courriel)
+          { f: (courriel) => (courriel2 = courriel) }
         )
       );
 
-      await client1.profil!.sauvegarderCourriel("julien.malard@mail.mcgill.ca");
+      await client1.profil!.sauvegarderCourriel({ courriel: "julien.malard@mail.mcgill.ca" });
       await new Promise((résoudre) => setTimeout(résoudre, 2000));
       expect(courriel1)
         .to.equal(courriel2)
