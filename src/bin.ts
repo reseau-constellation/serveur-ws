@@ -7,11 +7,14 @@ import chalk from "chalk";
 
 import lancerServeur from "./serveur";
 
+// Versions : considérer https://www.npmjs.com/package/pkginfo
+require('pkginfo')(module);
+
 yargs(hideBin(process.argv))
   .usage("Utilisation: $0 <commande> [options]")
   .command(
     [
-      "lancer [--port <port>] [--compte <id-compte>] [--doss-orbite <dossier>] [--doss-sfip <dossier>]",
+      "lancer [--port <port>] [--compte <id-compte>] [--doss-orbite <dossierOrbite>] [--doss-sfip <dossierSFIP>]",
     ],
     "Lancer le serveur",
     (yargs) => {
@@ -33,7 +36,7 @@ yargs(hideBin(process.argv))
         })
         .option("doss-orbite", {
           alias: "do",
-          describe: "Le dossier local à utiliser pour OrbiteBD.",
+          describe: "Le dossier local à utiliser pour Orbite-BD.",
           type: "string",
         })
         .option("doss-sfip", {
@@ -50,8 +53,8 @@ yargs(hideBin(process.argv))
       }
       const optsConstellation = {
         compte: argv.compte,
-        dossierOrbite: argv.dossOrbite,
-        dossierSFIP: argv.dossSfip,
+        dossierOrbite: argv.dossierOrbite,
+        dossierSFIP: argv.dossierSFIP,
       };
 
       const { port } = await lancerServeur({
@@ -69,6 +72,18 @@ yargs(hideBin(process.argv))
     type: "boolean",
     description: "Émettre plus de détails",
   })
+  .command(
+    [
+      "v-constl-obli",
+    ],
+    "Version Constellation obligatoire",
+    (yargs) => {
+      return yargs
+    },
+    async () => {
+      console.log(module.exports.peerDependencies["@constl/ipa"]);
+    }
+  )
   .demandCommand()
   .help("aide", "Obtenir de l'aide")
   .alias("aide", "a")
