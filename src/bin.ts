@@ -6,6 +6,7 @@ import { hideBin } from "yargs/helpers";
 import chalk from "chalk";
 
 import lancerServeur from "./serveur";
+import { version as versionIPA } from "@constl/ipa"
 
 // Versions : considérer https://www.npmjs.com/package/pkginfo
 require('pkginfo')(module);
@@ -82,6 +83,18 @@ yargs(hideBin(process.argv))
     },
     async () => {
       console.log(module.exports.peerDependencies["@constl/ipa"]);
+    }
+  )
+  .command(
+    [
+      "v-constl",
+    ],
+    "Version Constellation installée",
+    (yargs) => {
+      return yargs
+    },
+    async () => {
+      console.log(versionIPA);
     }
   )
   .demandCommand()
