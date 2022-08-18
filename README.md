@@ -69,7 +69,7 @@ Invoqué sans configuration, `lancerServeur` trouvera un port disponible sur
 `localhost` et redonnera cette valeur dans la variable `port`. Vous pouvez
 également spécifier une configuration Constellation plus précise :
 
-```JavaScript
+```TypeScript
 import { lancerServeur } from "@constl/serveur";
 
 const { fermerServeur, port } = await lancerServeur({
@@ -90,7 +90,7 @@ const { fermerServeur, port } = await lancerServeur({
 Vous voudrez aussi probablement utiliser le client websocket qui est aussi disponible
 dans cette librairie.
 
-```JavaScript
+```TypeScript
 import { lancerClient } from "@constl/serveur";
 
 const port = 5001  // Ou une autre valeur, selon `lancerServeur`
@@ -98,8 +98,8 @@ const { client, fermerClient } = lancerClient(port);
 
 // On peut maintenant appeler des fonctions sur le client comme s'il
 // s'agissait d'un client Constellation ordinaire :
-const noms = {}
-const oublierNoms = await client.profil.suivreNoms(x => noms = x);
+const noms = {};
+const oublierNoms = await client.profil.suivreNoms(x => noms == x);
 
 // Pour arrêter le suivi :
 oublierNoms();
@@ -119,3 +119,8 @@ répondre à la spécification suivante :
 Envoyer un message init
 
 Attendre la réponse prêt
+
+## Développement
+Pour installer le client en mode développement, utiliser
+
+`yarn global add file:$PWD`
