@@ -42,7 +42,7 @@
     "@babel/core": "^7.16.0",
     "@babel/preset-env": "^7.16.0",
     "@babel/preset-typescript": "^7.16.0",
-    "@constl/ipa": "^0.4.11",
+    "@constl/ipa": "^0.4.12",
     "@rollup/plugin-babel": "^5.3.0",
     "@rollup/plugin-commonjs": "^22.0.0",
     "@rollup/plugin-json": "^4.1.0",
@@ -88,7 +88,7 @@
     "lib"
   ],
   "peerDependencies": {
-    "@constl/ipa": "^0.4.11"
+    "@constl/ipa": "^0.4.12"
   },
   "resolutions": {
     "@constl/ipa/orbit-db/orbit-db-store/ipfs-log/orbit-db-io": "1.0.2",
