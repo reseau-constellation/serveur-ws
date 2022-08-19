@@ -1,6 +1,6 @@
 {
   "name": "@constl/serveur",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Un serveur Constellation pour connecter à d'autres applications locales",
   "main": "lib/cjs/index.js",
   "module": "lib/esm/index.js",
@@ -91,6 +91,12 @@
     "@constl/ipa": "^0.4.8"
   },
   "resolutions": {
-    "**/orbit-db-io": "1.0.2"
+    "@constl/ipa/orbit-db/orbit-db-store/ipfs-log/orbit-db-io": "1.0.2",
+    "@constl/ipa/orbit-db/orbit-db-io": "1.0.2"
+  },
+  "overrides": {
+    "orbit-db-io": {
+      ".": "1.0.2"
+    }
   }
 }

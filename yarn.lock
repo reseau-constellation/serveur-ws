@@ -1037,10 +1037,10 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@constl/ipa@^0.4.8":
-  version "0.4.8"
-  resolved "https://registry.yarnpkg.com/@constl/ipa/-/ipa-0.4.8.tgz#d1b901b36da0b1aa72773e831ae5900a691479c3"
-  integrity sha512-Qvv3Nk4doWFMw2Tk2tZubhXBtkgvQ/f6HNER6mePzfIbqcLVjTGIhu1i9CJ42iEjTjyAYvZJL89jN2NVcipPIw==
+"@constl/ipa@^0.4.9":
+  version "0.4.9"
+  resolved "https://registry.yarnpkg.com/@constl/ipa/-/ipa-0.4.9.tgz#23942cd13fbdb0c6d8d894e10ef42d3536b8f2ce"
+  integrity sha512-fxeOZQL4k3JRKDg+PQKaewyuSmUN+65Rilm9a3s5jDkwS53oQ0b2bkklSldEg/36jol1ZwPfFjVW22M7rLF74g==
   dependencies:
     "@babel/runtime" "^7.16.0"
     "@chriscdn/promise-semaphore" "^1.0.6"
