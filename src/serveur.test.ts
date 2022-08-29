@@ -1,9 +1,10 @@
 import rimraf from "rimraf";
-
-import { proxy } from "@constl/ipa";
+import { Controller } from "ipfsd-ctl";
 import { mkdtempSync } from "fs";
 import { tmpdir } from "os";
 import { sep, join } from "path";
+
+import { proxy, utilsTests } from "@constl/ipa";
 
 import lancerServeur from "@/serveur";
 import générerClient from "@/client";
@@ -13,6 +14,7 @@ describe("Serveurs", function () {
   let fermerServeur: () => void;
   let port: number;
   let dirTemp: string;
+  let dsfip: Controller
 
   const effacerFichiers = () => {
     rimraf.sync(dirTemp);
@@ -21,13 +23,13 @@ describe("Serveurs", function () {
   beforeAll(async () => {
     dirTemp =  mkdtempSync(`${tmpdir()}${sep}`);
 
+    dsfip = await utilsTests.initierSFIP(join(dirTemp, "sfip"));
+
     ({ fermerServeur, port } = await lancerServeur({
       optsConstellation: {
         orbite: {
           dossier: join(dirTemp, "dossierSFIP"),
-          sfip: {
-            dossier: join(dirTemp, "dossierOrbite")
-          }
+          sfip: { sfip: dsfip.api },
         },
         dossierStockageLocal: join(dirTemp, "stockageLocal")
       },
@@ -36,6 +38,8 @@ describe("Serveurs", function () {
 
   afterAll(async () => {
     if (fermerServeur) fermerServeur();
+    utilsTests.arrêterSFIP(dsfip);
+
     effacerFichiers();
   });
 
@@ -77,10 +81,10 @@ describe("Serveurs", function () {
 
     test("Erreur", async () => {
       // @ts-ignore
-      expect(() => monClient.jeNeSuisPasUneFonction()).toThrow;
+      await expect(() => monClient.jeNeSuisPasUneFonction()).rejects.toThrow();
 
       // @ts-ignore
-      expect(() => monClient.jeNeSuisPasUnAtribut.ouUneFonction()).toThrow;
+      await expect(() => monClient.jeNeSuisPasUnAtribut.ouUneFonction()).reject.toThrow();
     });
   });
 
@@ -139,10 +143,10 @@ describe("Serveurs", function () {
 
     test("Erreur", async () => {
       // @ts-ignore
-      expect(() => client1.jeNeSuisPasUneFonction()).to.throw;
+      await expect(() => client1.jeNeSuisPasUneFonction()).rejects.toThrow();
 
       // @ts-ignore
-      expect(() => client2.jeNeSuisPasUnAtribut.ouUneFonction()).to.throw;
+      await expect(() => client2.jeNeSuisPasUnAtribut.ouUneFonction()).rejects.toThrow();
     });
   });
 });
