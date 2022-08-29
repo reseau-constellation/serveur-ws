@@ -5,7 +5,7 @@ import { hideBin } from "yargs/helpers";
 // import ora, { Ora } from "ora";
 import chalk from "chalk";
 
-import lancerServeur from "./serveur";
+import lancerServeur from "./serveur.js";
 import { version as versionIPA } from "@constl/ipa"
 
 // Versions : considérer https://www.npmjs.com/package/pkginfo

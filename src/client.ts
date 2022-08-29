@@ -14,8 +14,12 @@ export class ProxyClientWS extends proxy.proxy.ClientProxifiable {
       this.événements.emit("message", message);
     });
 
-    this.connexion.onerror = (e) => {
-      this.événements.emit("erreur", e);
+    this.connexion.onerror = (erreur) => {
+      const messageErreur: proxy.messages.MessageErreurDeTravailleur = {
+        type: "erreur",
+        erreur: Error(erreur.toString()),
+      };
+      this.événements.emit("erreur", messageErreur);
     };
   }
 
