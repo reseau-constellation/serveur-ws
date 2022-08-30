@@ -9,6 +9,7 @@ import { proxy, utilsTests } from "@constl/ipa";
 import lancerServeur from "@/serveur";
 import générerClient from "@/client";
 
+const faisRien = () => {return}
 
 describe("Serveurs", function () {
   let fermerServeur: () => void;
@@ -49,7 +50,7 @@ describe("Serveurs", function () {
     let monClient: proxy.proxy.ProxyClientConstellation;
 
     beforeAll(async () => {
-      ({ client: monClient, fermerClient } = await générerClient(port));
+      ({ client: monClient, fermerClient } = await générerClient({port}));
     }, 10000);
 
     afterAll(async () => {
@@ -79,12 +80,13 @@ describe("Serveurs", function () {
       expect(noms).toEqual({ fr: "Julien Jean Malard-Adam" });
     });
 
-    test("Erreur", async () => {
+    test("Erreur fonction suivi inexistante", async () => {
       // @ts-ignore
-      await expect(() => monClient.jeNeSuisPasUneFonction()).rejects.toThrow();
-
+      await expect(() => monClient.jeNeSuisPasUneFonction({f: faisRien})).rejects.toThrow();
+    });
+    test("Erreur action inexistante", async () => {
       // @ts-ignore
-      await expect(() => monClient.jeNeSuisPasUnAtribut.ouUneFonction()).reject.toThrow();
+      await expect(() => monClient.jeNeSuisPasUnAtribut.ouUneFonction()).rejects.toThrow();
     });
   });
 
@@ -98,8 +100,8 @@ describe("Serveurs", function () {
     const fsOublier: (() => void)[] = [];
 
     beforeAll(async () => {
-      ({ client: client1, fermerClient: fermerClient1 } = await générerClient(port));
-      ({ client: client2, fermerClient: fermerClient2 } = await générerClient(port));
+      ({ client: client1, fermerClient: fermerClient1 } = await générerClient({port}));
+      ({ client: client2, fermerClient: fermerClient2 } = await générerClient({port}));
     }, 10000);
 
     afterAll(() => {
@@ -141,12 +143,20 @@ describe("Serveurs", function () {
       expect(courriel2).toEqual("julien.malard@mail.mcgill.ca");
     });
 
-    test("Erreur", async () => {
+    test("Erreur action", async () => {
       // @ts-ignore
       await expect(() => client1.jeNeSuisPasUneFonction()).rejects.toThrow();
 
       // @ts-ignore
       await expect(() => client2.jeNeSuisPasUnAtribut.ouUneFonction()).rejects.toThrow();
+    });
+
+    test("Erreur suivi", async () => {
+      // @ts-ignore
+      await expect(() => client1.jeNeSuisPasUneFonction({f: faisRien})).rejects.toThrow();
+
+      // @ts-ignore
+      await expect(() => client2.jeNeSuisPasUnAtribut.ouUneFonction({f: faisRien})).rejects.toThrow();
     });
   });
 });

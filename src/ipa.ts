@@ -37,7 +37,7 @@ const fMessage = (message: proxy.messages.MessageDeTravailleur) => {
   });
 };
 
-const fErreur = (erreur: Error, id?: string) => {
+const fErreur = (erreur: string, id?: string) => {
   const messageErreur: proxy.messages.MessageErreurDeTravailleur = {
     type: "erreur",
     erreur,

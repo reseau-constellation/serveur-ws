@@ -5,8 +5,8 @@ import { proxy } from "@constl/ipa";
 export class ProxyClientWS extends proxy.proxy.ClientProxifiable {
   connexion: ws.WebSocket;
 
-  constructor(connexion: ws.WebSocket, souleverErreurs = false) {
-    super(souleverErreurs);
+  constructor(connexion: ws.WebSocket) {
+    super();
     this.connexion = connexion
 
     this.connexion.on("message", (é) => {
@@ -17,9 +17,9 @@ export class ProxyClientWS extends proxy.proxy.ClientProxifiable {
     this.connexion.onerror = (erreur) => {
       const messageErreur: proxy.messages.MessageErreurDeTravailleur = {
         type: "erreur",
-        erreur: Error(erreur.toString()),
+        erreur: erreur.message,
       };
-      this.événements.emit("erreur", messageErreur);
+      this.événements.emit("message", messageErreur);
     };
   }
 
@@ -32,16 +32,17 @@ export class ProxyClientWS extends proxy.proxy.ClientProxifiable {
   }
 }
 
-export default async (
-  port: number,
-  souleverErreurs = false
-): Promise<{
+export default async ({
+  port,
+}: {
+  port: number;
+}): Promise<{
   client: proxy.proxy.ProxyClientConstellation;
   fermerClient: () => void;
 }> => {
   const connexion = new ws.WebSocket(`ws://localhost:${port}`);
   await once(connexion, "open")
-  const client = new ProxyClientWS(connexion, souleverErreurs);
+  const client = new ProxyClientWS(connexion);
   return {
     client: proxy.proxy.générerProxy(client),
     fermerClient: () => client.fermer(),
