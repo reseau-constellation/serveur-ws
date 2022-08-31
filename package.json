@@ -1,27 +1,23 @@
 {
   "name": "@constl/serveur",
   "version": "0.1.5",
-  "description": "Un serveur Constellation pour connecter à d'autres applications locales (sur la même machine)",
-  "type": "module",
-  "main": "lib/cjs/index.js",
-  "module": "lib/esm/index.js",
-  "types": "lib/types/index.d.ts",
-  "exports": {
-    "require": "./lib/cjs/index.js",
-    "import": "./lib/esm/index.js"
-  },
   "repository": "https://github.com/reseau-constellation/serveur-ws",
   "author": "Julien Jean Malard-Adam",
   "license": "AGPL-3.0",
   "private": false,
+  "description": "Un serveur Constellation pour connecter à d'autres applications locales (sur la même machine)",
+  "type": "module",
+  "types": "./dist/index.d.ts",
+  "exports": "./dist/index.js",
+  "engines": {
+    "node": ">=16"
+  },
   "scripts": {
     "watch": "npm-watch",
     "nettoyer": "rimraf dist",
-    "compiler:esm": "tsc -p tsconfig.build.json && tscpaths -p tsconfig.build.json -s src -o dist",
+    "compiler:esm": "ttsc -p tsconfig.build.json",
     "compiler": "yarn versioner && yarn nettoyer && yarn compiler:esm",
-    "test": "node --no-warnings --experimental-vm-modules ./node_modules/jest/bin/jest.js  --runInBand",
-    "test:tous": "env TOUS=true yarn test",
-    "test:navigateur": "karma start",
+    "test": "yarn compiler && chmod +x ./dist/bin.js && node --no-warnings --experimental-vm-modules ./node_modules/jest/bin/jest.js  --runInBand",
     "couverture": "yarn test --coverage",
     "couverture:tous": "yarn test:tous --coverage",
     "formatter": "yarn prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\" && yarn eslint --ext .js,.ts src",
@@ -36,9 +32,7 @@
     "express": "^4.17.1",
     "find-free-port": "^2.0.0",
     "isomorphic-ws": "^5.0.0",
-    "jest": "^29.0.1",
     "ora": "^6.0.1",
-    "pkginfo": "^0.4.1",
     "ws": "^8.2.3",
     "yargs": "^17.5.1"
   },
@@ -52,8 +46,6 @@
     "@types/yargs": "^17.0.5",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
-    "babel-plugin-bin-shebang": "^1.0.3",
-    "cross-env": "^7.0.3",
     "eslint": "^8.14.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^8.3.0",
@@ -61,15 +53,15 @@
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^6.0.0",
+    "execa": "^6.1.0",
     "ipfsd-ctl": "^12.0.0",
+    "jest": "^29.0.1",
     "prettier": "^2.5.0",
     "rimraf": "^3.0.2",
-    "rollup": "^2.59.0",
-    "rollup-plugin-node-gyp": "^0.1.0",
-    "rollup-plugin-terser": "^7.0.2",
     "ts-jest": "^28.0.8",
-    "tsconfig-paths": "^4.0.0",
-    "typescript": "^4.6.4"
+    "ttypescript": "^1.5.13",
+    "typescript": "^4.6.4",
+    "typescript-transform-paths": "^3.3.1"
   },
   "bin": {
     "constl": "./dist/bin.js"

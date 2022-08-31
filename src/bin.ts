@@ -1,15 +1,18 @@
-#!/usr/bin/env node
-
+#!/usr/bin/env node --experimental-specifier-resolution=node
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 // import ora, { Ora } from "ora";
 import chalk from "chalk";
+import fs from "fs";
+import path from "path";
+import url from "url";
 
-import lancerServeur from "./serveur.js";
+import lancerServeur from "@/serveur";
 import { version as versionIPA } from "@constl/ipa"
 
-// Versions : considérer https://www.npmjs.com/package/pkginfo
-require('pkginfo')(module);
+const dirBase = url.fileURLToPath(new URL('..', import.meta.url));;
+const fichierPackageJson = path.join(dirBase, "package.json")
+const packageJson = JSON.parse(fs.readFileSync(fichierPackageJson, "utf8"))
 
 yargs(hideBin(process.argv))
   .usage("Utilisation: $0 <commande> [options]")
@@ -82,7 +85,7 @@ yargs(hideBin(process.argv))
       return yargs
     },
     async () => {
-      console.log(module.exports.peerDependencies["@constl/ipa"]);
+      console.log(packageJson.peerDependencies["@constl/ipa"]);
     }
   )
   .command(

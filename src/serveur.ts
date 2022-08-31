@@ -1,10 +1,11 @@
 import express from "express";
-import ws from "ws";
+import { WebSocketServer } from "ws"
 import trouverUnPort from "find-free-port";
 
 import { client, proxy } from "@constl/ipa";
 
-import ipa from "./ipa";
+import ipa from "@/ipa";
+
 
 export default async ({
   port,
@@ -20,7 +21,7 @@ export default async ({
   const app = express();
   // https://masteringjs.io/tutorials/express/websockets
 
-  const wsServer = new ws.Server({ noServer: true });
+  const wsServer = new WebSocketServer({ noServer: true });
   const fermerConstellation = ipa(wsServer, optsConstellation);
 
   // `server` is a vanilla Node.js HTTP server, so use

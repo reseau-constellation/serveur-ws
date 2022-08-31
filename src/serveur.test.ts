@@ -1,5 +1,5 @@
+import { execa } from 'execa';
 import rimraf from "rimraf";
-import { Controller } from "ipfsd-ctl";
 import { mkdtempSync } from "fs";
 import { tmpdir } from "os";
 import { sep, join } from "path";
@@ -11,22 +11,13 @@ import générerClient from "@/client";
 
 const faisRien = () => {return}
 
-describe("Serveurs", function () {
-  let fermerServeur: () => void;
-  let port: number;
-  let dirTemp: string;
-  let dsfip: Controller
+const typesServeurs: {[clef: string]: ()=> Promise<{fermerServeur: ()=>void, port: number}>} = {
+  "Serveur même fil": async () => {
+    const dirTemp =  mkdtempSync(`${tmpdir()}${sep}`);
 
-  const effacerFichiers = () => {
-    rimraf.sync(dirTemp);
-  };
+    const dsfip = await utilsTests.initierSFIP(join(dirTemp, "sfip"));
 
-  beforeAll(async () => {
-    dirTemp =  mkdtempSync(`${tmpdir()}${sep}`);
-
-    dsfip = await utilsTests.initierSFIP(join(dirTemp, "sfip"));
-
-    ({ fermerServeur, port } = await lancerServeur({
+    const { fermerServeur, port } = await lancerServeur({
       optsConstellation: {
         orbite: {
           dossier: join(dirTemp, "dossierSFIP"),
@@ -34,129 +25,166 @@ describe("Serveurs", function () {
         },
         dossierStockageLocal: join(dirTemp, "stockageLocal")
       },
-    }));
-  });
-
-  afterAll(async () => {
-    if (fermerServeur) fermerServeur();
-    utilsTests.arrêterSFIP(dsfip);
-
-    effacerFichiers();
-  });
-
-  describe("Fonctionalités base serveur", function () {
-
-    let fermerClient: () => void;
-    let monClient: proxy.proxy.ProxyClientConstellation;
-
-    beforeAll(async () => {
-      ({ client: monClient, fermerClient } = await générerClient({port}));
-    }, 10000);
-
-    afterAll(async () => {
-      if (fermerClient) fermerClient();
     });
+    return {
+      port,
+      fermerServeur: () => {
+        fermerServeur();
+        utilsTests.arrêterSFIP(dsfip);
+        rimraf.sync(dirTemp);
+      }
+    }
+  },
+  "Serveur ligne de commande": async () => {
+    const abortController = new AbortController();
+    const processus = await execa("./dist/bin.js", ["lancer"], {signal: abortController.signal});
+    const { stdout } = processus
+    const port = Number(stdout.toString().split(":")[1]);
+    console.log({stdout, port})
 
-    test("Action", async () => {
-      const idOrbite = await monClient.obtIdOrbite();
+    return {
+      port,
+      fermerServeur: () => {
+        abortController.abort();
+      }
+    }
+  }
+}
 
-      expect(typeof idOrbite).toEqual("string")
-      expect(idOrbite.length).toBeGreaterThan(0);
-    });
 
-    test("Suivre", async () => {
-      let noms: { [key: string]: string } | undefined;
+describe("Serveurs", function () {
+  Object.entries(typesServeurs).forEach(
+    ([typeServeur, fGénérerServeur]) => describe(
+      typeServeur,
+      function () {
+        let fermerServeur: () => void;
+        let port: number;
 
-      const oublierNoms = await monClient.profil!.suivreNoms({f: (n) => (noms = n)});
-      expect(noms).toBeTruthy();
-      expect(Object.keys(noms)).toHaveLength(0);
+        beforeAll(async () => {
+          ({ fermerServeur, port } = await fGénérerServeur());
+        });
 
-      await monClient.profil!.sauvegarderNom({langue: "fr", nom: "Julien Jean Malard-Adam"});
-      expect(noms).toEqual({ fr: "Julien Jean Malard-Adam" });
+        afterAll(async () => {
+          if (fermerServeur) fermerServeur();
+        });
 
-      oublierNoms();
+        describe("Fonctionalités base serveur", function () {
 
-      await monClient.profil!.sauvegarderNom({langue: "es", nom: "Julien Jean Malard-Adam"});
-      expect(noms).toEqual({ fr: "Julien Jean Malard-Adam" });
-    });
+          let fermerClient: () => void;
+          let monClient: proxy.proxy.ProxyClientConstellation;
 
-    test("Erreur fonction suivi inexistante", async () => {
-      // @ts-ignore
-      await expect(() => monClient.jeNeSuisPasUneFonction({f: faisRien})).rejects.toThrow();
-    });
-    test("Erreur action inexistante", async () => {
-      // @ts-ignore
-      await expect(() => monClient.jeNeSuisPasUnAtribut.ouUneFonction()).rejects.toThrow();
-    });
-  });
+          beforeAll(async () => {
+            ({ client: monClient, fermerClient } = await générerClient({port}));
+          }, 10000);
 
-  describe("Multiples clients", function () {
+          afterAll(async () => {
+            if (fermerClient) fermerClient();
+          });
 
-    let client1: proxy.proxy.ProxyClientConstellation;
-    let client2: proxy.proxy.ProxyClientConstellation;
+          test("Action", async () => {
+            const idOrbite = await monClient.obtIdOrbite();
 
-    let fermerClient1: () => void;
-    let fermerClient2: () => void;
-    const fsOublier: (() => void)[] = [];
+            expect(typeof idOrbite).toEqual("string")
+            expect(idOrbite.length).toBeGreaterThan(0);
+          });
 
-    beforeAll(async () => {
-      ({ client: client1, fermerClient: fermerClient1 } = await générerClient({port}));
-      ({ client: client2, fermerClient: fermerClient2 } = await générerClient({port}));
-    }, 10000);
+          test("Suivre", async () => {
+            let noms: { [key: string]: string } | undefined;
 
-    afterAll(() => {
-      if (fermerClient1) fermerClient1();
-      if (fermerClient2) fermerClient2();
-      fsOublier.forEach((f) => f());
-    });
+            const oublierNoms = await monClient.profil!.suivreNoms({f: (n: {[key: string]: string}) => (noms = n)});
+            expect(noms).toBeTruthy();
+            expect(Object.keys(noms)).toHaveLength(0);
 
-    test("Action", async () => {
-      const [idOrbite1, idOrbite2] = await Promise.all([
-        client1.obtIdOrbite(),
-        client2.obtIdOrbite(),
-      ]);
-      expect(typeof idOrbite1).toEqual("string")
-      expect(idOrbite1.length).toBeGreaterThan(0);
-      expect(typeof idOrbite2).toEqual("string");
-      expect(idOrbite2.length).toBeGreaterThan(0);
-      expect(idOrbite1).toEqual(idOrbite2);
-    });
-    test("Suivre", async () => {
-      let courriel1: string | null = null;
-      let courriel2: string | null = null;
+            await monClient.profil!.sauvegarderNom({langue: "fr", nom: "Julien Jean Malard-Adam"});
+            expect(noms).toEqual({ fr: "Julien Jean Malard-Adam" });
 
-      fsOublier.push(
-        await client1.profil!.suivreCourriel(
-          { f: (courriel) => (courriel1 = courriel) }
-        )
-      );
-      fsOublier.push(
-        await client2.profil!.suivreCourriel(
-          { f: (courriel) => (courriel2 = courriel) }
-        )
-      );
+            oublierNoms();
 
-      await client1.profil!.sauvegarderCourriel({ courriel: "julien.malard@mail.mcgill.ca" });
-      await new Promise((résoudre) => setTimeout(résoudre, 2000));
+            await monClient.profil!.sauvegarderNom({langue: "es", nom: "Julien Jean Malard-Adam"});
+            expect(noms).toEqual({ fr: "Julien Jean Malard-Adam" });
+          });
 
-      expect(courriel1).toEqual("julien.malard@mail.mcgill.ca");
-      expect(courriel2).toEqual("julien.malard@mail.mcgill.ca");
-    });
+          test("Erreur fonction suivi inexistante", async () => {
+            // @ts-ignore
+            await expect(() => monClient.jeNeSuisPasUneFonction({f: faisRien})).rejects.toThrow();
+          });
+          test("Erreur action inexistante", async () => {
+            // @ts-ignore
+            await expect(() => monClient.jeNeSuisPasUnAtribut.ouUneFonction()).rejects.toThrow();
+          });
+        });
 
-    test("Erreur action", async () => {
-      // @ts-ignore
-      await expect(() => client1.jeNeSuisPasUneFonction()).rejects.toThrow();
+        describe("Multiples clients", function () {
 
-      // @ts-ignore
-      await expect(() => client2.jeNeSuisPasUnAtribut.ouUneFonction()).rejects.toThrow();
-    });
+          let client1: proxy.proxy.ProxyClientConstellation;
+          let client2: proxy.proxy.ProxyClientConstellation;
 
-    test("Erreur suivi", async () => {
-      // @ts-ignore
-      await expect(() => client1.jeNeSuisPasUneFonction({f: faisRien})).rejects.toThrow();
+          let fermerClient1: () => void;
+          let fermerClient2: () => void;
+          const fsOublier: (() => void)[] = [];
 
-      // @ts-ignore
-      await expect(() => client2.jeNeSuisPasUnAtribut.ouUneFonction({f: faisRien})).rejects.toThrow();
-    });
-  });
+          beforeAll(async () => {
+            ({ client: client1, fermerClient: fermerClient1 } = await générerClient({port}));
+            ({ client: client2, fermerClient: fermerClient2 } = await générerClient({port}));
+          }, 10000);
+
+          afterAll(() => {
+            if (fermerClient1) fermerClient1();
+            if (fermerClient2) fermerClient2();
+            fsOublier.forEach((f) => f());
+          });
+
+          test("Action", async () => {
+            const [idOrbite1, idOrbite2] = await Promise.all([
+              client1.obtIdOrbite(),
+              client2.obtIdOrbite(),
+            ]);
+            expect(typeof idOrbite1).toEqual("string")
+            expect(idOrbite1.length).toBeGreaterThan(0);
+            expect(typeof idOrbite2).toEqual("string");
+            expect(idOrbite2.length).toBeGreaterThan(0);
+            expect(idOrbite1).toEqual(idOrbite2);
+          });
+          test("Suivre", async () => {
+            let courriel1: string | null = null;
+            let courriel2: string | null = null;
+
+            fsOublier.push(
+              await client1.profil!.suivreCourriel(
+                { f: (courriel: string) => (courriel1 = courriel) }
+              )
+            );
+            fsOublier.push(
+              await client2.profil!.suivreCourriel(
+                { f: (courriel: string) => (courriel2 = courriel) }
+              )
+            );
+
+            await client1.profil!.sauvegarderCourriel({ courriel: "julien.malard@mail.mcgill.ca" });
+            await new Promise((résoudre) => setTimeout(résoudre, 2000));
+
+            expect(courriel1).toEqual("julien.malard@mail.mcgill.ca");
+            expect(courriel2).toEqual("julien.malard@mail.mcgill.ca");
+          });
+
+          test("Erreur action", async () => {
+            // @ts-ignore
+            await expect(() => client1.jeNeSuisPasUneFonction()).rejects.toThrow();
+
+            // @ts-ignore
+            await expect(() => client2.jeNeSuisPasUnAtribut.ouUneFonction()).rejects.toThrow();
+          });
+
+          test("Erreur suivi", async () => {
+            // @ts-ignore
+            await expect(() => client1.jeNeSuisPasUneFonction({f: faisRien})).rejects.toThrow();
+
+            // @ts-ignore
+            await expect(() => client2.jeNeSuisPasUnAtribut.ouUneFonction({f: faisRien})).rejects.toThrow();
+          });
+        });
+      }
+    )
+  )
+
 });
