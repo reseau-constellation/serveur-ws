@@ -12,7 +12,7 @@ import générerClient from "@/client";
 const faisRien = () => {return}
 
 const typesServeurs: {[clef: string]: ()=> Promise<{fermerServeur: ()=>void, port: number}>} = {
-  "Serveur même fil": async () => {
+  /*"Serveur même fil": async () => {
     const dirTemp =  mkdtempSync(`${tmpdir()}${sep}`);
 
     const dsfip = await utilsTests.initierSFIP(join(dirTemp, "sfip"));
@@ -34,20 +34,25 @@ const typesServeurs: {[clef: string]: ()=> Promise<{fermerServeur: ()=>void, por
         rimraf.sync(dirTemp);
       }
     }
-  },
+  },*/
   "Serveur ligne de commande": async () => {
     const abortController = new AbortController();
-    const processus = await execa("./dist/bin.js", ["lancer"], {signal: abortController.signal});
+    const processus = execa("./dist/bin.js", ["lancer"], {signal: abortController.signal});
     const { stdout } = processus
-    const port = Number(stdout.toString().split(":")[1]);
-    console.log({stdout, port})
 
-    return {
-      port,
-      fermerServeur: () => {
-        abortController.abort();
-      }
-    }
+    return new Promise(résoudre => {
+      stdout.on("data", (data)=>{
+        const port = Number(data.toString().split(":")[1]);
+        console.log({port})
+
+        résoudre({
+          port,
+          fermerServeur: () => {
+            // abortController.abort();
+          }
+        })
+      })
+    })
   }
 }
 
@@ -62,7 +67,7 @@ describe("Serveurs", function () {
 
         beforeAll(async () => {
           ({ fermerServeur, port } = await fGénérerServeur());
-        });
+        }, 10000);
 
         afterAll(async () => {
           if (fermerServeur) fermerServeur();
@@ -86,7 +91,7 @@ describe("Serveurs", function () {
 
             expect(typeof idOrbite).toEqual("string")
             expect(idOrbite.length).toBeGreaterThan(0);
-          });
+          }, 30000);  // Beaucoup plus long pour le premier test (le serveur doit se réveiller)
 
           test("Suivre", async () => {
             let noms: { [key: string]: string } | undefined;
@@ -102,16 +107,16 @@ describe("Serveurs", function () {
 
             await monClient.profil!.sauvegarderNom({langue: "es", nom: "Julien Jean Malard-Adam"});
             expect(noms).toEqual({ fr: "Julien Jean Malard-Adam" });
-          });
+          }, 10000);
 
           test("Erreur fonction suivi inexistante", async () => {
             // @ts-ignore
             await expect(() => monClient.jeNeSuisPasUneFonction({f: faisRien})).rejects.toThrow();
-          });
+          }, 10000);
           test("Erreur action inexistante", async () => {
             // @ts-ignore
             await expect(() => monClient.jeNeSuisPasUnAtribut.ouUneFonction()).rejects.toThrow();
-          });
+          }, 10000);
         });
 
         describe("Multiples clients", function () {
@@ -144,7 +149,7 @@ describe("Serveurs", function () {
             expect(typeof idOrbite2).toEqual("string");
             expect(idOrbite2.length).toBeGreaterThan(0);
             expect(idOrbite1).toEqual(idOrbite2);
-          });
+          }, 10000);
           test("Suivre", async () => {
             let courriel1: string | null = null;
             let courriel2: string | null = null;
@@ -165,7 +170,7 @@ describe("Serveurs", function () {
 
             expect(courriel1).toEqual("julien.malard@mail.mcgill.ca");
             expect(courriel2).toEqual("julien.malard@mail.mcgill.ca");
-          });
+          }, 10000);
 
           test("Erreur action", async () => {
             // @ts-ignore
@@ -173,7 +178,7 @@ describe("Serveurs", function () {
 
             // @ts-ignore
             await expect(() => client2.jeNeSuisPasUnAtribut.ouUneFonction()).rejects.toThrow();
-          });
+          }, 10000);
 
           test("Erreur suivi", async () => {
             // @ts-ignore
@@ -181,7 +186,7 @@ describe("Serveurs", function () {
 
             // @ts-ignore
             await expect(() => client2.jeNeSuisPasUnAtribut.ouUneFonction({f: faisRien})).rejects.toThrow();
-          });
+          }, 10000);
         });
       }
     )
