@@ -8,7 +8,7 @@ import path from "path";
 import url from "url";
 
 import lancerServeur from "@/serveur";
-import { version as versionIPA } from "@constl/ipa"
+import { client, version as versionIPA } from "@constl/ipa"
 
 const dirBase = url.fileURLToPath(new URL('..', import.meta.url));;
 const fichierPackageJson = path.join(dirBase, "package.json")
@@ -55,10 +55,12 @@ yargs(hideBin(process.argv))
         // spinner = ora(chalk.yellow(`Initialisation du serveur sur port : ${argv.port}`)).start()
         console.log(chalk.yellow(`Initialisation du serveur`));
       }
-      const optsConstellation = {
+      const optsConstellation: client.optsConstellation = {
         compte: argv.compte,
-        dossierOrbite: argv.dossierOrbite,
-        dossierSFIP: argv.dossierSFIP,
+        orbite: {
+          dossier: argv.dossOrbite,
+          sfip: { dossier: argv.dossSfip }
+        }
       };
 
       const { port } = await lancerServeur({
