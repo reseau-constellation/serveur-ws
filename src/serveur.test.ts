@@ -12,7 +12,7 @@ import générerClient from "@/client";
 const faisRien = () => {return}
 
 const typesServeurs: {[clef: string]: ()=> Promise<{fermerServeur: ()=>void, port: number}>} = {
-  /*"Serveur même fil": async () => {
+  "Serveur même fil": async () => {
     const dirTemp =  mkdtempSync(`${tmpdir()}${sep}`);
 
     const dsfip = await utilsTests.initierSFIP(join(dirTemp, "sfip"));
@@ -34,7 +34,7 @@ const typesServeurs: {[clef: string]: ()=> Promise<{fermerServeur: ()=>void, por
         rimraf.sync(dirTemp);
       }
     }
-  },*/
+  },
   "Serveur ligne de commande": async () => {
     const abortController = new AbortController();
     const processus = execa("./dist/bin.js", ["lancer"], {signal: abortController.signal});
