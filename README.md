@@ -1,7 +1,19 @@
-# Le serveur Constellation (local)
+<h1 align="center">Serveur local Constellation</h1>
+<h3 align="center">Un serveur websocket local pour Constellation</h3>
+
+<p align="center">
+  <a href="https://github.com/reseau-constellation/serveur-ws/actions/workflows/tests.yml/badge.svg"><img src="https://github.com/reseau-constellation/serveur-ws/actions/workflows/tests.yml"></a>
+  <a href="https://codecov.io/gh/reseau-constellation/serveur-ws" >
+ <img src="https://codecov.io/gh/reseau-constellation/serveur-ws/branch/master/graph/badge.svg?token=m5OkXIcKo6"/>
+ </a>
+  <br>
+</p>
+
+
+# Info général
 Un serveur websocket local pour Constellation.
 
-Ceci n'est pas apte à être utilisé en tant que serveur publique ! Entre autres
+Ce serveur n'est pas apte à être utilisé en tant que serveur publique ! Entre autres
 limitations, il n'y a aucun contrôle d'authentification. Il est donc configuré
 afin d'être uniquement disponible sur `localhost`. Ce serveur est dédié
 uniquement à la communication entre processus sur le même ordinateur, lorsque
