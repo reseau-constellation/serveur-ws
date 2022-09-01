@@ -29,7 +29,7 @@ const typesServeurs: {[clef: string]: ()=> Promise<{fermerServeur: ()=>Promise<v
     return {
       port,
       fermerServeur: async () => {
-        fermerServeur();
+        await fermerServeur();
         await utilsTests.arrêterSFIP(dsfip);
         rimraf.sync(dirTemp);
       }
