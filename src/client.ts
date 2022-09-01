@@ -9,10 +9,10 @@ export class ProxyClientWS extends proxy.proxy.ClientProxifiable {
     super();
     this.connexion = connexion
 
-    this.connexion.onmessage = (é) => {
+    this.connexion.on("message", (é) => {
       const message = JSON.parse(é.toString());
       this.événements.emit("message", message);
-    };
+    });
 
     this.connexion.onerror = (erreur) => {
       const messageErreur: proxy.messages.MessageErreurDeTravailleur = {
