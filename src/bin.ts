@@ -59,8 +59,9 @@ yargs(hideBin(process.argv))
         compte: argv.compte,
         orbite: {
           dossier: argv.dossOrbite,
-          sfip: { dossier: argv.dossSfip }
-        }
+          sfip: { dossier: argv.dossSfip },
+        },
+        dossierStockageLocal: argv.dossOrbite,
       };
 
       const { port } = await lancerServeur({
