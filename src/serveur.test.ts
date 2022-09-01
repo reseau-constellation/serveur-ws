@@ -11,7 +11,7 @@ import générerClient from "@/client";
 
 const faisRien = () => {return}
 
-const typesServeurs: {[clef: string]: ()=> Promise<{fermerServeur: ()=>void, port: number}>} = {
+const typesServeurs: {[clef: string]: ()=> Promise<{fermerServeur: ()=>Promise<void>, port: number}>} = {
   "Serveur même fil": async () => {
     const dirTemp =  mkdtempSync(`${tmpdir()}${sep}`);
 
@@ -20,7 +20,7 @@ const typesServeurs: {[clef: string]: ()=> Promise<{fermerServeur: ()=>void, por
     const { fermerServeur, port } = await lancerServeur({
       optsConstellation: {
         orbite: {
-          dossier: join(dirTemp, "dossierSFIP"),
+          dossier: join(dirTemp, "orbite"),
           sfip: { sfip: dsfip.api },
         },
         dossierStockageLocal: join(dirTemp, "stockageLocal")
@@ -28,27 +28,32 @@ const typesServeurs: {[clef: string]: ()=> Promise<{fermerServeur: ()=>void, por
     });
     return {
       port,
-      fermerServeur: () => {
+      fermerServeur: async () => {
+        console.log("On ferme le serveur")
         fermerServeur();
-        utilsTests.arrêterSFIP(dsfip);
+        await utilsTests.arrêterSFIP(dsfip);
         rimraf.sync(dirTemp);
       }
     }
   },
   "Serveur ligne de commande": async () => {
-    const abortController = new AbortController();
-    const processus = execa("./dist/bin.js", ["lancer"], {signal: abortController.signal});
+    const dirTemp =  mkdtempSync(`${tmpdir()}${sep}`);
+    const dossierSFIP = join(dirTemp, "sfip")
+    const dossierOrbite = join(dirTemp, "orbite")
+    const processus = execa("./dist/bin.js", ["lancer", `--doss-sfip=${dossierSFIP}`, `--doss-orbite=${dossierOrbite}`]);
     const { stdout } = processus
 
     return new Promise(résoudre => {
       stdout.on("data", (data)=>{
         const port = Number(data.toString().split(":")[1]);
-        console.log({port})
-
         résoudre({
           port,
-          fermerServeur: () => {
-            // abortController.abort();
+          fermerServeur: async () => {
+            console.log("On ferme le serveur lc")
+            processus.kill('SIGTERM', {
+          		forceKillAfterTimeout: 2000
+          	});
+            rimraf.sync(dirTemp);
           }
         })
       })
@@ -61,52 +66,59 @@ describe("Serveurs", function () {
   Object.entries(typesServeurs).forEach(
     ([typeServeur, fGénérerServeur]) => describe(
       typeServeur,
-      function () {
-        let fermerServeur: () => void;
+      () => {
+        let fermerServeur: () => Promise<void>;
         let port: number;
 
         beforeAll(async () => {
+          console.log("beforeAll", 0, typeServeur);
           ({ fermerServeur, port } = await fGénérerServeur());
         }, 10000);
 
         afterAll(async () => {
-          if (fermerServeur) fermerServeur();
+          console.log("afterAll", 0, typeServeur);
+          if (fermerServeur) await fermerServeur();
         });
 
-        describe("Fonctionalités base serveur", function () {
+        describe("Fonctionalités base serveur", () => {
 
           let fermerClient: () => void;
           let monClient: proxy.proxy.ProxyClientConstellation;
 
           beforeAll(async () => {
+            console.log("beforeAll", 1, typeServeur);
             ({ client: monClient, fermerClient } = await générerClient({port}));
           }, 10000);
 
           afterAll(async () => {
+            console.log("afterAll", 1, typeServeur);
             if (fermerClient) fermerClient();
           });
 
           test("Action", async () => {
+            console.log("test 1", typeServeur)
             const idOrbite = await monClient.obtIdOrbite();
 
             expect(typeof idOrbite).toEqual("string")
             expect(idOrbite.length).toBeGreaterThan(0);
-          }, 30000);  // Beaucoup plus long pour le premier test (le serveur doit se réveiller)
+          }, 60000 * 2);  // Beaucoup plus long pour le premier test (le serveur doit se réveiller)
 
           test("Suivre", async () => {
-            let noms: { [key: string]: string } | undefined;
+            const no: {ms?: { [key: string]: string }} = {};
 
-            const oublierNoms = await monClient.profil!.suivreNoms({f: (n: {[key: string]: string}) => (noms = n)});
-            expect(noms).toBeTruthy();
-            expect(Object.keys(noms)).toHaveLength(0);
+            const oublierNoms = await monClient.profil!.suivreNoms({f: (n: {[key: string]: string}) => (no.ms = n)});
+
+            await utilsTests.attendreRésultat(no, "ms")
+            expect(no.ms).toBeTruthy();
+            expect(Object.keys(no.ms)).toHaveLength(0);
 
             await monClient.profil!.sauvegarderNom({langue: "fr", nom: "Julien Jean Malard-Adam"});
-            expect(noms).toEqual({ fr: "Julien Jean Malard-Adam" });
+            expect(no.ms).toEqual({ fr: "Julien Jean Malard-Adam" });
 
             oublierNoms();
 
             await monClient.profil!.sauvegarderNom({langue: "es", nom: "Julien Jean Malard-Adam"});
-            expect(noms).toEqual({ fr: "Julien Jean Malard-Adam" });
+            expect(no.ms).toEqual({ fr: "Julien Jean Malard-Adam" });
           }, 10000);
 
           test("Erreur fonction suivi inexistante", async () => {
@@ -129,17 +141,20 @@ describe("Serveurs", function () {
           const fsOublier: (() => void)[] = [];
 
           beforeAll(async () => {
+            console.log("beforeAll", 3, typeServeur);
             ({ client: client1, fermerClient: fermerClient1 } = await générerClient({port}));
             ({ client: client2, fermerClient: fermerClient2 } = await générerClient({port}));
           }, 10000);
 
           afterAll(() => {
+            console.log("afterAll", 3, typeServeur);
             if (fermerClient1) fermerClient1();
             if (fermerClient2) fermerClient2();
             fsOublier.forEach((f) => f());
           });
 
           test("Action", async () => {
+            console.log("test 3", typeServeur)
             const [idOrbite1, idOrbite2] = await Promise.all([
               client1.obtIdOrbite(),
               client2.obtIdOrbite(),
