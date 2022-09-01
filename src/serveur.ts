@@ -15,7 +15,7 @@ export default async ({
   optsConstellation:
     | client.optsConstellation
     | proxy.gestionnaireClient.default;
-}): Promise<{ fermerServeur: () => void; port: number }> => {
+}): Promise<{ fermerServeur: () => Promise<void>; port: number }> => {
   port = port || (await trouverUnPort(5000))[0];
 
   const app = express();
@@ -35,9 +35,18 @@ export default async ({
     });
   });
   const fermerServeur = () => {
-    wsServer.close();
-    server.close();
-    if (fermerConstellation) fermerConstellation();
+    return new Promise<void>(résoudre => {
+      wsServer.close(
+        () => {
+          server.close(
+            () => {
+              if (fermerConstellation) fermerConstellation().then(résoudre);
+              else résoudre()
+            }
+          );
+        }
+      );
+    });
   };
   return { fermerServeur, port };
 };

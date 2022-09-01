@@ -59,13 +59,13 @@ export default (
   constellation:
     | client.optsConstellation
     | proxy.gestionnaireClient.default = {}
-): (() => void) => {
+): (() => Promise<void>) => {
   let client: proxy.gestionnaireClient.default;
-  let fFermer: () => void;
+  let fFermer: () => Promise<void>;
 
   if (constellation instanceof proxy.gestionnaireClient.default) {
     client = constellation;
-    fFermer = () => {
+    fFermer = async () => {
       // On ne ferme pas le client s'il a été fourni de l'extérieur
     };
   } else {
@@ -74,8 +74,8 @@ export default (
       fErreur,
       constellation
     );
-    fFermer = () => {
-      client.fermer();
+    fFermer = async () => {
+      await client.fermer();
     };
   }
 
