@@ -6831,9 +6831,9 @@ isexe@^2.0.0:
   resolved "https://registry.yarnpkg.com/isexe/-/isexe-2.0.0.tgz#e8fbf374dc556ff8947a10dcb0572d633f2cfa10"
   integrity sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==
 
-iso-constants@^0.1.2, "iso-constants@git+https://github.com/inverted-capital/iso-constants.git":
+iso-constants@^0.1.2, "iso-constants@git+https://github.com/inverted-capital/iso-constants.git", "iso-constants@git+https://github.com/inverted-capital/iso-constants.git#patch-1":
   version "0.1.2"
-  resolved "git+https://github.com/inverted-capital/iso-constants.git#54137579df892dd24e8cbdaa1a5c7be18bf320bc"
+  resolved "git+https://github.com/inverted-capital/iso-constants.git#2af6fdfb2cacaa03ebd58543703918783e62649f"
 
 iso-random-stream@^1.1.0:
   version "1.1.2"
