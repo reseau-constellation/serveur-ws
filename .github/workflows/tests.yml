@@ -1,0 +1,26 @@
+name: Tests IPA
+on:
+  push:
+    branches:
+      - master
+jobs:
+  tests-et-couverture:
+    name: On test le serveur
+    runs-on: ubuntu-latest
+    steps:
+      - name: Préparation de Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: Ouvrir la branche
+        uses: actions/checkout@v3
+
+      - name: Nétoyer les dépendances d'installation
+        run: yarn install --frozen-lockfile
+
+      - name: Vérifier les tests
+        run: yarn couverture
+
+      - name: Envoyer couverure à Codecov
+        uses: codecov/codecov-action@v2
