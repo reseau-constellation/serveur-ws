@@ -29,7 +29,6 @@ const typesServeurs: {[clef: string]: ()=> Promise<{fermerServeur: ()=>Promise<v
     return {
       port,
       fermerServeur: async () => {
-        console.log("On ferme le serveur")
         fermerServeur();
         await utilsTests.arrêterSFIP(dsfip);
         rimraf.sync(dirTemp);
@@ -49,7 +48,6 @@ const typesServeurs: {[clef: string]: ()=> Promise<{fermerServeur: ()=>Promise<v
         résoudre({
           port,
           fermerServeur: async () => {
-            console.log("On ferme le serveur lc")
             processus.kill('SIGTERM', {
           		forceKillAfterTimeout: 2000
           	});
@@ -71,12 +69,10 @@ describe("Serveurs", function () {
         let port: number;
 
         beforeAll(async () => {
-          console.log("beforeAll", 0, typeServeur);
           ({ fermerServeur, port } = await fGénérerServeur());
         }, 10000);
 
         afterAll(async () => {
-          console.log("afterAll", 0, typeServeur);
           if (fermerServeur) await fermerServeur();
         });
 
@@ -86,17 +82,14 @@ describe("Serveurs", function () {
           let monClient: proxy.proxy.ProxyClientConstellation;
 
           beforeAll(async () => {
-            console.log("beforeAll", 1, typeServeur);
             ({ client: monClient, fermerClient } = await générerClient({port}));
           }, 10000);
 
           afterAll(async () => {
-            console.log("afterAll", 1, typeServeur);
             if (fermerClient) fermerClient();
           });
 
           test("Action", async () => {
-            console.log("test 1", typeServeur)
             const idOrbite = await monClient.obtIdOrbite();
 
             expect(typeof idOrbite).toEqual("string")
@@ -141,20 +134,17 @@ describe("Serveurs", function () {
           const fsOublier: (() => void)[] = [];
 
           beforeAll(async () => {
-            console.log("beforeAll", 3, typeServeur);
             ({ client: client1, fermerClient: fermerClient1 } = await générerClient({port}));
             ({ client: client2, fermerClient: fermerClient2 } = await générerClient({port}));
           }, 10000);
 
           afterAll(() => {
-            console.log("afterAll", 3, typeServeur);
             if (fermerClient1) fermerClient1();
             if (fermerClient2) fermerClient2();
             fsOublier.forEach((f) => f());
           });
 
           test("Action", async () => {
-            console.log("test 3", typeServeur)
             const [idOrbite1, idOrbite2] = await Promise.all([
               client1.obtIdOrbite(),
               client2.obtIdOrbite(),
