@@ -15,13 +15,14 @@
   "scripts": {
     "watch": "npm-watch",
     "nettoyer": "rimraf dist",
-    "compiler:esm": "ttsc -p tsconfig.build.json",
-    "compiler": "yarn versioner && yarn nettoyer && yarn compiler:esm",
-    "test": "yarn compiler && chmod +x ./dist/bin.js && node --no-warnings --experimental-vm-modules ./node_modules/jest/bin/jest.js  --runInBand",
+    "compiler": "yarn versioner && yarn nettoyer && ttsc -p tsconfig.build.json",
+    "test:processus": "export TYPE_SERVEUR=\"proc\" && node --experimental-vm-modules ./node_modules/jest/bin/jest.js  --runInBand --forceExit",
+    "test:binaire": "export TYPE_SERVEUR=\"bin\" && yarn compiler && chmod +x ./dist/bin.js && node --experimental-vm-modules ./node_modules/jest/bin/jest.js  --runInBand --forceExit",
+    "test": "yarn test:processus && yarn test:binaire",
     "couverture": "yarn test --coverage",
     "formatter": "yarn prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\" && yarn eslint --ext .js,.ts src",
     "publier": "yarn compiler && yarn version",
-    "postversion": "yarn versioner && git push --tags && yarn publish --tag $npm_package_version --new-version $npm_package_version --access public && git push && echo \"On a publié version $npm_package_version!\"",
+    "postversion": "yarn versioner && git commit -F src/version.ts -m \"version\" && git push --tags && yarn publish --tag $npm_package_version --new-version $npm_package_version --access public && git push && echo \"On a publié version $npm_package_version!\"",
     "versioner": "yarn genversion  --es6 --semi src/version.ts"
   },
   "dependencies": {
@@ -30,6 +31,7 @@
     "core-js": "3",
     "express": "^4.17.1",
     "find-free-port": "^2.0.0",
+    "iso-constants": "git+https://github.com/inverted-capital/iso-constants.git#patch-1",
     "isomorphic-ws": "^5.0.0",
     "ora": "^6.0.1",
     "ws": "^8.8.1",

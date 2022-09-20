@@ -11,57 +11,76 @@ import générerClient from "@/client";
 
 const faisRien = () => {return}
 
-const typesServeurs: {[clef: string]: ()=> Promise<{fermerServeur: ()=>Promise<void>, port: number}>} = {
-  "Serveur même fil": async () => {
-    const dirTemp =  mkdtempSync(`${tmpdir()}${sep}`);
 
-    const dsfip = await utilsTests.initierSFIP(join(dirTemp, "sfip"));
+const limTempsPremierTest = (typeServeur: string) => {
+  return typeServeur === "Serveur ligne de commande" ? 5 * 60 * 1000 : 10000
+}
 
-    const { fermerServeur, port } = await lancerServeur({
-      optsConstellation: {
-        orbite: {
-          dossier: join(dirTemp, "orbite"),
-          sfip: { sfip: dsfip.api },
+const limTempsTest = (typeServeur: string) => {
+  return typeServeur === "Serveur ligne de commande" ? 10 * 1000 : 5000
+}
+
+const typesServeurs: () => {[clef: string]: ()=> Promise<{fermerServeur: ()=>Promise<void>, port: number}>} = () => {
+  const typesFinaux: {[clef: string]: ()=> Promise<{fermerServeur: ()=>Promise<void>, port: number}>} = {}
+  if (process.env.TYPE_SERVEUR === "proc" || !process.env.TYPE_SERVEUR) {
+    typesFinaux["Serveur même fil"] = async () => {
+      const dirTemp =  mkdtempSync(`${tmpdir()}${sep}`);
+
+      const dsfip = await utilsTests.initierSFIP(join(dirTemp, "sfip"));
+
+      const { fermerServeur, port } = await lancerServeur({
+        optsConstellation: {
+          orbite: {
+            dossier: join(dirTemp, "orbite"),
+            sfip: { sfip: dsfip.api },
+          },
+          dossierStockageLocal: join(dirTemp, "stockageLocal")
         },
-        dossierStockageLocal: join(dirTemp, "stockageLocal")
-      },
-    });
-    return {
-      port,
-      fermerServeur: async () => {
-        await fermerServeur();
-        await utilsTests.arrêterSFIP(dsfip);
-        rimraf.sync(dirTemp);
+      });
+      return {
+        port,
+        fermerServeur: async () => {
+          await fermerServeur();
+          await utilsTests.arrêterSFIP(dsfip);
+          rimraf.sync(dirTemp);
+        }
       }
     }
-  },
-  "Serveur ligne de commande": async () => {
-    const dirTemp =  mkdtempSync(`${tmpdir()}${sep}`);
-    const dossierSFIP = join(dirTemp, "sfip")
-    const dossierOrbite = join(dirTemp, "orbite")
-    const processus = execa("./dist/bin.js", ["lancer", `--doss-sfip=${dossierSFIP}`, `--doss-orbite=${dossierOrbite}`]);
-    const { stdout } = processus
+  }
 
-    return new Promise(résoudre => {
-      stdout.on("data", (data)=>{
-        const port = Number(data.toString().split(":")[1]);
-        résoudre({
-          port,
-          fermerServeur: async () => {
-            processus.kill('SIGTERM', {
-          		forceKillAfterTimeout: 2000
-          	});
-            rimraf.sync(dirTemp);
+  if (process.env.TYPE_SERVEUR === "bin" || !process.env.TYPE_SERVEUR) {
+    typesFinaux["Serveur ligne de commande"] = () => {
+      const dirTemp =  mkdtempSync(`${tmpdir()}${sep}`);
+      const dossierSFIP = join(dirTemp, "sfip")
+      const dossierOrbite = join(dirTemp, "orbite")
+      const processus = execa("./dist/bin.js", ["lancer", `--doss-sfip=${dossierSFIP}`, `--doss-orbite=${dossierOrbite}`]);
+      const { stdout } = processus
+
+      return new Promise(résoudre => {
+        stdout.on("data", (data)=>{
+          const port = Number(data.toString().split(":")[1]);
+          if (port) {
+            résoudre({
+              port,
+              fermerServeur: async () => {
+                processus.kill('SIGTERM', {
+              		forceKillAfterTimeout: 2000
+              	});
+                rimraf.sync(dirTemp);
+              }
+            })
           }
+
         })
       })
-    })
+    }
   }
+  return typesFinaux
 }
 
 
 describe("Serveurs", function () {
-  Object.entries(typesServeurs).forEach(
+  Object.entries(typesServeurs()).forEach(
     ([typeServeur, fGénérerServeur]) => describe(
       typeServeur,
       () => {
@@ -70,11 +89,11 @@ describe("Serveurs", function () {
 
         beforeAll(async () => {
           ({ fermerServeur, port } = await fGénérerServeur());
-        }, 10000);
+        }, limTempsTest(typeServeur));
 
         afterAll(async () => {
           if (fermerServeur) await fermerServeur();
-        });
+        }, limTempsTest(typeServeur));
 
         describe("Fonctionalités base serveur", () => {
 
@@ -83,9 +102,9 @@ describe("Serveurs", function () {
 
           beforeAll(async () => {
             ({ client: monClient, fermerClient } = await générerClient({port}));
-          }, 10000);
+          }, limTempsTest(typeServeur));
 
-          afterAll(async () => {
+          afterAll(() => {
             if (fermerClient) fermerClient();
           });
 
@@ -94,7 +113,7 @@ describe("Serveurs", function () {
 
             expect(typeof idOrbite).toEqual("string")
             expect(idOrbite.length).toBeGreaterThan(0);
-          }, 60000 * 2);  // Beaucoup plus long pour le premier test (le serveur doit se réveiller)
+          }, limTempsPremierTest(typeServeur));  // Beaucoup plus long pour le premier test (le serveur doit se réveiller)
 
           test("Suivre", async () => {
             const no: {ms?: { [key: string]: string }} = {};
@@ -112,16 +131,16 @@ describe("Serveurs", function () {
 
             await monClient.profil!.sauvegarderNom({langue: "es", nom: "Julien Jean Malard-Adam"});
             expect(no.ms).toEqual({ fr: "Julien Jean Malard-Adam" });
-          }, 10000);
+          }, limTempsTest(typeServeur));
 
           test("Erreur fonction suivi inexistante", async () => {
             // @ts-ignore
             await expect(() => monClient.jeNeSuisPasUneFonction({f: faisRien})).rejects.toThrow();
-          }, 10000);
+          }, limTempsTest(typeServeur));
           test("Erreur action inexistante", async () => {
             // @ts-ignore
             await expect(() => monClient.jeNeSuisPasUnAtribut.ouUneFonction()).rejects.toThrow();
-          }, 10000);
+          }, limTempsTest(typeServeur));
         });
 
         describe("Multiples clients", function () {
@@ -136,7 +155,7 @@ describe("Serveurs", function () {
           beforeAll(async () => {
             ({ client: client1, fermerClient: fermerClient1 } = await générerClient({port}));
             ({ client: client2, fermerClient: fermerClient2 } = await générerClient({port}));
-          }, 10000);
+          }, limTempsTest(typeServeur));
 
           afterAll(() => {
             if (fermerClient1) fermerClient1();
@@ -154,7 +173,7 @@ describe("Serveurs", function () {
             expect(typeof idOrbite2).toEqual("string");
             expect(idOrbite2.length).toBeGreaterThan(0);
             expect(idOrbite1).toEqual(idOrbite2);
-          }, 10000);
+          }, limTempsTest(typeServeur));
           test("Suivre", async () => {
             let courriel1: string | null = null;
             let courriel2: string | null = null;
@@ -175,7 +194,7 @@ describe("Serveurs", function () {
 
             expect(courriel1).toEqual("julien.malard@mail.mcgill.ca");
             expect(courriel2).toEqual("julien.malard@mail.mcgill.ca");
-          }, 10000);
+          }, limTempsTest(typeServeur));
 
           test("Erreur action", async () => {
             // @ts-ignore
@@ -183,7 +202,7 @@ describe("Serveurs", function () {
 
             // @ts-ignore
             await expect(() => client2.jeNeSuisPasUnAtribut.ouUneFonction()).rejects.toThrow();
-          }, 10000);
+          }, limTempsTest(typeServeur));
 
           test("Erreur suivi", async () => {
             // @ts-ignore
@@ -191,7 +210,7 @@ describe("Serveurs", function () {
 
             // @ts-ignore
             await expect(() => client2.jeNeSuisPasUnAtribut.ouUneFonction({f: faisRien})).rejects.toThrow();
-          }, 10000);
+          }, limTempsTest(typeServeur));
         });
       }
     )

@@ -38,12 +38,9 @@ export default async ({
     return new Promise<void>(résoudre => {
       wsServer.close(
         () => {
-          server.close(
-            () => {
-              if (fermerConstellation) fermerConstellation().then(résoudre);
-              else résoudre()
-            }
-          );
+          server.close();
+          if (fermerConstellation) fermerConstellation().then(résoudre);
+          else résoudre()
         }
       );
     });
