@@ -11,8 +11,6 @@
 
 
 # Info général
-Un serveur websocket local pour Constellation.
-
 Ce serveur n'est pas apte à être utilisé en tant que serveur publique ! Entre autres
 limitations, il n'y a aucun contrôle d'authentification. Il est donc configuré
 afin d'être uniquement disponible sur `localhost`. Ce serveur est dédié
@@ -21,7 +19,7 @@ des codes en autres langues informatiques (Python, R) veulent accéder un nœud
 Constellation local.
 
 ## Utilisation
-Si vous voulez out simplement utiliser Constellation avec Python ou R, veuillez
+Si vous voulez tout simplement utiliser Constellation avec Python ou R, veuillez
 installer les librairies respectives [constellation-py](https://github.com/reseau-constellation/client-python)
 et [constellation-R](https://github.com/reseau-constellation/client-r) (en progrès).
 Celles-ci se chargeront automatiquement d'installer le serveur Constellation
