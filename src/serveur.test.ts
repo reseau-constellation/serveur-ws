@@ -133,6 +133,12 @@ describe("Serveurs", function () {
             expect(no.ms).toEqual({ fr: "Julien Jean Malard-Adam" });
           }, limTempsTest(typeServeur));
 
+          test.skip("Rechercher", async () => {
+            // Eléments détectés
+            // Augmenter N résultats désirés
+            // Diminuer N
+          });
+
           test("Erreur fonction suivi inexistante", async () => {
             // @ts-ignore
             await expect(() => monClient.jeNeSuisPasUneFonction({f: faisRien})).rejects.toThrow();
@@ -195,6 +201,12 @@ describe("Serveurs", function () {
             expect(courriel1).toEqual("julien.malard@mail.mcgill.ca");
             expect(courriel2).toEqual("julien.malard@mail.mcgill.ca");
           }, limTempsTest(typeServeur));
+
+          test.skip("Rechercher", async () => {
+            // Eléments détectés
+            // Augmenter N résultats désirés
+            // Diminuer N
+          });
 
           test("Erreur action", async () => {
             // @ts-ignore
