@@ -4,7 +4,7 @@ import { mkdtempSync } from "fs";
 import { tmpdir } from "os";
 import { sep, join } from "path";
 
-import { proxy, utilsTests } from "@constl/ipa";
+import { proxy, utilsTests, version as versionIPA } from "@constl/ipa";
 
 import lancerServeur from "@/serveur";
 import générerClient from "@/client";
@@ -83,12 +83,12 @@ const typesServeurs: () => {[clef: string]: ()=> Promise<{fermerServeur: ()=>Pro
 if (process.env.TYPE_SERVEUR === "bin") {
   describe("Client ligne de commande", () => {
     test("Obtenir version serveur", async () => {
-      const {stdout} = await execa("./dist/bin.js", ["-v"]);
+      const {stdout} = await execa("./dist/bin.js", ["version"]);
       expect(stdout).toEqual(version)
     })
-    test("Obtenir version serveur", async () => {
-      const {stdout} = await execa("./dist/bin.js", ["-v"]);
-      expect(stdout).toEqual(version)
+    test("Obtenir version IPA", async () => {
+      const {stdout} = await execa("./dist/bin.js", ["v-constl"]);
+      expect(stdout).toEqual(versionIPA)
     })
   })
 }
