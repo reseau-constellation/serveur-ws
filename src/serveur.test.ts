@@ -8,6 +8,7 @@ import { proxy, utilsTests } from "@constl/ipa";
 
 import lancerServeur from "@/serveur";
 import générerClient from "@/client";
+import {version} from "@/version"
 
 const faisRien = () => {return}
 
@@ -76,6 +77,20 @@ const typesServeurs: () => {[clef: string]: ()=> Promise<{fermerServeur: ()=>Pro
     }
   }
   return typesFinaux
+}
+
+
+if (process.env.TYPE_SERVEUR === "bin") {
+  describe("Client ligne de commande", () => {
+    test("Obtenir version serveur", async () => {
+      const {stdout} = await execa("./dist/bin.js", ["-v"]);
+      expect(stdout).toEqual(version)
+    })
+    test("Obtenir version serveur", async () => {
+      const {stdout} = await execa("./dist/bin.js", ["-v"]);
+      expect(stdout).toEqual(version)
+    })
+  })
 }
 
 

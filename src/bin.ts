@@ -103,10 +103,21 @@ yargs(hideBin(process.argv))
       console.log(versionIPA);
     }
   )
+  .command(
+    [
+      "version",
+    ],
+    "La version du serveur",
+    (yargs) => {
+      return yargs
+    },
+    async () => {
+      console.log(packageJson.version);
+    }
+  )
   .demandCommand()
   .help("aide", "Obtenir de l'aide")
   .alias("aide", "a")
-  .alias("version", "v")
   .epilog(
     "Code source et rapportage d'erreurs: https://github.com/reseau-constellation/serveur-ws"
   )
