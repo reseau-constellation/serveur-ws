@@ -15,15 +15,14 @@
   "scripts": {
     "watch": "npm-watch",
     "nettoyer": "rimraf dist",
-    "compiler": "yarn versioner && yarn nettoyer && ttsc -p tsconfig.build.json",
+    "compiler": "pnpm versioner && pnpm nettoyer && ttsc -p tsconfig.build.json",
     "test:processus": "export TYPE_SERVEUR=\"proc\" && node --experimental-vm-modules ./node_modules/jest/bin/jest.js  --runInBand --forceExit",
-    "test:binaire": "export TYPE_SERVEUR=\"bin\" && yarn compiler && chmod +x ./dist/bin.js && node --experimental-vm-modules ./node_modules/jest/bin/jest.js  --runInBand --forceExit",
-    "test": "yarn test:processus && yarn test:binaire",
-    "couverture": "yarn test --coverage",
-    "formatter": "yarn prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\" && yarn eslint --ext .js,.ts src",
-    "publier": "yarn compiler && yarn version",
-    "postversion": "yarn versioner && git commit -F src/version.ts -m \"version\" && git push --tags && yarn publish --tag $npm_package_version --new-version $npm_package_version --access public && git push && echo \"On a publié version $npm_package_version!\"",
-    "versioner": "yarn genversion  --es6 --semi src/version.ts"
+    "test:binaire": "export TYPE_SERVEUR=\"bin\" && pnpm compiler && chmod +x ./dist/bin.js && node --experimental-vm-modules ./node_modules/jest/bin/jest.js  --runInBand --forceExit",
+    "test": "pnpm test:processus && pnpm test:binaire",
+    "couverture": "pnpm test --coverage",
+    "formatter": "pnpm prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\" && pnpm eslint --ext .js,.ts src",
+    "publier": "pnpm versioner && pnpm compiler && git commit src/version.ts -m 'version' || pnpm publish",
+    "versioner": "pnpm genversion  --es6 --semi src/version.ts"
   },
   "dependencies": {
     "bufferutil": "^4.0.5",
@@ -38,7 +37,7 @@
     "yargs": "^17.5.1"
   },
   "devDependencies": {
-    "@constl/ipa": "^0.4.15",
+    "@constl/ipa": "^0.4.19",
     "@types/express": "^4.17.13",
     "@types/jest": "^29.0.0",
     "@types/node": "^18.7.13",
@@ -76,7 +75,7 @@
     "constl": "./dist/bin.js"
   },
   "peerDependencies": {
-    "@constl/ipa": "^0.4.12"
+    "@constl/ipa": "^0.4.19"
   },
   "jest": {
     "transform": {},
