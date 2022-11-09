@@ -114,12 +114,14 @@ describe("Configuration serveur", function () {
 
         afterAll(async () => {
           if (fermerServeur) await fermerServeur();
-        }, limTempsTest(typeServeur));
+        }, limTempsPremierTest(typeServeur));
 
         test("Dossier SFIP", async () => {
+          await utilsTests.attendreFichierExiste(join(dossier, "sfip"))
           expect(existsSync(join(dossier, "sfip"))).toBe(true)
         })
         test("Dossier Orbite", async () => {
+          await utilsTests.attendreFichierExiste(join(dossier, "orbite"))
           expect(existsSync(join(dossier, "orbite"))).toBe(true)
         })
       })
@@ -151,8 +153,8 @@ describe("Fonctionalités serveurs", function () {
             ({ client: monClient, fermerClient } = await générerClient({port}));
           }, limTempsTest(typeServeur));
 
-          afterAll(() => {
-            if (fermerClient) fermerClient();
+          afterAll(async () => {
+            if (fermerClient) await fermerClient();
           });
 
           test("Action", async () => {

@@ -45,6 +45,8 @@ export default async ({
   const client = new ProxyClientWS(connexion);
   return {
     client: proxy.proxy.générerProxy(client),
-    fermerClient: () => client.fermer(),
+    fermerClient: async () => {
+      await client.fermer()
+    },
   };
 };
