@@ -1,10 +1,10 @@
 import { execa } from 'execa';
 import rimraf from "rimraf";
-import { mkdtempSync } from "fs";
+import { mkdtempSync, existsSync } from "fs";
 import { tmpdir } from "os";
 import { sep, join } from "path";
 
-import { proxy, utilsTests, version as versionIPA } from "@constl/ipa";
+import { proxy, utilsTests, version as versionIPA, utils } from "@constl/ipa";
 
 import lancerServeur from "@/serveur";
 import générerClient from "@/client";
@@ -21,21 +21,21 @@ const limTempsTest = (typeServeur: string) => {
   return typeServeur === "Serveur ligne de commande" ? 10 * 1000 : 5000
 }
 
-const typesServeurs: () => {[clef: string]: ()=> Promise<{fermerServeur: ()=>Promise<void>, port: number}>} = () => {
-  const typesFinaux: {[clef: string]: ()=> Promise<{fermerServeur: ()=>Promise<void>, port: number}>} = {}
+const typesServeurs: () => {[clef: string]: ({dossier }: {dossier?: string})=> Promise<{fermerServeur: ()=>Promise<void>, port: number}>} = () => {
+  const typesFinaux: {[clef: string]: ({ dossier=undefined }: {dossier?: string})=> Promise<{fermerServeur: ()=>Promise<void>, port: number}>} = {}
   if (process.env.TYPE_SERVEUR === "proc" || !process.env.TYPE_SERVEUR) {
-    typesFinaux["Serveur même fil"] = async () => {
-      const dirTemp =  mkdtempSync(`${tmpdir()}${sep}`);
+    typesFinaux["Serveur même fil"] = async ({ dossier }: {dossier?: string}) => {
+      const dirTemp =  dossier ? dossier : mkdtempSync(`${tmpdir()}${sep}`);
 
-      const dsfip = await utilsTests.initierSFIP(join(dirTemp, "sfip"));
+      const dossierSFIP =  join(dirTemp, "sfip");
+      const dsfip = await utilsTests.initierSFIP(dossierSFIP);
 
       const { fermerServeur, port } = await lancerServeur({
         optsConstellation: {
           orbite: {
             dossier: join(dirTemp, "orbite"),
             sfip: { sfip: dsfip.api },
-          },
-          dossierStockageLocal: join(dirTemp, "stockageLocal")
+          }
         },
       });
       return {
@@ -50,10 +50,12 @@ const typesServeurs: () => {[clef: string]: ()=> Promise<{fermerServeur: ()=>Pro
   }
 
   if (process.env.TYPE_SERVEUR === "bin" || !process.env.TYPE_SERVEUR) {
-    typesFinaux["Serveur ligne de commande"] = () => {
-      const dirTemp =  mkdtempSync(`${tmpdir()}${sep}`);
-      const dossierSFIP = join(dirTemp, "sfip")
-      const dossierOrbite = join(dirTemp, "orbite")
+    typesFinaux["Serveur ligne de commande"] = ({dossier}: {dossier?: string}) => {
+
+      const dirTemp =  dossier ? dossier : mkdtempSync(`${tmpdir()}${sep}`);
+
+      const dossierSFIP = join(dirTemp, "sfip");
+      const dossierOrbite = join(dirTemp, "orbite");
       const processus = execa("./dist/bin.js", ["lancer", `--doss-sfip=${dossierSFIP}`, `--doss-orbite=${dossierOrbite}`]);
       const { stdout } = processus
 
@@ -93,8 +95,38 @@ if (process.env.TYPE_SERVEUR === "bin") {
   })
 }
 
+describe("Configuration serveur", function () {
+  Object.entries(typesServeurs()).forEach(
+    ([typeServeur, fGénérerServeur]) => describe(
+      typeServeur,
+      () => {
+        let fermerServeur: () => Promise<void>;
+        let dossier: string;
 
-describe("Serveurs", function () {
+        beforeAll(async () => {
+          dossier =  mkdtempSync(`${tmpdir()}${sep}`);
+
+          ({ fermerServeur } = await fGénérerServeur({
+            dossier,
+          }));
+
+        }, limTempsTest(typeServeur));
+
+        afterAll(async () => {
+          if (fermerServeur) await fermerServeur();
+        }, limTempsTest(typeServeur));
+
+        test("Dossier SFIP", async () => {
+          expect(existsSync(join(dossier, "sfip"))).toBe(true)
+        })
+        test("Dossier Orbite", async () => {
+          expect(existsSync(join(dossier, "orbite"))).toBe(true)
+        })
+      })
+    )
+})
+
+describe("Fonctionalités serveurs", function () {
   Object.entries(typesServeurs()).forEach(
     ([typeServeur, fGénérerServeur]) => describe(
       typeServeur,
@@ -103,7 +135,7 @@ describe("Serveurs", function () {
         let port: number;
 
         beforeAll(async () => {
-          ({ fermerServeur, port } = await fGénérerServeur());
+          ({ fermerServeur, port } = await fGénérerServeur({}));
         }, limTempsTest(typeServeur));
 
         afterAll(async () => {
@@ -133,7 +165,7 @@ describe("Serveurs", function () {
           test("Suivre", async () => {
             const no: {ms?: { [key: string]: string }} = {};
 
-            const oublierNoms = await monClient.profil!.suivreNoms({f: (n: {[key: string]: string}) => (no.ms = n)});
+            const oublierNoms = await monClient.profil!.suivreNoms({f: (n) => (no.ms = n)});
 
             await utilsTests.attendreRésultat(no, "ms")
             expect(no.ms).toBeTruthy();
@@ -148,10 +180,39 @@ describe("Serveurs", function () {
             expect(no.ms).toEqual({ fr: "Julien Jean Malard-Adam" });
           }, limTempsTest(typeServeur));
 
-          test.skip("Rechercher", async () => {
+          test("Rechercher", async () => {
+            const mots: {clefs?: utils.résultatRecherche<utils.infoRésultatTexte>[] } = {};
+
             // Eléments détectés
+            const { fOublier, fChangerN } = await monClient.recherche.rechercherMotClefSelonNom({
+              nomMotClef: "Météo Montréal",
+              f: (x) => {mots.clefs = x},
+              nRésultatsDésirés: 1
+            })
+
+            const idMotClef1 = await monClient.motsClefs.créerMotClef()
+            await monClient.motsClefs.ajouterNomsMotClef({id: idMotClef1, noms: {fr: "Météo à Montréal"}});
+
+            const idMotClef2 = await monClient.motsClefs.créerMotClef()
+            await monClient.motsClefs.ajouterNomsMotClef({id: idMotClef2, noms: {fr: "Météo Montréal"}});
+
+            await utilsTests.attendreRésultat(mots, "clefs", x=>x.length > 0 && x[0].id === idMotClef2)
+            expect(mots.clefs.length).toEqual(1);
+            expect(mots.clefs.map(r=>r.id)).toEqual(expect.arrayContaining([idMotClef2]));
+
             // Augmenter N résultats désirés
+            fChangerN(2)
+            await utilsTests.attendreRésultat(mots, "clefs", x=>x.length > 1)
+            expect(mots.clefs.length).toEqual(2);
+            expect(mots.clefs.map(r=>r.id)).toEqual(expect.arrayContaining([idMotClef1, idMotClef2]));
+
             // Diminuer N
+            fChangerN(1)
+            await utilsTests.attendreRésultat(mots, "clefs", x=>x.length <= 1)
+            expect(mots.clefs.length).toEqual(1);
+            expect(mots.clefs.map(r=>r.id)).toEqual(expect.arrayContaining([idMotClef2]));
+
+            fOublier();
           });
 
           test("Erreur fonction suivi inexistante", async () => {
@@ -217,10 +278,55 @@ describe("Serveurs", function () {
             expect(courriel2).toEqual("julien.malard@mail.mcgill.ca");
           }, limTempsTest(typeServeur));
 
-          test.skip("Rechercher", async () => {
+          test("Rechercher", async () => {
+            const vari: {
+              ables?: utils.résultatRecherche<utils.infoRésultatTexte>[],
+              ables2?: utils.résultatRecherche<utils.infoRésultatTexte>[]
+            } = {};
+
             // Eléments détectés
+            const { fOublier: fOublier1, fChangerN: fChangerN1 } = await client1.recherche.rechercherVariableSelonNom({
+              nomVariable: "Précipitation",
+              f: (x) => {vari.ables = x},
+              nRésultatsDésirés: 1
+            })
+            const { fOublier: fOublier2, fChangerN: fChangerN2 } = await client2.recherche.rechercherVariableSelonNom({
+              nomVariable: "Précipitation",
+              f: (x) => {vari.ables2 = x},
+              nRésultatsDésirés: 1
+            })
+
+            const idVariable1 = await client1.variables.créerVariable({ catégorie: "numérique" })
+            await client1.variables.ajouterNomsVariable({id: idVariable1, noms: {es: "Precipitación"}});
+
+            const idVariable2 = await client1.variables.créerVariable({ catégorie: "numérique" })
+            await client1.variables.ajouterNomsVariable({id: idVariable2, noms: {fr: "Précipitation"}});
+
+            await utilsTests.attendreRésultat(vari, "ables", x=>x.length > 0 && x[0].id === idVariable2)
+            expect(vari.ables.length).toEqual(1);
+            expect(vari.ables.map(r=>r.id)).toEqual(expect.arrayContaining([idVariable2]));
+            expect(vari.ables2.length).toEqual(1)
+
             // Augmenter N résultats désirés
+            fChangerN1(2)
+            await utilsTests.attendreRésultat(vari, "ables", x=>x.length > 1)
+            expect(vari.ables.length).toEqual(2);
+            expect(vari.ables.map(r=>r.id)).toEqual(expect.arrayContaining([idVariable1, idVariable2]));
+            expect(vari.ables2.length).toEqual(1)  // Client 2 n'a pas demandé de changement
+
+            fChangerN2(2)
+            await utilsTests.attendreRésultat(vari, "ables2", x=>x.length > 1)
+            expect(vari.ables2.length).toEqual(2);
+
             // Diminuer N
+            fChangerN1(1)
+            await utilsTests.attendreRésultat(vari, "ables", x=>x.length <= 1)
+            expect(vari.ables.length).toEqual(1);
+            expect(vari.ables.map(r=>r.id)).toEqual(expect.arrayContaining([idVariable2]));
+            expect(vari.ables2.length).toEqual(2);  // Toujours 2 résultats ici
+
+            fOublier1();
+            fOublier2();
           });
 
           test("Erreur action", async () => {
