@@ -29,13 +29,9 @@ sur votre machine, si nécessaire.
 L'installation globale vous permet de lancer un serveur websocket Constellation
 de la ligne de commande.
 Si vous comptez simplement utiliser le serveur Constellation (y compris pour une
-analyse en Python ou en R), c'est ceci ce que vous voulez.
+analyse en Python, en R ou en Julia), c'est ceci ce que vous voulez.
 
-`yarn global add @constl/serveur`
-
-Ou bien :
-
-`npm install -g @constl/serveur`
+`pnpm add -g @constl/serveur @constl/ipa`
 
 ### Ligne de commande
 Pour lancer le serveur :
@@ -51,10 +47,7 @@ Pour obtenir de l'aide :
 Si vous voulez incorporer le serveur Constellation dans une autre librairie
 JavaScript, vous pouvez l'installer ainsi :
 
-`yarn add @constl/serveur`
-
-Ou bien :
-`npm install @constl/serveur`
+`pnpm add @constl/serveur`
 
 Constellation elle-même (`@constl/ipa`) est spécifiée en tant que dépendance
 paire du serveur Constellation. Vous pouvez donc installer la version de Constellation
