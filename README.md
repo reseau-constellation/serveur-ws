@@ -2,7 +2,7 @@
 <h3 align="center">Un serveur websocket local pour Constellation</h3>
 
 <p align="center">
-  <a href="https://github.com/reseau-constellation/serveur-ws/actions/workflows/tests.yml/badge.svg"><img src="https://github.com/reseau-constellation/serveur-ws/actions/workflows/tests.yml"></a>
+  <a href="https://github.com/reseau-constellation/serveur-ws/actions/workflows/tests.yml"><img src="https://github.com/reseau-constellation/serveur-ws/actions/workflows/tests.yml/badge.svg"></a>
   <a href="https://codecov.io/gh/reseau-constellation/serveur-ws" >
  <img src="https://codecov.io/gh/reseau-constellation/serveur-ws/branch/master/graph/badge.svg?token=m5OkXIcKo6"/>
  </a>
