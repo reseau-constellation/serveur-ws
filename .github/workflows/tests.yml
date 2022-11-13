@@ -13,6 +13,11 @@ jobs:
         with:
           node-version: 16
 
+      - name: Installer pnpm
+        uses: pnpm/action-setup@v2.2.4
+        with:
+          version: latest
+
       - name: Ouvrir la branche
         uses: actions/checkout@v3
 
