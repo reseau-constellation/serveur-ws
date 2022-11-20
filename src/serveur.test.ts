@@ -66,9 +66,7 @@ const typesServeurs: () => {[clef: string]: ({dossier }: {dossier?: string})=> P
             résoudre({
               port,
               fermerServeur: async () => {
-                processus.kill('SIGTERM', {
-              		forceKillAfterTimeout: 2000
-              	});
+                processus.stdin.write("\n")
                 rimraf.sync(dirTemp);
               }
             })
@@ -102,6 +100,7 @@ describe("Configuration serveur", function () {
       () => {
         let fermerServeur: () => Promise<void>;
         let dossier: string;
+        const fsOublier: (()=>void)[] = []
 
         beforeAll(async () => {
           dossier =  mkdtempSync(`${tmpdir()}${sep}`);
@@ -114,14 +113,21 @@ describe("Configuration serveur", function () {
 
         afterAll(async () => {
           if (fermerServeur) await fermerServeur();
+          fsOublier.forEach(f=>f())
         }, limTempsPremierTest(typeServeur));
 
         test("Dossier SFIP", async () => {
-          await utilsTests.attendreFichierExiste(join(dossier, "sfip"))
+          const attendreSFIPExiste = new utilsTests.AttendreFichierExiste(join(dossier, "sfip"));
+          fsOublier.push(()=>attendreSFIPExiste.annuler())
+
+          await attendreSFIPExiste.attendre()
           expect(existsSync(join(dossier, "sfip"))).toBe(true)
         })
         test("Dossier Orbite", async () => {
-          await utilsTests.attendreFichierExiste(join(dossier, "orbite"))
+          const attendreOrbiteExiste = new utilsTests.AttendreFichierExiste(join(dossier, "orbite"));
+          fsOublier.push(()=>attendreOrbiteExiste.annuler())
+
+          await attendreOrbiteExiste.attendre()
           expect(existsSync(join(dossier, "orbite"))).toBe(true)
         })
       })
@@ -148,13 +154,17 @@ describe("Fonctionalités serveurs", function () {
 
           let fermerClient: () => void;
           let monClient: proxy.proxy.ProxyClientConstellation;
+          const attendreNoms = new utilsTests.AttendreRésultat<{[clef: string]: string}>()
+          const attendreMC = new utilsTests.AttendreRésultat<utils.résultatRecherche<utils.infoRésultatTexte>[]>()
 
           beforeAll(async () => {
             ({ client: monClient, fermerClient } = await générerClient({port}));
           }, limTempsTest(typeServeur));
 
           afterAll(async () => {
-            if (fermerClient) await fermerClient();
+            if (fermerClient) fermerClient();
+            attendreNoms.toutAnnuler();
+            attendreMC.toutAnnuler();
           });
 
           test("Action", async () => {
@@ -165,30 +175,26 @@ describe("Fonctionalités serveurs", function () {
           }, limTempsPremierTest(typeServeur));  // Beaucoup plus long pour le premier test (le serveur doit se réveiller)
 
           test("Suivre", async () => {
-            const no: {ms?: { [key: string]: string }} = {};
+            const oublierNoms = await monClient.profil!.suivreNoms({f: (n) => attendreNoms.mettreÀJour(n)});
 
-            const oublierNoms = await monClient.profil!.suivreNoms({f: (n) => (no.ms = n)});
-
-            await utilsTests.attendreRésultat(no, "ms")
-            expect(no.ms).toBeTruthy();
-            expect(Object.keys(no.ms)).toHaveLength(0);
+            const val = await attendreNoms.attendreExiste();
+            expect(Object.keys(val)).toHaveLength(0);
 
             await monClient.profil!.sauvegarderNom({langue: "fr", nom: "Julien Jean Malard-Adam"});
-            expect(no.ms).toEqual({ fr: "Julien Jean Malard-Adam" });
+            const val2 = await attendreNoms.attendreQue(x=>Object.keys(x).length > 0);
+            expect(val2).toEqual({ fr: "Julien Jean Malard-Adam" });
 
             oublierNoms();
 
             await monClient.profil!.sauvegarderNom({langue: "es", nom: "Julien Jean Malard-Adam"});
-            expect(no.ms).toEqual({ fr: "Julien Jean Malard-Adam" });
+            expect(attendreNoms.val).toEqual({ fr: "Julien Jean Malard-Adam" });
           }, limTempsTest(typeServeur));
 
           test("Rechercher", async () => {
-            const mots: {clefs?: utils.résultatRecherche<utils.infoRésultatTexte>[] } = {};
-
             // Eléments détectés
             const { fOublier, fChangerN } = await monClient.recherche.rechercherMotClefSelonNom({
               nomMotClef: "Météo Montréal",
-              f: (x) => {mots.clefs = x},
+              f: (x) => attendreMC.mettreÀJour(x),
               nRésultatsDésirés: 1
             })
 
@@ -198,21 +204,18 @@ describe("Fonctionalités serveurs", function () {
             const idMotClef2 = await monClient.motsClefs.créerMotClef()
             await monClient.motsClefs.ajouterNomsMotClef({id: idMotClef2, noms: {fr: "Météo Montréal"}});
 
-            await utilsTests.attendreRésultat(mots, "clefs", x=>x.length > 0 && x[0].id === idMotClef2)
-            expect(mots.clefs.length).toEqual(1);
-            expect(mots.clefs.map(r=>r.id)).toEqual(expect.arrayContaining([idMotClef2]));
+            const val = await attendreMC.attendreQue(x=>x.length > 0 && x[0].id === idMotClef2)
+            expect(val.map(r=>r.id)).toEqual(expect.arrayContaining([idMotClef2]));
 
             // Augmenter N résultats désirés
             fChangerN(2)
-            await utilsTests.attendreRésultat(mots, "clefs", x=>x.length > 1)
-            expect(mots.clefs.length).toEqual(2);
-            expect(mots.clefs.map(r=>r.id)).toEqual(expect.arrayContaining([idMotClef1, idMotClef2]));
+            const val2 = await attendreMC.attendreQue(x=>x.length > 1)
+            expect(val2.map(r=>r.id)).toEqual(expect.arrayContaining([idMotClef1, idMotClef2]));
 
             // Diminuer N
             fChangerN(1)
-            await utilsTests.attendreRésultat(mots, "clefs", x=>x.length <= 1)
-            expect(mots.clefs.length).toEqual(1);
-            expect(mots.clefs.map(r=>r.id)).toEqual(expect.arrayContaining([idMotClef2]));
+            const val3 = await attendreMC.attendreQue(x=>x.length <= 1)
+            expect(val3.map(r=>r.id)).toEqual(expect.arrayContaining([idMotClef2]));
 
             fOublier();
           });
@@ -236,6 +239,9 @@ describe("Fonctionalités serveurs", function () {
           let fermerClient2: () => void;
           const fsOublier: (() => void)[] = [];
 
+          const attendreVars1 = new utilsTests.AttendreRésultat<utils.résultatRecherche<utils.infoRésultatTexte>[]>()
+          const attendreVars2 = new utilsTests.AttendreRésultat<utils.résultatRecherche<utils.infoRésultatTexte>[]>()
+
           beforeAll(async () => {
             ({ client: client1, fermerClient: fermerClient1 } = await générerClient({port}));
             ({ client: client2, fermerClient: fermerClient2 } = await générerClient({port}));
@@ -245,6 +251,8 @@ describe("Fonctionalités serveurs", function () {
             if (fermerClient1) fermerClient1();
             if (fermerClient2) fermerClient2();
             fsOublier.forEach((f) => f());
+            attendreVars1.toutAnnuler();
+            attendreVars2.toutAnnuler();
           });
 
           test("Action", async () => {
@@ -281,20 +289,16 @@ describe("Fonctionalités serveurs", function () {
           }, limTempsTest(typeServeur));
 
           test("Rechercher", async () => {
-            const vari: {
-              ables?: utils.résultatRecherche<utils.infoRésultatTexte>[],
-              ables2?: utils.résultatRecherche<utils.infoRésultatTexte>[]
-            } = {};
 
             // Eléments détectés
             const { fOublier: fOublier1, fChangerN: fChangerN1 } = await client1.recherche.rechercherVariableSelonNom({
               nomVariable: "Précipitation",
-              f: (x) => {vari.ables = x},
+              f: (x) => attendreVars1.mettreÀJour(x),
               nRésultatsDésirés: 1
             })
             const { fOublier: fOublier2, fChangerN: fChangerN2 } = await client2.recherche.rechercherVariableSelonNom({
               nomVariable: "Précipitation",
-              f: (x) => {vari.ables2 = x},
+              f: (x) => attendreVars2.mettreÀJour(x),
               nRésultatsDésirés: 1
             })
 
@@ -304,28 +308,26 @@ describe("Fonctionalités serveurs", function () {
             const idVariable2 = await client1.variables.créerVariable({ catégorie: "numérique" })
             await client1.variables.ajouterNomsVariable({id: idVariable2, noms: {fr: "Précipitation"}});
 
-            await utilsTests.attendreRésultat(vari, "ables", x=>x.length > 0 && x[0].id === idVariable2)
-            expect(vari.ables.length).toEqual(1);
-            expect(vari.ables.map(r=>r.id)).toEqual(expect.arrayContaining([idVariable2]));
-            expect(vari.ables2.length).toEqual(1)
+            const val1 = await attendreVars1.attendreQue(x=>x.length > 0 && x[0].id === idVariable2)
+            expect(val1.length).toEqual(1);
+            expect(val1.map(r=>r.id)).toEqual(expect.arrayContaining([idVariable2]));
+            expect(attendreVars2.val.length).toEqual(1)
 
             // Augmenter N résultats désirés
             fChangerN1(2)
-            await utilsTests.attendreRésultat(vari, "ables", x=>x.length > 1)
-            expect(vari.ables.length).toEqual(2);
-            expect(vari.ables.map(r=>r.id)).toEqual(expect.arrayContaining([idVariable1, idVariable2]));
-            expect(vari.ables2.length).toEqual(1)  // Client 2 n'a pas demandé de changement
+            const val2 = await attendreVars1.attendreQue(x=>x.length > 1)
+            expect(val2.map(r=>r.id)).toEqual(expect.arrayContaining([idVariable1, idVariable2]));
+            expect(attendreVars2.val.length).toEqual(1)  // Client 2 n'a pas demandé de changement
 
             fChangerN2(2)
-            await utilsTests.attendreRésultat(vari, "ables2", x=>x.length > 1)
-            expect(vari.ables2.length).toEqual(2);
+            const val3 = await attendreVars2.attendreQue(x=>x.length > 1)
+            expect(val3.length).toEqual(2);
 
             // Diminuer N
             fChangerN1(1)
-            await utilsTests.attendreRésultat(vari, "ables", x=>x.length <= 1)
-            expect(vari.ables.length).toEqual(1);
-            expect(vari.ables.map(r=>r.id)).toEqual(expect.arrayContaining([idVariable2]));
-            expect(vari.ables2.length).toEqual(2);  // Toujours 2 résultats ici
+            const val4 = await attendreVars1.attendreQue(x=>x.length <= 1)
+            expect(attendreVars1.val.map(r=>r.id)).toEqual(expect.arrayContaining([idVariable2]));
+            expect(val4.length).toEqual(2);  // Toujours 2 résultats ici
 
             fOublier1();
             fOublier2();
