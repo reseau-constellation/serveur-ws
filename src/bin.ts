@@ -64,7 +64,7 @@ yargs(hideBin(process.argv))
         dossierStockageLocal: argv.dossOrbite,
       };
 
-      const { port } = await lancerServeur({
+      const { port, fermerServeur } = await lancerServeur({
         port: argv.port ? Number.parseInt(argv.port) : undefined,
         optsConstellation,
       });
@@ -72,6 +72,11 @@ yargs(hideBin(process.argv))
         // spinner!.stop()
       }
       console.log(chalk.yellow(`Serveur prêt sur port : ${argv.port || port}`));
+
+      process.stdin.on("data", async () => {
+        await fermerServeur();
+        process.exit(0);
+      })
     }
   )
   .option("bavard", {
