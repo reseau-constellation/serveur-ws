@@ -15,7 +15,7 @@
   "scripts": {
     "watch": "npm-watch",
     "nettoyer": "rimraf dist",
-    "compiler": "pnpm versioner && pnpm nettoyer && ttsc -p tsconfig.build.json && chmod +x ./dist/bin.js ",
+    "compiler": "pnpm versioner && pnpm nettoyer && pnpm ttsc -p tsconfig.build.json && chmod +x ./dist/bin.js ",
     "test:processus": "export TYPE_SERVEUR=\"proc\" && node --experimental-vm-modules ./node_modules/jest/bin/jest.js  --runInBand --forceExit",
     "test:binaire": "export TYPE_SERVEUR=\"bin\" && pnpm compiler && node --experimental-vm-modules ./node_modules/jest/bin/jest.js  --runInBand --forceExit",
     "test": "pnpm test:processus && pnpm test:binaire",
@@ -23,7 +23,7 @@
     "couverture:binaire": "pnpm test:binaire --coverage",
     "couverture": "pnpm couverture:processus && pnpm couverture:binaire",
     "formatter": "pnpm prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\" && pnpm eslint --ext .js,.ts src",
-    "publier": "pnpm versioner && pnpm compiler && git commit -a -m 'version' || pnpm publish",
+    "publier": "pnpm versioner && pnpm compiler && git commit -a -m 'version' && pnpm publish",
     "versioner": "pnpm genversion  --es6 --semi src/version.ts"
   },
   "dependencies": {
