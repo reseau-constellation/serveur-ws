@@ -75,6 +75,7 @@ yargs(hideBin(process.argv))
 
       process.stdin.on("data", async () => {
         await fermerServeur();
+        console.log(chalk.yellow("Serveur fermé"));
         process.exit(0);
       })
     }

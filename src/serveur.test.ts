@@ -65,13 +65,17 @@ const typesServeurs: () => {[clef: string]: ({dossier }: {dossier?: string})=> P
           if (port) {
             résoudre({
               port,
-              fermerServeur: async () => {
+              fermerServeur: () => {
                 processus.stdin.write("\n")
-                rimraf.sync(dirTemp);
+                return new Promise<void>(résoudre => {
+                  processus.stdout.on("data", ()=> {
+                    rimraf.sync(dirTemp);
+                    résoudre()
+                  })
+                })
               }
             })
           }
-
         })
       })
     }
@@ -326,8 +330,8 @@ describe("Fonctionalités serveurs", function () {
             // Diminuer N
             fChangerN1(1)
             const val4 = await attendreVars1.attendreQue(x=>x.length <= 1)
-            expect(attendreVars1.val.map(r=>r.id)).toEqual(expect.arrayContaining([idVariable2]));
-            expect(val4.length).toEqual(2);  // Toujours 2 résultats ici
+            expect(val4.map(r=>r.id)).toEqual(expect.arrayContaining([idVariable2]));
+            expect(attendreVars2.val.length).toEqual(2);  // Toujours 2 résultats ici
 
             fOublier1();
             fOublier2();
