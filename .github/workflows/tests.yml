@@ -24,6 +24,9 @@ jobs:
       - name: Nétoyer les dépendances d'installation
         run: pnpm install --lockfile=false
 
+      - name: Test binaire
+        run: pnpm versioner && pnpm nettoyer && ttsc -p tsconfig.build.json && chmod +x ./dist/bin.js && ls dist && ./dist/bin.js version
+
       - name: Vérifier les tests
         run: pnpm couverture
 
