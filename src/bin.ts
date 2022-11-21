@@ -14,6 +14,7 @@ const dirBase = url.fileURLToPath(new URL('..', import.meta.url));;
 const fichierPackageJson = path.join(dirBase, "package.json")
 const packageJson = JSON.parse(fs.readFileSync(fichierPackageJson, "utf8"))
 
+console.log("ici 0, ", process.argv)
 yargs(hideBin(process.argv))
   .usage("Utilisation: $0 <commande> [options]")
   .command(
@@ -22,6 +23,7 @@ yargs(hideBin(process.argv))
     ],
     "Lancer le serveur",
     (yargs) => {
+      console.log("ici, ", 1)
       return yargs
         .option("port", {
           alias: "p",
@@ -91,6 +93,7 @@ yargs(hideBin(process.argv))
     ],
     "Version Constellation obligatoire",
     (yargs) => {
+      console.log("ici, ", 1)
       return yargs
     },
     async () => {
@@ -103,6 +106,7 @@ yargs(hideBin(process.argv))
     ],
     "Version Constellation installée",
     (yargs) => {
+      console.log("ici, ", 2)
       return yargs
     },
     async () => {
@@ -115,6 +119,7 @@ yargs(hideBin(process.argv))
     ],
     "La version du serveur",
     (yargs) => {
+      console.log("ici, ", 3)
       return yargs
     },
     async () => {
