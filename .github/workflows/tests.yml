@@ -24,12 +24,6 @@ jobs:
       - name: Nétoyer les dépendances d'installation
         run: pnpm install --lockfile=false
 
-      - name: Compiler binaire
-        run: pnpm compiler
-
-      - name: Test binaire
-        run: dist/bin.js
-
       - name: Vérifier les tests
         run: pnpm couverture
 
