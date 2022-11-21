@@ -28,7 +28,7 @@ jobs:
         run: pnpm compiler
 
       - name: Test binaire
-        run: dist/binn.js
+        run: dist/bin.js
 
       - name: Vérifier les tests
         run: pnpm couverture

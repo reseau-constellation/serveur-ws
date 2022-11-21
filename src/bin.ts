@@ -10,11 +10,13 @@ import url from "url";
 import lancerServeur from "@/serveur.js";
 import { client, version as versionIPA } from "@constl/ipa"
 
+console.log("ici -1, ")
+console.log(process.argv)
 const dirBase = url.fileURLToPath(new URL('..', import.meta.url));;
 const fichierPackageJson = path.join(dirBase, "package.json")
 const packageJson = JSON.parse(fs.readFileSync(fichierPackageJson, "utf8"))
 
-console.log("ici 0, ", process.argv)
+console.log("ici 0, ")
 yargs(hideBin(process.argv))
   .usage("Utilisation: $0 <commande> [options]")
   .command(
