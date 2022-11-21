@@ -6,9 +6,9 @@ import { sep, join } from "path";
 
 import { proxy, utilsTests, version as versionIPA, utils } from "@constl/ipa";
 
-import lancerServeur from "@/serveur";
-import générerClient from "@/client";
-import {version} from "@/version"
+import lancerServeur from "@/serveur.js";
+import générerClient from "@/client.js";
+import {version} from "@/version.js"
 
 const faisRien = () => {return}
 

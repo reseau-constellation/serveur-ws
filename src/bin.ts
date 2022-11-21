@@ -7,7 +7,7 @@ import fs from "fs";
 import path from "path";
 import url from "url";
 
-import lancerServeur from "@/serveur";
+import lancerServeur from "@/serveur.js";
 import { client, version as versionIPA } from "@constl/ipa"
 
 const dirBase = url.fileURLToPath(new URL('..', import.meta.url));;
