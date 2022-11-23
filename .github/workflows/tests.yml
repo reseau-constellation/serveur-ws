@@ -6,7 +6,7 @@ on:
 jobs:
   tests-et-couverture:
     name: On test le serveur
-    runs-on: [macos-latest, ubuntu-latest, windows-latest]
+    runs-on: ubuntu-latest
     steps:
       - name: Préparation de Node.js
         uses: actions/setup-node@v3
