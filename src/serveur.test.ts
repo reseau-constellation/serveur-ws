@@ -22,7 +22,7 @@ const limTempsTest = (typeServeur: string) => {
 }
 
 const typesServeurs: () => {[clef: string]: ({dossier }: {dossier?: string})=> Promise<{fermerServeur: ()=>Promise<void>, port: number}>} = () => {
-  const typesFinaux: {[clef: string]: ({ dossier=undefined }: {dossier?: string})=> Promise<{fermerServeur: ()=>Promise<void>, port: number}>} = {}
+  const typesFinaux: {[clef: string]: ({ dossier }: {dossier?: string})=> Promise<{fermerServeur: ()=>Promise<void>, port: number}>} = {}
   if (process.env.TYPE_SERVEUR === "proc" || !process.env.TYPE_SERVEUR) {
     typesFinaux["Serveur même fil"] = async ({ dossier }: {dossier?: string}) => {
       const dirTemp =  dossier ? dossier : mkdtempSync(`${tmpdir()}${sep}`);
