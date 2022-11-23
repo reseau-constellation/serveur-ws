@@ -21,7 +21,7 @@
     "test": "pnpm test:processus && pnpm test:binaire",
     "couverture:processus": "pnpm test:processus --coverage",
     "couverture:binaire": "pnpm test:binaire --coverage",
-    "couverture": "pnpm couverture:processus && pnpm couverture:binaire",
+    "couverture": "pnpm couverture:binaire && pnpm couverture:processus",
     "formatter": "pnpm prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\" && pnpm eslint --ext .js,.ts src",
     "publier": "pnpm versioner && pnpm compiler && git commit -a -m 'version' && pnpm publish",
     "versioner": "pnpm genversion  --es6 --semi src/version.ts"
