@@ -1,4 +1,4 @@
-#!/usr/bin/env node --experimental-specifier-resolution=node
+#!/usr/bin/env node
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 // import ora, { Ora } from "ora";
@@ -7,7 +7,7 @@ import fs from "fs";
 import path from "path";
 import url from "url";
 
-import lancerServeur from "@/serveur";
+import lancerServeur from "@/serveur.js";
 import { client, version as versionIPA } from "@constl/ipa"
 
 const dirBase = url.fileURLToPath(new URL('..', import.meta.url));;

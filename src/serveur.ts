@@ -4,7 +4,7 @@ import trouverUnPort from "find-free-port";
 
 import { client, proxy } from "@constl/ipa";
 
-import ipa from "@/ipa";
+import ipa from "@/ipa.js";
 
 
 export default async ({

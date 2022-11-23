@@ -1,3 +1,3 @@
-export { default as lancerServeur } from "@/serveur";
-export { ProxyClientWS, default as lancerClient } from "@/client";
-export { version } from "@/version";
+export { default as lancerServeur } from "@/serveur.js";
+export { ProxyClientWS, default as lancerClient } from "@/client.js";
+export { version } from "@/version.js";

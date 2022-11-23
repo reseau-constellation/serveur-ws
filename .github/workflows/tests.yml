@@ -2,7 +2,7 @@ name: Tests Serveur WS
 on:
   push:
     branches:
-      - master
+      - testgithub
 jobs:
   tests-et-couverture:
     name: On test le serveur
@@ -11,7 +11,7 @@ jobs:
       - name: Préparation de Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
 
       - name: Installer pnpm
         uses: pnpm/action-setup@v2.2.4
@@ -21,8 +21,8 @@ jobs:
       - name: Ouvrir la branche
         uses: actions/checkout@v3
 
-      - name: Nétoyer les dépendances d'installation
-        run: pnpm install --lockfile=false
+      - name: Installer
+        run: pnpm install
 
       - name: Vérifier les tests
         run: pnpm couverture
