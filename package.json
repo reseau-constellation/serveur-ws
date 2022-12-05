@@ -79,7 +79,7 @@
     "constl": "./dist/bin.js"
   },
   "peerDependencies": {
-    "@constl/ipa": "^0.4.19"
+    "@constl/ipa": "^0.5.4"
   },
   "jest": {
     "transform": {},
