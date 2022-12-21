@@ -112,7 +112,7 @@ fermerClient();
 
 ```
 
-## Avancé : pécification client
+## Avancé : spécification client
 Cette librairie vient avec son propre client websocket conforme. Une
 version pour Python et pour Julia sont également disponibles. Cependant, si vous voulez
 développer des clients pour d'autres langues informatiques, vous devrez
@@ -232,16 +232,64 @@ const message: MessageRetourPourTravailleur = {
 
 
 ### Recherches
+Une recherche s'éffectue de manière similaire à un suivi, mais elle retourne également une fonction pour changer le nombre de résultats désirés.
 
 ```TypeScript
+const { fOublier, fChangerN } = await client.recherche.rechercherBdSelonNom({ nomBd: "météo", f: console.log, nRésultatsDésirés: 30 });
+
+// Demander plus de résultats
+await fChangerN(40);
+
+// Annuler la recherche
+await fOublier();
 ```
 
+Pour invoquer la même fonction par le serveur, nous enverrons le message suivant :
+```TypeScript
+import { v4 as uuidv4 } from 'uuid';
+
+const id = uuidv4();
+
+const message: MessageSuivrePourTravailleur = {
+  type: "suivre",
+  id,
+  fonction: ["recherche", "rechercherBdSelonNom"],
+  args: { nomBd: "météo", nRésultatsDésirés: 30 },
+  nomArgFonction: "f",  // Nom de l'argument correspondant à la fonction de suivi
+}
+
+// Envoyer le message par WS au serveur sur le port connecté.
+```
+
+Et nous recevrons une réponse comme tel lorsque la recherche est amorcée :
+```Json
+{
+  "type": "suivrePrêt",
+  "id": "1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed",
+  "fonctions": ["fOublier", "fChangerN"]
+}
+```
+
+Pour changer le nombre de résultats désirés, il suffit d'envoyer un message comme suit :
+```TypeScript
+const message: MessageRetourPourTravailleur = {
+  type: "retour",
+  id,
+  nomArgFonction: "fChangerN",
+  args: [40]
+}
+
+// Envoyer le message par WS au serveur sur le port connecté.
+```
+
+
 ### Erreurs
+Si le serveur a des difficultés, il enverra un message d'erreur. Le champ `id` est facultatif et sera présent si l'erreur provient spécifiquement d'une requète particulière.
 
-
-
-
-## Développement
-Pour installer le client en mode développement, utiliser
-
-`yarn global add file:$PWD`
+```Json
+{
+  "type": "erreur",
+  "id": "1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed",
+  "erreur": "Message d'erreur tel que rencontré par le serveur."
+}
+```
