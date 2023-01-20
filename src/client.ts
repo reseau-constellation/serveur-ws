@@ -1,13 +1,21 @@
-import { once } from "events"
+import { once } from "events";
 import ws from "isomorphic-ws";
-import { proxy } from "@constl/ipa";
+import {
+  ClientMandatairifiable,
+  générerMandataire,
+  MandataireClientConstellation,
+} from "@constl/mandataire";
+import {
+  MessageErreurDeTravailleur,
+  MessagePourTravailleur,
+} from "@constl/ipa/dist/mandataire/messages";
 
-export class ProxyClientWS extends proxy.proxy.ClientProxifiable {
+export class MandataireClientWS extends ClientMandatairifiable {
   connexion: ws.WebSocket;
 
   constructor(connexion: ws.WebSocket) {
     super();
-    this.connexion = connexion
+    this.connexion = connexion;
 
     this.connexion.on("message", (é) => {
       const message = JSON.parse(é.toString());
@@ -15,7 +23,7 @@ export class ProxyClientWS extends proxy.proxy.ClientProxifiable {
     });
 
     this.connexion.onerror = (erreur) => {
-      const messageErreur: proxy.messages.MessageErreurDeTravailleur = {
+      const messageErreur: MessageErreurDeTravailleur = {
         type: "erreur",
         erreur: erreur.message,
       };
@@ -23,8 +31,8 @@ export class ProxyClientWS extends proxy.proxy.ClientProxifiable {
     };
   }
 
-  envoyerMessage(message: proxy.messages.MessagePourTravailleur): void {
-    this.connexion.send(JSON.stringify(message))
+  envoyerMessage(message: MessagePourTravailleur): void {
+    this.connexion.send(JSON.stringify(message));
   }
 
   fermer(): void {
@@ -37,16 +45,16 @@ export default async ({
 }: {
   port: number;
 }): Promise<{
-  client: proxy.proxy.ProxyClientConstellation;
+  client: MandataireClientConstellation;
   fermerClient: () => void;
 }> => {
   const connexion = new ws.WebSocket(`ws://localhost:${port}`);
-  await once(connexion, "open")
-  const client = new ProxyClientWS(connexion);
+  await once(connexion, "open");
+  const client = new MandataireClientWS(connexion);
   return {
-    client: proxy.proxy.générerProxy(client),
+    client: générerMandataire(client),
     fermerClient: async () => {
-      await client.fermer()
+      await client.fermer();
     },
   };
 };

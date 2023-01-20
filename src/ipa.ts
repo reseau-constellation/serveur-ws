@@ -1,6 +1,6 @@
 import ws from "ws";
 
-import { proxy, client } from "@constl/ipa";
+import { client, mandataire } from "@constl/ipa";
 
 let n = 0;
 const prises: { [key: string]: ws.WebSocket } = {};
@@ -15,7 +15,7 @@ const obtPrisesRéponseMessage = (
     const [idPrise, id_] = idMessage.split(":");
     id = id_;
     const prise = prises[idPrise.toString()];
-    prisesFinales.push({ prise, id });
+    if (prise) prisesFinales.push({ prise, id });
   } else {
     prisesFinales = Object.values(prises).map((prise) => ({ prise }));
   }
@@ -23,7 +23,7 @@ const obtPrisesRéponseMessage = (
   return prisesFinales;
 };
 
-const fMessage = (message: proxy.messages.MessageDeTravailleur) => {
+const fMessage = (message: mandataire.messages.MessageDeTravailleur) => {
   const { id } = message;
   const prisesPourMessage = obtPrisesRéponseMessage(id);
 
@@ -38,7 +38,7 @@ const fMessage = (message: proxy.messages.MessageDeTravailleur) => {
 };
 
 const fErreur = (erreur: string, id?: string) => {
-  const messageErreur: proxy.messages.MessageErreurDeTravailleur = {
+  const messageErreur: mandataire.messages.MessageErreurDeTravailleur = {
     type: "erreur",
     erreur,
   };
@@ -58,18 +58,18 @@ export default (
   serveur: ws.Server,
   constellation:
     | client.optsConstellation
-    | proxy.gestionnaireClient.default = {}
+    | mandataire.gestionnaireClient.default = {}
 ): (() => Promise<void>) => {
-  let client: proxy.gestionnaireClient.default;
+  let client: mandataire.gestionnaireClient.default;
   let fFermer: () => Promise<void>;
 
-  if (constellation instanceof proxy.gestionnaireClient.default) {
+  if (constellation instanceof mandataire.gestionnaireClient.default) {
     client = constellation;
     fFermer = async () => {
       // On ne ferme pas le client s'il a été fourni de l'extérieur
     };
   } else {
-    client = new proxy.gestionnaireClient.default(
+    client = new mandataire.gestionnaireClient.default(
       fMessage,
       fErreur,
       constellation
@@ -84,10 +84,10 @@ export default (
     const n_prise = n.toString(); // Sauvegarder une référence au numéro de la prise ici
 
     prises[n.toString()] = prise;
+
     prise.on("message", (message) => {
-      const messageDécodé: proxy.messages.MessagePourTravailleur = JSON.parse(
-        message.toString()
-      );
+      const messageDécodé: mandataire.messages.MessagePourTravailleur =
+        JSON.parse(message.toString());
       if (messageDécodé.id) messageDécodé.id = `${n_prise}:${messageDécodé.id}`;
       client.gérerMessage(messageDécodé);
     });

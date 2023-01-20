@@ -8,11 +8,11 @@ import path from "path";
 import url from "url";
 
 import lancerServeur from "@/serveur.js";
-import { client, version as versionIPA } from "@constl/ipa"
+import { client, version as versionIPA } from "@constl/ipa";
 
-const dirBase = url.fileURLToPath(new URL('..', import.meta.url));;
-const fichierPackageJson = path.join(dirBase, "package.json")
-const packageJson = JSON.parse(fs.readFileSync(fichierPackageJson, "utf8"))
+const dirBase = url.fileURLToPath(new URL("..", import.meta.url));
+const fichierPackageJson = path.join(dirBase, "package.json");
+const packageJson = JSON.parse(fs.readFileSync(fichierPackageJson, "utf8"));
 
 yargs(hideBin(process.argv))
   .usage("Utilisation: $0 <commande> [options]")
@@ -77,7 +77,7 @@ yargs(hideBin(process.argv))
         await fermerServeur();
         console.log(chalk.yellow("Serveur fermé"));
         process.exit(0);
-      })
+      });
     }
   )
   .option("bavard", {
@@ -86,36 +86,30 @@ yargs(hideBin(process.argv))
     description: "Émettre plus de détails",
   })
   .command(
-    [
-      "v-constl-obli",
-    ],
+    ["v-constl-obli"],
     "Version Constellation obligatoire",
     (yargs) => {
-      return yargs
+      return yargs;
     },
     async () => {
       console.log(packageJson.peerDependencies["@constl/ipa"]);
     }
   )
   .command(
-    [
-      "v-constl",
-    ],
+    ["v-constl"],
     "Version Constellation installée",
     (yargs) => {
-      return yargs
+      return yargs;
     },
     async () => {
       console.log(versionIPA);
     }
   )
   .command(
-    [
-      "version",
-    ],
+    ["version"],
     "La version du serveur",
     (yargs) => {
-      return yargs
+      return yargs;
     },
     async () => {
       console.log(packageJson.version);

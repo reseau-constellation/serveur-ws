@@ -1,11 +1,10 @@
 import express from "express";
-import { WebSocketServer } from "ws"
+import { WebSocketServer } from "ws";
 import trouverUnPort from "find-free-port";
 
-import { client, proxy } from "@constl/ipa";
+import { client, mandataire } from "@constl/ipa";
 
 import ipa from "@/ipa.js";
-
 
 export default async ({
   port,
@@ -14,7 +13,7 @@ export default async ({
   port?: number;
   optsConstellation:
     | client.optsConstellation
-    | proxy.gestionnaireClient.default;
+    | mandataire.gestionnaireClient.default;
 }): Promise<{ fermerServeur: () => Promise<void>; port: number }> => {
   port = port || (await trouverUnPort(5000))[0];
 
@@ -35,15 +34,13 @@ export default async ({
     });
   });
   const fermerServeur = () => {
-    return new Promise<void>(résoudre => {
-      wsServer.close(
-        () => {
-          fermerConstellation().then(()=>{
-            server.close();
-            résoudre();
-          });
-        }
-      );
+    return new Promise<void>((résoudre) => {
+      wsServer.close(() => {
+        fermerConstellation().then(() => {
+          server.close();
+          résoudre();
+        });
+      });
     });
   };
   return { fermerServeur, port };
