@@ -287,6 +287,7 @@ describe("Fonctionalités serveurs", function () {
           "Erreur fonction suivi inexistante",
           async () => {
             await expect(() =>
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
               // @ts-ignore
               monClient.jeNeSuisPasUneFonction({ f: faisRien })
             ).rejects.toThrow();
@@ -297,6 +298,7 @@ describe("Fonctionalités serveurs", function () {
           "Erreur action inexistante",
           async () => {
             await expect(() =>
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
               // @ts-ignore
               monClient.jeNeSuisPasUnAtribut.ouUneFonction()
             ).rejects.toThrow();
@@ -445,11 +447,13 @@ describe("Fonctionalités serveurs", function () {
           "Erreur action",
           async () => {
             await expect(() =>
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
               // @ts-ignore
               client1.jeNeSuisPasUneFonction()
             ).rejects.toThrow();
 
             await expect(() =>
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
               // @ts-ignore
               client2.jeNeSuisPasUnAtribut.ouUneFonction()
             ).rejects.toThrow();
@@ -461,11 +465,13 @@ describe("Fonctionalités serveurs", function () {
           "Erreur suivi",
           async () => {
             await expect(() =>
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
               // @ts-ignore
               client1.jeNeSuisPasUneFonction({ f: faisRien })
             ).rejects.toThrow();
 
             await expect(() =>
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
               // @ts-ignore
               client2.jeNeSuisPasUnAtribut.ouUneFonction({ f: faisRien })
             ).rejects.toThrow();
