@@ -5,9 +5,7 @@ import {
   générerMandataire,
   MandataireClientConstellation,
 } from "@constl/mandataire";
-import type {
-  mandataire
-} from "@constl/ipa";
+import type { mandataire } from "@constl/ipa";
 
 export class MandataireClientWS extends ClientMandatairifiable {
   connexion: ws.WebSocket;

@@ -151,9 +151,8 @@ describe("Configuration serveur", function () {
         expect(existsSync(join(dossier, "sfip"))).toBe(true);
       });
       test("Dossier Orbite", async () => {
-        const attendreOrbiteExiste = new utilsTests.attente.AttendreFichierExiste(
-          join(dossier, "orbite")
-        );
+        const attendreOrbiteExiste =
+          new utilsTests.attente.AttendreFichierExiste(join(dossier, "orbite"));
         fsOublier.push(() => attendreOrbiteExiste.annuler());
 
         await attendreOrbiteExiste.attendre();

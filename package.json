@@ -1,6 +1,6 @@
 {
   "name": "@constl/serveur",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "repository": "https://github.com/reseau-constellation/serveur-ws",
   "author": "Julien Jean Malard-Adam",
   "license": "AGPL-3.0",
@@ -80,7 +80,7 @@
     "constl": "./dist/bin.js"
   },
   "peerDependencies": {
-    "@constl/ipa": "^0.6.11"
+    "@constl/ipa": "^0.6.50"
   },
   "jest": {
     "transform": {},
