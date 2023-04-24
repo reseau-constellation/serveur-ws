@@ -46,13 +46,13 @@ const typesServeurs: () => {
       const dirTemp = dossier ? dossier : mkdtempSync(`${tmpdir()}${sep}`);
 
       const dossierSFIP = join(dirTemp, "sfip");
-      const dsfip = await utilsTests.initierSFIP(dossierSFIP);
+      const sfip = await utilsTests.sfip.initierSFIP(dossierSFIP);
 
       const { fermerServeur, port } = await lancerServeur({
         optsConstellation: {
           orbite: {
             dossier: join(dirTemp, "orbite"),
-            sfip: { sfip: dsfip.api },
+            sfip: { sfip },
           },
         },
       });
@@ -60,7 +60,7 @@ const typesServeurs: () => {
         port,
         fermerServeur: async () => {
           await fermerServeur();
-          await utilsTests.arrêterSFIP(dsfip);
+          await utilsTests.sfip.arrêterSFIP(sfip);
           rimraf.sync(dirTemp);
         },
       };
@@ -142,7 +142,7 @@ describe("Configuration serveur", function () {
       }, limTempsPremierTest(typeServeur));
 
       test("Dossier SFIP", async () => {
-        const attendreSFIPExiste = new utilsTests.AttendreFichierExiste(
+        const attendreSFIPExiste = new utilsTests.attente.AttendreFichierExiste(
           join(dossier, "sfip")
         );
         fsOublier.push(() => attendreSFIPExiste.annuler());
@@ -151,7 +151,7 @@ describe("Configuration serveur", function () {
         expect(existsSync(join(dossier, "sfip"))).toBe(true);
       });
       test("Dossier Orbite", async () => {
-        const attendreOrbiteExiste = new utilsTests.AttendreFichierExiste(
+        const attendreOrbiteExiste = new utilsTests.attente.AttendreFichierExiste(
           join(dossier, "orbite")
         );
         fsOublier.push(() => attendreOrbiteExiste.annuler());
@@ -180,10 +180,10 @@ describe("Fonctionalités serveurs", function () {
       describe("Fonctionalités base serveur", () => {
         let fermerClient: () => void;
         let monClient: MandataireClientConstellation;
-        const attendreNoms = new utilsTests.AttendreRésultat<{
+        const attendreNoms = new utilsTests.attente.AttendreRésultat<{
           [clef: string]: string;
         }>();
-        const attendreMC = new utilsTests.AttendreRésultat<
+        const attendreMC = new utilsTests.attente.AttendreRésultat<
           utils.résultatRecherche<utils.infoRésultatTexte>[]
         >();
 
@@ -315,10 +315,10 @@ describe("Fonctionalités serveurs", function () {
         let fermerClient2: () => void;
         const fsOublier: (() => void)[] = [];
 
-        const attendreVars1 = new utilsTests.AttendreRésultat<
+        const attendreVars1 = new utilsTests.attente.AttendreRésultat<
           utils.résultatRecherche<utils.infoRésultatTexte>[]
         >();
-        const attendreVars2 = new utilsTests.AttendreRésultat<
+        const attendreVars2 = new utilsTests.attente.AttendreRésultat<
           utils.résultatRecherche<utils.infoRésultatTexte>[]
         >();
 

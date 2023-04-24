@@ -5,10 +5,9 @@ import {
   générerMandataire,
   MandataireClientConstellation,
 } from "@constl/mandataire";
-import {
-  MessageErreurDeTravailleur,
-  MessagePourTravailleur,
-} from "@constl/ipa/dist/mandataire/messages";
+import type {
+  mandataire
+} from "@constl/ipa";
 
 export class MandataireClientWS extends ClientMandatairifiable {
   connexion: ws.WebSocket;
@@ -23,7 +22,7 @@ export class MandataireClientWS extends ClientMandatairifiable {
     });
 
     this.connexion.onerror = (erreur) => {
-      const messageErreur: MessageErreurDeTravailleur = {
+      const messageErreur: mandataire.messages.MessageErreurDeTravailleur = {
         type: "erreur",
         erreur: erreur.message,
       };
@@ -31,7 +30,7 @@ export class MandataireClientWS extends ClientMandatairifiable {
     };
   }
 
-  envoyerMessage(message: MessagePourTravailleur): void {
+  envoyerMessage(message: mandataire.messages.MessagePourTravailleur): void {
     this.connexion.send(JSON.stringify(message));
   }
 
