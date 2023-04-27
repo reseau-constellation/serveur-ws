@@ -224,7 +224,7 @@ Pour annuler le suivi, envoyer le message suivant :
 const message: MessageRetourPourTravailleur = {
   type: "retour",
   id,
-  nomArgFonction: "fOublier"
+  fonction: "fOublier"
 }
 
 // Envoyer le message par WS au serveur sur le port connecté.
@@ -275,7 +275,7 @@ Pour changer le nombre de résultats désirés, il suffit d'envoyer un message c
 const message: MessageRetourPourTravailleur = {
   type: "retour",
   id,
-  nomArgFonction: "fChangerN",
+  fonction: "fChangerN",
   args: [40]
 }
 
