@@ -70,11 +70,13 @@ yargs(hideBin(process.argv))
       if (argv.bavard) {
         // spinner!.stop()
       }
-      console.log(chalk.yellow(`Serveur prêt sur port : ${argv.port || port}`));
+      console.log(chalk.yellow(`Nœud local prêt sur port : ${argv.port || port}`));
+      console.log(chalk.yellow("Frappez n'importe quelle touche pour arrêter le nœud."));
 
       process.stdin.on("data", async () => {
+        console.log(chalk.yellow("On ferme le serveur..."));
         await fermerServeur();
-        console.log(chalk.yellow("Serveur fermé"));
+        console.log(chalk.yellow("Nœud fermé."));
         process.exit(0);
       });
     }
