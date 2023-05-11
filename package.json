@@ -1,6 +1,6 @@
 {
   "name": "@constl/serveur",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "repository": "https://github.com/reseau-constellation/serveur-ws",
   "author": "Julien Jean Malard-Adam",
   "license": "AGPL-3.0",
@@ -27,7 +27,7 @@
     "versioner": "pnpm genversion  --es6 --semi src/version.ts"
   },
   "dependencies": {
-    "@constl/mandataire": "^0.2.0",
+    "@constl/mandataire": "^0.1.9",
     "bufferutil": "^4.0.7",
     "chalk": "^5.2.0",
     "core-js": "^3.30.2",
