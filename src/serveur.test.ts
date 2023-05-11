@@ -183,7 +183,7 @@ describe("Configuration serveur", function () {
         fsOublier.push(() => attendreOrbiteExiste.annuler());
         await attendreOrbiteExiste.attendre();
         expect(existsSync(join(dossier, "orbite"))).toBe(true);
-      });
+      }, limTempsTest(typeServeur));
     })
   );
 });
