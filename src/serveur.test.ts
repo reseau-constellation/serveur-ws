@@ -1,5 +1,5 @@
 import { execa } from "execa";
-import rimraf from "rimraf";
+import { rimraf } from "rimraf";
 import { mkdtempSync, existsSync } from "fs";
 import { tmpdir } from "os";
 import { sep, join } from "path";
@@ -10,6 +10,11 @@ import { MandataireClientConstellation } from "@constl/mandataire";
 import lancerServeur from "@/serveur.js";
 import générerClient from "@/client.js";
 import { version } from "@/version.js";
+import { MessageBinaire } from "./const";
+
+// Quand ça plante avec throw new Error('Listener is not ready yet');
+// ps -ef | grep "node" | grep -v grep
+// kill <idp>
 
 const faisRien = () => {
   return;
@@ -22,6 +27,11 @@ const limTempsPremierTest = (typeServeur: string) => {
 const limTempsTest = (typeServeur: string) => {
   return typeServeur === "Serveur ligne de commande" ? 10 * 1000 : 5000;
 };
+
+const analyserMessage = (message: string): MessageBinaire | undefined => {
+  if (!message.startsWith("MESSAGE MACHINE :")) return;
+  return JSON.parse(message.split("MESSAGE MACHINE :")[1]);
+} 
 
 const typesServeurs: () => {
   [clef: string]: ({
@@ -77,30 +87,48 @@ const typesServeurs: () => {
 
       const dossierSFIP = join(dirTemp, "sfip");
       const dossierOrbite = join(dirTemp, "orbite");
-      const processus = execa("./dist/bin.js", [
+      const { stdout, stdin, stderr } = execa("./dist/bin.js", [
         "lancer",
+        "-m",
         `--doss-sfip=${dossierSFIP}`,
         `--doss-orbite=${dossierOrbite}`,
       ]);
-      const { stdout } = processus;
+      stderr?.on("data", (d)=>{
+        console.warn(d.toString())
+      })
+
+      const fermerServeur = () => {
+        const promesseFermer = new Promise<void>((résoudre) => {
+          stdout?.on("data", (données) => {
+            const message = analyserMessage(données.toString())
+
+            if (message && message.type === "NŒUD FERMÉ") {
+              rimraf.sync(dirTemp);
+              résoudre();
+            }
+          });
+        });
+        stdin?.write("\n");
+        return promesseFermer;
+      }
 
       return new Promise((résoudre) => {
-        stdout.on("data", (data) => {
-          const port = Number(data.toString().split(":")[1]);
-          if (port) {
-            résoudre({
-              port,
-              fermerServeur: () => {
-                processus.stdin.write("\n");
-                return new Promise<void>((résoudre) => {
-                  processus.stdout.on("data", () => {
-                    rimraf.sync(dirTemp);
-                    résoudre();
-                  });
-                });
-              },
-            });
+        stdout?.on("data", (d) => {
+          const données = d.toString()
+
+          const lignes = données.split("\n")
+
+          for (const l of lignes) {
+            const message =  analyserMessage(l);
+
+            if (message && message.type === "NŒUD PRÊT") {
+              résoudre({
+                port: message.port,
+                fermerServeur,
+              });
+            }
           }
+
         });
       });
     };
@@ -130,7 +158,6 @@ describe("Configuration serveur", function () {
 
       beforeAll(async () => {
         dossier = mkdtempSync(`${tmpdir()}${sep}`);
-
         ({ fermerServeur } = await fGénérerServeur({
           dossier,
         }));
@@ -139,7 +166,7 @@ describe("Configuration serveur", function () {
       afterAll(async () => {
         if (fermerServeur) await fermerServeur();
         await Promise.all(fsOublier.map((f) => f()));
-      }, limTempsPremierTest(typeServeur));
+      }, limTempsTest(typeServeur));
 
       test("Dossier SFIP", async () => {
         const attendreSFIPExiste = new utilsTests.attente.AttendreFichierExiste(
@@ -154,7 +181,6 @@ describe("Configuration serveur", function () {
         const attendreOrbiteExiste =
           new utilsTests.attente.AttendreFichierExiste(join(dossier, "orbite"));
         fsOublier.push(() => attendreOrbiteExiste.annuler());
-
         await attendreOrbiteExiste.attendre();
         expect(existsSync(join(dossier, "orbite"))).toBe(true);
       });
@@ -240,20 +266,20 @@ describe("Fonctionalités serveurs", function () {
         test("Rechercher", async () => {
           // Eléments détectés
           const { fOublier, fChangerN } =
-            await monClient.recherche.rechercherMotClefSelonNom({
+            await monClient.recherche!.rechercherMotClefSelonNom({
               nomMotClef: "Météo Montréal",
               f: (x) => attendreMC.mettreÀJour(x),
               nRésultatsDésirés: 1,
             });
 
-          const idMotClef1 = await monClient.motsClefs.créerMotClef();
-          await monClient.motsClefs.ajouterNomsMotClef({
+          const idMotClef1 = await monClient.motsClefs!.créerMotClef();
+          await monClient.motsClefs!.ajouterNomsMotClef({
             id: idMotClef1,
             noms: { fr: "Météo à Montréal" },
           });
 
-          const idMotClef2 = await monClient.motsClefs.créerMotClef();
-          await monClient.motsClefs.ajouterNomsMotClef({
+          const idMotClef2 = await monClient.motsClefs!.créerMotClef();
+          await monClient.motsClefs!.ajouterNomsMotClef({
             id: idMotClef2,
             noms: { fr: "Météo Montréal" },
           });
@@ -358,12 +384,12 @@ describe("Fonctionalités serveurs", function () {
 
             fsOublier.push(
               await client1.profil!.suivreCourriel({
-                f: (courriel: string) => (courriel1 = courriel),
+                f: (courriel) => (courriel1 = courriel),
               })
             );
             fsOublier.push(
               await client2.profil!.suivreCourriel({
-                f: (courriel: string) => (courriel2 = courriel),
+                f: (courriel) => (courriel2 = courriel),
               })
             );
 
@@ -381,30 +407,30 @@ describe("Fonctionalités serveurs", function () {
         test("Rechercher", async () => {
           // Eléments détectés
           const { fOublier: fOublier1, fChangerN: fChangerN1 } =
-            await client1.recherche.rechercherVariableSelonNom({
+            await client1.recherche!.rechercherVariableSelonNom({
               nomVariable: "Précipitation",
               f: (x) => attendreVars1.mettreÀJour(x),
               nRésultatsDésirés: 1,
             });
           const { fOublier: fOublier2, fChangerN: fChangerN2 } =
-            await client2.recherche.rechercherVariableSelonNom({
+            await client2.recherche!.rechercherVariableSelonNom({
               nomVariable: "Précipitation",
               f: (x) => attendreVars2.mettreÀJour(x),
               nRésultatsDésirés: 1,
             });
 
-          const idVariable1 = await client1.variables.créerVariable({
+          const idVariable1 = await client1.variables!.créerVariable({
             catégorie: "numérique",
           });
-          await client1.variables.ajouterNomsVariable({
+          await client1.variables!.ajouterNomsVariable({
             id: idVariable1,
             noms: { es: "Precipitación" },
           });
 
-          const idVariable2 = await client1.variables.créerVariable({
+          const idVariable2 = await client1.variables!.créerVariable({
             catégorie: "numérique",
           });
-          await client1.variables.ajouterNomsVariable({
+          await client1.variables!.ajouterNomsVariable({
             id: idVariable2,
             noms: { fr: "Précipitation" },
           });
@@ -416,27 +442,30 @@ describe("Fonctionalités serveurs", function () {
           expect(val1.map((r) => r.id)).toEqual(
             expect.arrayContaining([idVariable2])
           );
-          expect(attendreVars2.val.length).toEqual(1);
+          const val2 = await attendreVars2.attendreExiste()
+          expect(val2.length).toEqual(1);
 
           // Augmenter N résultats désirés
           await fChangerN1(2);
-          const val2 = await attendreVars1.attendreQue((x) => x.length > 1);
-          expect(val2.map((r) => r.id)).toEqual(
+          const val3 = await attendreVars1.attendreQue((x) => x.length > 1);
+          expect(val3.map((r) => r.id)).toEqual(
             expect.arrayContaining([idVariable1, idVariable2])
           );
-          expect(attendreVars2.val.length).toEqual(1); // Client 2 n'a pas demandé de changement
+          const val4 = await attendreVars2.attendreExiste()
+          expect(val4.length).toEqual(1); // Client 2 n'a pas demandé de changement
 
           await fChangerN2(2);
-          const val3 = await attendreVars2.attendreQue((x) => x.length > 1);
-          expect(val3.length).toEqual(2);
+          const val5 = await attendreVars2.attendreQue((x) => x.length > 1);
+          expect(val5.length).toEqual(2);
 
           // Diminuer N
           await fChangerN1(1);
-          const val4 = await attendreVars1.attendreQue((x) => x.length <= 1);
-          expect(val4.map((r) => r.id)).toEqual(
+          const val6 = await attendreVars1.attendreQue((x) => x.length <= 1);
+          expect(val6.map((r) => r.id)).toEqual(
             expect.arrayContaining([idVariable2])
           );
-          expect(attendreVars2.val.length).toEqual(2); // Toujours 2 résultats ici
+          const val7 = await attendreVars2.attendreExiste()
+          expect(val7.length).toEqual(2); // Toujours 2 résultats ici
 
           await fOublier1();
           await fOublier2();

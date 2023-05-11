@@ -1,24 +1,30 @@
 #!/usr/bin/env node
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
-
+import ora, { Ora } from "ora"
 import chalk from "chalk";
 import fs from "fs";
 import path from "path";
 import url from "url";
 
-import lancerServeur from "@/serveur.js";
 import { client, version as versionIPA } from "@constl/ipa";
+
+import lancerServeur from "@/serveur.js";
+import { MessageBinaire } from "@/const";
 
 const dirBase = url.fileURLToPath(new URL("..", import.meta.url));
 const fichierPackageJson = path.join(dirBase, "package.json");
 const packageJson = JSON.parse(fs.readFileSync(fichierPackageJson, "utf8"));
 
+const envoyerMessageMachine = ({message}: {message: MessageBinaire}) => {
+  console.log("MESSAGE MACHINE :" + JSON.stringify(message))
+}
+
 yargs(hideBin(process.argv))
   .usage("Utilisation: $0 <commande> [options]")
   .command(
     [
-      "lancer [--port <port>] [--compte <id-compte>] [--doss-orbite <dossierOrbite>] [--doss-sfip <dossierSFIP>]",
+      "lancer [-m] [--port <port>] [--compte <id-compte>] [--doss-orbite <dossierOrbite>] [--doss-sfip <dossierSFIP>]",
     ],
     "Lancer le serveur",
     (yargs) => {
@@ -47,16 +53,23 @@ yargs(hideBin(process.argv))
           alias: "ds",
           describe: "Le dossier local à utiliser pour SFIP.",
           type: "string",
+        })
+        .option("machine", {
+          alias: "m",
+          describe: "",
+          type: "boolean"
         });
     },
     async (argv) => {
-      // let spinner: Ora
-      if (argv.bavard) {
-        // spinner = ora(chalk.yellow(`Initialisation du serveur sur port : ${argv.port}`)).start()
-        console.log(chalk.yellow(`Initialisation du serveur`));
+      let roue: Ora | undefined = undefined
+      if (argv.machine) {
+        envoyerMessageMachine({message: {type: "LANÇAGE NŒUD"}})
+      } else {
+        roue = ora(chalk.yellow(`Initialisation du nœud).start()`))
       }
       const optsConstellation: client.optsConstellation = {
         compte: argv.compte,
+        sujetRéseau: argv.sujet,
         orbite: {
           dossier: argv.dossOrbite,
           sfip: { dossier: argv.dossSfip },
@@ -67,25 +80,28 @@ yargs(hideBin(process.argv))
         port: argv.port ? Number.parseInt(argv.port) : undefined,
         optsConstellation,
       });
-      if (argv.bavard) {
-        // spinner!.stop()
-      }
-      console.log(chalk.yellow(`Nœud local prêt sur port : ${argv.port || port}`));
-      console.log(chalk.yellow("Frappez n'importe quelle touche pour arrêter le nœud."));
-
       process.stdin.on("data", async () => {
-        console.log(chalk.yellow("On ferme le serveur..."));
+        if (argv.machine) {
+          envoyerMessageMachine({message: {type: "ON FERME"}})
+        } else {
+          roue?.start(chalk.yellow("On ferme le nœud..."))
+        }
         await fermerServeur();
-        console.log(chalk.yellow("Nœud fermé."));
+        if (argv.machine) {
+          envoyerMessageMachine({message: {type: "NŒUD FERMÉ"}})
+        } else {
+          roue?.succeed(chalk.yellow("Nœud fermé."));
+        }
         process.exit(0);
       });
+      if (argv.machine) {
+        envoyerMessageMachine({message: {type: "NŒUD PRÊT", port}})
+      } else {
+        // eslint-disable-next-line no-irregular-whitespace
+        roue!.succeed(chalk.yellow(`Nœud local prêt sur port : ${port}\nFrappez « retour » pour arrêter le nœud.`))
+      }
     }
   )
-  .option("bavard", {
-    alias: "b",
-    type: "boolean",
-    description: "Émettre plus de détails",
-  })
   .command(
     ["v-constl-obli"],
     "Version Constellation obligatoire",
