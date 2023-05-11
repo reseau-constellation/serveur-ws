@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
-import ora, { Ora } from "ora"
+import ora, { Ora } from "ora";
 import chalk from "chalk";
 import fs from "fs";
 import path from "path";
@@ -16,9 +16,9 @@ const dirBase = url.fileURLToPath(new URL("..", import.meta.url));
 const fichierPackageJson = path.join(dirBase, "package.json");
 const packageJson = JSON.parse(fs.readFileSync(fichierPackageJson, "utf8"));
 
-const envoyerMessageMachine = ({message}: {message: MessageBinaire}) => {
-  console.log("MESSAGE MACHINE :" + JSON.stringify(message))
-}
+const envoyerMessageMachine = ({ message }: { message: MessageBinaire }) => {
+  console.log("MESSAGE MACHINE :" + JSON.stringify(message));
+};
 
 yargs(hideBin(process.argv))
   .usage("Utilisation: $0 <commande> [options]")
@@ -57,15 +57,15 @@ yargs(hideBin(process.argv))
         .option("machine", {
           alias: "m",
           describe: "",
-          type: "boolean"
+          type: "boolean",
         });
     },
     async (argv) => {
-      let roue: Ora | undefined = undefined
+      let roue: Ora | undefined = undefined;
       if (argv.machine) {
-        envoyerMessageMachine({message: {type: "LANÇAGE NŒUD"}})
+        envoyerMessageMachine({ message: { type: "LANÇAGE NŒUD" } });
       } else {
-        roue = ora(chalk.yellow(`Initialisation du nœud).start()`))
+        roue = ora(chalk.yellow(`Initialisation du nœud).start()`));
       }
       const optsConstellation: client.optsConstellation = {
         compte: argv.compte,
@@ -82,23 +82,27 @@ yargs(hideBin(process.argv))
       });
       process.stdin.on("data", async () => {
         if (argv.machine) {
-          envoyerMessageMachine({message: {type: "ON FERME"}})
+          envoyerMessageMachine({ message: { type: "ON FERME" } });
         } else {
-          roue?.start(chalk.yellow("On ferme le nœud..."))
+          roue?.start(chalk.yellow("On ferme le nœud..."));
         }
         await fermerServeur();
         if (argv.machine) {
-          envoyerMessageMachine({message: {type: "NŒUD FERMÉ"}})
+          envoyerMessageMachine({ message: { type: "NŒUD FERMÉ" } });
         } else {
           roue?.succeed(chalk.yellow("Nœud fermé."));
         }
         process.exit(0);
       });
       if (argv.machine) {
-        envoyerMessageMachine({message: {type: "NŒUD PRÊT", port}})
+        envoyerMessageMachine({ message: { type: "NŒUD PRÊT", port } });
       } else {
-        // eslint-disable-next-line no-irregular-whitespace
-        roue!.succeed(chalk.yellow(`Nœud local prêt sur port : ${port}\nFrappez « retour » pour arrêter le nœud.`))
+        roue!.succeed(
+          chalk.yellow(
+            // eslint-disable-next-line no-irregular-whitespace
+            `Nœud local prêt sur port : ${port}\nFrappez « retour » pour arrêter le nœud.`
+          )
+        );
       }
     }
   )

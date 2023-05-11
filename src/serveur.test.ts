@@ -31,7 +31,7 @@ const limTempsTest = (typeServeur: string) => {
 const analyserMessage = (message: string): MessageBinaire | undefined => {
   if (!message.startsWith("MESSAGE MACHINE :")) return;
   return JSON.parse(message.split("MESSAGE MACHINE :")[1]);
-} 
+};
 
 const typesServeurs: () => {
   [clef: string]: ({
@@ -93,14 +93,14 @@ const typesServeurs: () => {
         `--doss-sfip=${dossierSFIP}`,
         `--doss-orbite=${dossierOrbite}`,
       ]);
-      stderr?.on("data", (d)=>{
-        console.warn(d.toString())
-      })
+      stderr?.on("data", (d) => {
+        console.warn(d.toString());
+      });
 
       const fermerServeur = () => {
         const promesseFermer = new Promise<void>((résoudre) => {
           stdout?.on("data", (données) => {
-            const message = analyserMessage(données.toString())
+            const message = analyserMessage(données.toString());
 
             if (message && message.type === "NŒUD FERMÉ") {
               rimraf.sync(dirTemp);
@@ -110,16 +110,16 @@ const typesServeurs: () => {
         });
         stdin?.write("\n");
         return promesseFermer;
-      }
+      };
 
       return new Promise((résoudre) => {
         stdout?.on("data", (d) => {
-          const données = d.toString()
+          const données = d.toString();
 
-          const lignes = données.split("\n")
+          const lignes = données.split("\n");
 
           for (const l of lignes) {
-            const message =  analyserMessage(l);
+            const message = analyserMessage(l);
 
             if (message && message.type === "NŒUD PRÊT") {
               résoudre({
@@ -128,7 +128,6 @@ const typesServeurs: () => {
               });
             }
           }
-
         });
       });
     };
@@ -177,13 +176,19 @@ describe("Configuration serveur", function () {
         await attendreSFIPExiste.attendre();
         expect(existsSync(join(dossier, "sfip"))).toBe(true);
       });
-      test("Dossier Orbite", async () => {
-        const attendreOrbiteExiste =
-          new utilsTests.attente.AttendreFichierExiste(join(dossier, "orbite"));
-        fsOublier.push(() => attendreOrbiteExiste.annuler());
-        await attendreOrbiteExiste.attendre();
-        expect(existsSync(join(dossier, "orbite"))).toBe(true);
-      }, limTempsTest(typeServeur));
+      test(
+        "Dossier Orbite",
+        async () => {
+          const attendreOrbiteExiste =
+            new utilsTests.attente.AttendreFichierExiste(
+              join(dossier, "orbite")
+            );
+          fsOublier.push(() => attendreOrbiteExiste.annuler());
+          await attendreOrbiteExiste.attendre();
+          expect(existsSync(join(dossier, "orbite"))).toBe(true);
+        },
+        limTempsTest(typeServeur)
+      );
     })
   );
 });
@@ -442,7 +447,7 @@ describe("Fonctionalités serveurs", function () {
           expect(val1.map((r) => r.id)).toEqual(
             expect.arrayContaining([idVariable2])
           );
-          const val2 = await attendreVars2.attendreExiste()
+          const val2 = await attendreVars2.attendreExiste();
           expect(val2.length).toEqual(1);
 
           // Augmenter N résultats désirés
@@ -451,7 +456,7 @@ describe("Fonctionalités serveurs", function () {
           expect(val3.map((r) => r.id)).toEqual(
             expect.arrayContaining([idVariable1, idVariable2])
           );
-          const val4 = await attendreVars2.attendreExiste()
+          const val4 = await attendreVars2.attendreExiste();
           expect(val4.length).toEqual(1); // Client 2 n'a pas demandé de changement
 
           await fChangerN2(2);
@@ -464,7 +469,7 @@ describe("Fonctionalités serveurs", function () {
           expect(val6.map((r) => r.id)).toEqual(
             expect.arrayContaining([idVariable2])
           );
-          const val7 = await attendreVars2.attendreExiste()
+          const val7 = await attendreVars2.attendreExiste();
           expect(val7.length).toEqual(2); // Toujours 2 résultats ici
 
           await fOublier1();
