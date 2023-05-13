@@ -10,14 +10,14 @@ import url from "url";
 import { client, version as versionIPA } from "@constl/ipa";
 
 import lancerServeur from "@/serveur.js";
-import { MessageBinaire } from "@/const";
+import { MessageBinaire, PRÉFIX_MACHINE } from "@/const";
 
 const dirBase = url.fileURLToPath(new URL("..", import.meta.url));
 const fichierPackageJson = path.join(dirBase, "package.json");
 const packageJson = JSON.parse(fs.readFileSync(fichierPackageJson, "utf8"));
 
 const envoyerMessageMachine = ({ message }: { message: MessageBinaire }) => {
-  console.log("MESSAGE MACHINE :" + JSON.stringify(message));
+  console.log(PRÉFIX_MACHINE + JSON.stringify(message));
 };
 
 yargs(hideBin(process.argv))

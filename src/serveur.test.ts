@@ -10,7 +10,7 @@ import { MandataireClientConstellation } from "@constl/mandataire";
 import lancerServeur from "@/serveur.js";
 import générerClient from "@/client.js";
 import { version } from "@/version.js";
-import { MessageBinaire } from "./const";
+import { MessageBinaire, PRÉFIX_MACHINE } from "@/const";
 
 // Quand ça plante avec throw new Error('Listener is not ready yet');
 // ps -ef | grep "node" | grep -v grep
@@ -29,8 +29,8 @@ const limTempsTest = (typeServeur: string) => {
 };
 
 const analyserMessage = (message: string): MessageBinaire | undefined => {
-  if (!message.startsWith("MESSAGE MACHINE :")) return;
-  return JSON.parse(message.split("MESSAGE MACHINE :")[1]);
+  if (!message.startsWith(PRÉFIX_MACHINE)) return;
+  return JSON.parse(message.split(PRÉFIX_MACHINE)[1]);
 };
 
 const typesServeurs: () => {

@@ -1,3 +1,5 @@
+export const PRÉFIX_MACHINE = "MESSAGE MACHINE :";
+
 export type MessageBinaire =
   | MessageLançageNœud
   | MessageNœudPrêt
