@@ -10,7 +10,7 @@ import { MandataireClientConstellation } from "@constl/mandataire";
 import lancerServeur from "@/serveur.js";
 import générerClient from "@/client.js";
 import { version } from "@/version.js";
-import { MessageBinaire, PRÉFIX_MACHINE } from "@/const";
+import { MessageBinaire, PRÉFIX_MACHINE } from "@/const.js";
 
 // Quand ça plante avec throw new Error('Listener is not ready yet');
 // ps -ef | grep "node" | grep -v grep

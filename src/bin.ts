@@ -10,7 +10,7 @@ import url from "url";
 import { client, version as versionIPA } from "@constl/ipa";
 
 import lancerServeur from "@/serveur.js";
-import { MessageBinaire, PRÉFIX_MACHINE } from "@/const";
+import { MessageBinaire, PRÉFIX_MACHINE } from "@/const.js";
 
 const dirBase = url.fileURLToPath(new URL("..", import.meta.url));
 const fichierPackageJson = path.join(dirBase, "package.json");
