@@ -278,14 +278,14 @@ describe("Fonctionalités serveurs", function () {
             });
 
           const idMotClef1 = await monClient.motsClefs!.créerMotClef();
-          await monClient.motsClefs!.ajouterNomsMotClef({
-            id: idMotClef1,
+          await monClient.motsClefs!.sauvegarderNomsMotClef({
+            idMotClef: idMotClef1,
             noms: { fr: "Météo à Montréal" },
           });
 
           const idMotClef2 = await monClient.motsClefs!.créerMotClef();
-          await monClient.motsClefs!.ajouterNomsMotClef({
-            id: idMotClef2,
+          await monClient.motsClefs!.sauvegarderNomsMotClef({
+            idMotClef: idMotClef2,
             noms: { fr: "Météo Montréal" },
           });
 
