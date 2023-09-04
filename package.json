@@ -34,7 +34,7 @@
     "find-free-port": "^2.0.0",
     "iso-constants": "github:inverted-capital/iso-constants#patch-1",
     "isomorphic-ws": "^5.0.0",
-    "ora": "^6.3.0",
+    "ora": "^7.0.0",
     "ws": "^8.13.0",
     "yargs": "^17.7.2"
   },
