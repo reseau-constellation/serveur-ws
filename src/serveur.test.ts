@@ -4,7 +4,9 @@ import { mkdtempSync, existsSync } from "fs";
 import { tmpdir } from "os";
 import { sep, join } from "path";
 
-import { utilsTests, version as versionIPA, utils } from "@constl/ipa";
+import { version as versionIPA, types, client } from "@constl/ipa";
+import { attente, sfip as utilsTestSfip } from "@constl/utils-tests"
+
 import { MandataireClientConstellation } from "@constl/mandataire";
 
 import lancerServeur from "@/serveur.js";
@@ -56,7 +58,7 @@ const typesServeurs: () => {
       const dirTemp = dossier ? dossier : mkdtempSync(`${tmpdir()}${sep}`);
 
       const dossierSFIP = join(dirTemp, "sfip");
-      const sfip = await utilsTests.sfip.initierSFIP(dossierSFIP);
+      const sfip = await utilsTestSfip.initierSFIP(dossierSFIP);
 
       const { fermerServeur, port } = await lancerServeur({
         optsConstellation: {
@@ -70,7 +72,7 @@ const typesServeurs: () => {
         port,
         fermerServeur: async () => {
           await fermerServeur();
-          await utilsTests.sfip.arrêterSFIP(sfip);
+          await utilsTestSfip.arrêterSFIP(sfip);
           rimraf.sync(dirTemp);
         },
       };
@@ -168,7 +170,7 @@ describe("Configuration serveur", function () {
       }, limTempsTest(typeServeur));
 
       test("Dossier SFIP", async () => {
-        const attendreSFIPExiste = new utilsTests.attente.AttendreFichierExiste(
+        const attendreSFIPExiste = new attente.AttendreFichierExiste(
           join(dossier, "sfip")
         );
         fsOublier.push(() => attendreSFIPExiste.annuler());
@@ -180,7 +182,7 @@ describe("Configuration serveur", function () {
         "Dossier Orbite",
         async () => {
           const attendreOrbiteExiste =
-            new utilsTests.attente.AttendreFichierExiste(
+            new attente.AttendreFichierExiste(
               join(dossier, "orbite")
             );
           fsOublier.push(() => attendreOrbiteExiste.annuler());
@@ -209,12 +211,12 @@ describe("Fonctionalités serveurs", function () {
 
       describe("Fonctionalités base serveur", () => {
         let fermerClient: () => void;
-        let monClient: MandataireClientConstellation;
-        const attendreNoms = new utilsTests.attente.AttendreRésultat<{
+        let monClient: MandataireClientConstellation<client.ClientConstellation>;
+        const attendreNoms = new attente.AttendreRésultat<{
           [clef: string]: string;
         }>();
-        const attendreMC = new utilsTests.attente.AttendreRésultat<
-          utils.résultatRecherche<utils.infoRésultatTexte>[]
+        const attendreMC = new attente.AttendreRésultat<
+          types.résultatRecherche<types.infoRésultatTexte>[]
         >();
 
         beforeAll(async () => {
@@ -230,10 +232,10 @@ describe("Fonctionalités serveurs", function () {
         test(
           "Action",
           async () => {
-            const idOrbite = await monClient.obtIdOrbite();
+            const idDispositif = await monClient.obtIdDispositif();
 
-            expect(typeof idOrbite).toEqual("string");
-            expect(idOrbite.length).toBeGreaterThan(0);
+            expect(typeof idDispositif).toEqual("string");
+            expect(idDispositif.length).toBeGreaterThan(0);
           },
           limTempsPremierTest(typeServeur)
         ); // Beaucoup plus long pour le premier test (le serveur doit se réveiller)
@@ -271,7 +273,7 @@ describe("Fonctionalités serveurs", function () {
         test("Rechercher", async () => {
           // Eléments détectés
           const { fOublier, fChangerN } =
-            await monClient.recherche!.rechercherMotClefSelonNom({
+            await monClient.recherche!.rechercherMotsClefsSelonNom({
               nomMotClef: "Météo Montréal",
               f: (x) => attendreMC.mettreÀJour(x),
               nRésultatsDésirés: 1,
@@ -338,18 +340,18 @@ describe("Fonctionalités serveurs", function () {
       });
 
       describe("Multiples clients", function () {
-        let client1: MandataireClientConstellation;
-        let client2: MandataireClientConstellation;
+        let client1: MandataireClientConstellation<client.ClientConstellation>;
+        let client2: MandataireClientConstellation<client.ClientConstellation>;
 
         let fermerClient1: () => void;
         let fermerClient2: () => void;
         const fsOublier: (() => void)[] = [];
 
-        const attendreVars1 = new utilsTests.attente.AttendreRésultat<
-          utils.résultatRecherche<utils.infoRésultatTexte>[]
+        const attendreVars1 = new attente.AttendreRésultat<
+          types.résultatRecherche<types.infoRésultatTexte>[]
         >();
-        const attendreVars2 = new utilsTests.attente.AttendreRésultat<
-          utils.résultatRecherche<utils.infoRésultatTexte>[]
+        const attendreVars2 = new attente.AttendreRésultat<
+          types.résultatRecherche<types.infoRésultatTexte>[]
         >();
 
         beforeAll(async () => {
@@ -370,14 +372,14 @@ describe("Fonctionalités serveurs", function () {
         test(
           "Action",
           async () => {
-            const [idOrbite1, idOrbite2] = await Promise.all([
-              client1.obtIdOrbite(),
-              client2.obtIdOrbite(),
+            const [idDispositif1, idDispositif2] = await Promise.all([
+              client1.obtIdDispositif(),
+              client2.obtIdDispositif(),
             ]);
-            expect(typeof idOrbite1).toEqual("string");
-            expect(idOrbite1.length).toBeGreaterThan(0);
+            expect(typeof idDispositif1).toEqual("string");
+            expect(idDispositif1.length).toBeGreaterThan(0);
 
-            expect(idOrbite1).toEqual(idOrbite2);
+            expect(idDispositif1).toEqual(idDispositif2);
           },
           limTempsTest(typeServeur)
         );
@@ -412,13 +414,13 @@ describe("Fonctionalités serveurs", function () {
         test("Rechercher", async () => {
           // Eléments détectés
           const { fOublier: fOublier1, fChangerN: fChangerN1 } =
-            await client1.recherche!.rechercherVariableSelonNom({
+            await client1.recherche!.rechercherVariablesSelonNom({
               nomVariable: "Précipitation",
               f: (x) => attendreVars1.mettreÀJour(x),
               nRésultatsDésirés: 1,
             });
           const { fOublier: fOublier2, fChangerN: fChangerN2 } =
-            await client2.recherche!.rechercherVariableSelonNom({
+            await client2.recherche!.rechercherVariablesSelonNom({
               nomVariable: "Précipitation",
               f: (x) => attendreVars2.mettreÀJour(x),
               nRésultatsDésirés: 1,
@@ -427,16 +429,16 @@ describe("Fonctionalités serveurs", function () {
           const idVariable1 = await client1.variables!.créerVariable({
             catégorie: "numérique",
           });
-          await client1.variables!.ajouterNomsVariable({
-            id: idVariable1,
+          await client1.variables!.sauvegarderNomsVariable({
+            idVariable: idVariable1,
             noms: { es: "Precipitación" },
           });
 
           const idVariable2 = await client1.variables!.créerVariable({
             catégorie: "numérique",
           });
-          await client1.variables!.ajouterNomsVariable({
-            id: idVariable2,
+          await client1.variables!.sauvegarderNomsVariable({
+            idVariable: idVariable2,
             noms: { fr: "Précipitation" },
           });
 

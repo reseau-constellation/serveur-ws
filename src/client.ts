@@ -5,7 +5,7 @@ import {
   générerMandataire,
   MandataireClientConstellation,
 } from "@constl/mandataire";
-import type { mandataire } from "@constl/ipa";
+import type { mandataire, client } from "@constl/ipa";
 
 export class MandataireClientWS extends ClientMandatairifiable {
   connexion: ws.WebSocket;
@@ -42,7 +42,7 @@ export default async ({
 }: {
   port: number;
 }): Promise<{
-  client: MandataireClientConstellation;
+  client: MandataireClientConstellation<client.ClientConstellation>;
   fermerClient: () => void;
 }> => {
   const connexion = new ws.WebSocket(`ws://localhost:${port}`);
