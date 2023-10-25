@@ -14,7 +14,7 @@
       "automerge": true
     },
     {
-      "matchFileNames": [".github/**"],
+      "matchPackagePatterns": ["^actions/"],
       "automerge": true
     }
   ]
