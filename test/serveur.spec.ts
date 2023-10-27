@@ -166,7 +166,7 @@ describe("Configuration serveur", function () {
       });
 
       after(async () => {
-        if (fermerServeur) await fermerServeur();
+        if (fermerServeur) fermerServeur();
         await Promise.all(fsOublier.map((f) => f()));
       });
 
