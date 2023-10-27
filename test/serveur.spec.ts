@@ -23,14 +23,6 @@ const faisRien = () => {
   return;
 };
 
-const limTempsPremierTest = (typeServeur: string) => {
-  return typeServeur === "Serveur ligne de commande" ? 5 * 60 * 1000 : 10000;
-};
-
-const limTempsTest = (typeServeur: string) => {
-  return typeServeur === "Serveur ligne de commande" ? 10 * 1000 : 5000;
-};
-
 const analyserMessage = (message: string): MessageBinaire | undefined => {
   if (!message.startsWith(PRÉFIX_MACHINE)) return;
   return JSON.parse(message.split(PRÉFIX_MACHINE)[1]);
