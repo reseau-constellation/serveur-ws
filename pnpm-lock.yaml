@@ -44,7 +44,7 @@ dependencies:
 
 devDependencies:
   '@constl/ipa':
-    specifier: 0.9.6
+    specifier: ^0.9.6
     version: 0.9.6(bufferutil@4.0.8)(wrtc@0.4.7)
   '@constl/mandataire':
     specifier: ^0.1.15

@@ -10,7 +10,7 @@
   "types": "./dist/src/index.d.ts",
   "exports": "./dist/src/index.js",
   "engines": {
-    "node": ">=16"
+    "node": ">=20"
   },
   "scripts": {
     "watch": "npm-watch",
@@ -37,7 +37,7 @@
     "yargs": "^17.7.2"
   },
   "devDependencies": {
-    "@constl/ipa": "0.9.6",
+    "@constl/ipa": "^0.9.6",
     "@constl/mandataire": "^0.1.15",
     "@constl/utils-tests": "^0.2.2",
     "@types/express": "^4.17.20",
@@ -77,6 +77,6 @@
     "constl": "./dist/src/bin.js"
   },
   "peerDependencies": {
-    "@constl/ipa": "^0.8.2"
+    "@constl/ipa": "^0.9.6"
   }
 }
