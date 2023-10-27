@@ -24,7 +24,7 @@
     "versioner": "pnpm genversion  --es6 --semi src/version.ts"
   },
   "dependencies": {
-    "@achingbrain/nat-port-mapper": "1.0.8",
+    "@achingbrain/nat-port-mapper": "1.0.12",
     "bufferutil": "^4.0.8",
     "chalk": "^5.3.0",
     "core-js": "^3.33.1",
