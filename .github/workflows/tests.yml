@@ -7,8 +7,8 @@ on:
     branches:
       - master
 jobs:
-  tests-et-couverture:
-    name: On test le serveur
+  tests-binaire:
+    name: Ligne de commande
     runs-on: ubuntu-latest
     steps:
       - name: Préparation de Node.js
@@ -28,7 +28,34 @@ jobs:
         run: pnpm install
 
       - name: Vérifier les tests
-        run: pnpm couverture
+        run: pnpm test:binaire
 
       - name: Envoyer couverure à Codecov
         uses: codecov/codecov-action@v3
+
+  tests-processus:
+    name: Processus
+    runs-on: ubuntu-latest
+    steps:
+      - name: Préparation de Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Installer pnpm
+        uses: pnpm/action-setup@v2.4.0
+        with:
+          version: latest
+
+      - name: Ouvrir la branche
+        uses: actions/checkout@v4
+
+      - name: Installer
+        run: pnpm install
+
+      - name: Vérifier les tests
+        run: pnpm test:processus
+
+      - name: Envoyer couverure à Codecov
+        uses: codecov/codecov-action@v3
+

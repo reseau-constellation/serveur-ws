@@ -13,6 +13,7 @@ import lancerServeur from "@/serveur.js";
 import générerClient from "@/client.js";
 import { version } from "@/version.js";
 import { MessageBinaire, PRÉFIX_MACHINE } from "@/const.js";
+import { expect } from "aegir/chai";
 
 // Quand ça plante avec throw new Error('Listener is not ready yet');
 // ps -ef | grep "node" | grep -v grep
@@ -89,7 +90,7 @@ const typesServeurs: () => {
 
       const dossierSFIP = join(dirTemp, "sfip");
       const dossierOrbite = join(dirTemp, "orbite");
-      const { stdout, stdin, stderr } = execa("./dist/bin.js", [
+      const { stdout, stdin, stderr } = execa("./dist/src/bin.js", [
         "lancer",
         "-m",
         `--doss-sfip=${dossierSFIP}`,
@@ -139,13 +140,13 @@ const typesServeurs: () => {
 
 if (process.env.TYPE_SERVEUR === "bin") {
   describe("Client ligne de commande", () => {
-    test("Obtenir version serveur", async () => {
-      const { stdout } = await execa("./dist/bin.js", ["version"]);
-      expect(stdout).toEqual(version);
+    it("Obtenir version serveur", async () => {
+      const { stdout } = await execa("./dist/src/bin.js", ["version"]);
+      expect(stdout).to.equal(version);
     });
-    test("Obtenir version IPA", async () => {
-      const { stdout } = await execa("./dist/bin.js", ["v-constl"]);
-      expect(stdout).toEqual(versionIPA);
+    it("Obtenir version IPA", async () => {
+      const { stdout } = await execa("./dist/src/bin.js", ["v-constl"]);
+      expect(stdout).to.equal(versionIPA);
     });
   });
 }
@@ -157,28 +158,28 @@ describe("Configuration serveur", function () {
       let dossier: string;
       const fsOublier: (() => void)[] = [];
 
-      beforeAll(async () => {
+      before(async () => {
         dossier = mkdtempSync(`${tmpdir()}${sep}`);
         ({ fermerServeur } = await fGénérerServeur({
           dossier,
         }));
-      }, limTempsTest(typeServeur));
+      });
 
-      afterAll(async () => {
+      after(async () => {
         if (fermerServeur) await fermerServeur();
         await Promise.all(fsOublier.map((f) => f()));
-      }, limTempsTest(typeServeur));
+      });
 
-      test("Dossier SFIP", async () => {
+      it("Dossier SFIP", async () => {
         const attendreSFIPExiste = new attente.AttendreFichierExiste(
           join(dossier, "sfip")
         );
         fsOublier.push(() => attendreSFIPExiste.annuler());
 
         await attendreSFIPExiste.attendre();
-        expect(existsSync(join(dossier, "sfip"))).toBe(true);
+        expect(existsSync(join(dossier, "sfip"))).to.be.true();
       });
-      test(
+      it(
         "Dossier Orbite",
         async () => {
           const attendreOrbiteExiste =
@@ -187,9 +188,8 @@ describe("Configuration serveur", function () {
             );
           fsOublier.push(() => attendreOrbiteExiste.annuler());
           await attendreOrbiteExiste.attendre();
-          expect(existsSync(join(dossier, "orbite"))).toBe(true);
+          expect(existsSync(join(dossier, "orbite"))).to.be.true();
         },
-        limTempsTest(typeServeur)
       );
     })
   );
@@ -201,13 +201,13 @@ describe("Fonctionalités serveurs", function () {
       let fermerServeur: () => Promise<void>;
       let port: number;
 
-      beforeAll(async () => {
+      before(async () => {
         ({ fermerServeur, port } = await fGénérerServeur({}));
-      }, limTempsTest(typeServeur));
+      });
 
-      afterAll(async () => {
+      after(async () => {
         if (fermerServeur) await fermerServeur();
-      }, limTempsTest(typeServeur));
+      });
 
       describe("Fonctionalités base serveur", () => {
         let fermerClient: () => void;
@@ -219,28 +219,27 @@ describe("Fonctionalités serveurs", function () {
           types.résultatRecherche<types.infoRésultatTexte>[]
         >();
 
-        beforeAll(async () => {
+        before(async () => {
           ({ client: monClient, fermerClient } = await générerClient({ port }));
-        }, limTempsTest(typeServeur));
+        });
 
-        afterAll(async () => {
+        after(async () => {
           if (fermerClient) fermerClient();
           attendreNoms.toutAnnuler();
           attendreMC.toutAnnuler();
         });
 
-        test(
+        it(
           "Action",
           async () => {
             const idDispositif = await monClient.obtIdDispositif();
 
-            expect(typeof idDispositif).toEqual("string");
-            expect(idDispositif.length).toBeGreaterThan(0);
+            expect(typeof idDispositif).to.equal("string");
+            expect(idDispositif.length).to.be.greaterThan(0);
           },
-          limTempsPremierTest(typeServeur)
-        ); // Beaucoup plus long pour le premier test (le serveur doit se réveiller)
+        ); // Beaucoup plus long pour le premier it (le serveur doit se réveiller)
 
-        test(
+        it(
           "Suivre",
           async () => {
             const oublierNoms = await monClient.profil!.suivreNoms({
@@ -248,7 +247,7 @@ describe("Fonctionalités serveurs", function () {
             });
 
             const val = await attendreNoms.attendreExiste();
-            expect(Object.keys(val)).toHaveLength(0);
+            expect(Object.keys(val)).to.be.empty();
 
             await monClient.profil!.sauvegarderNom({
               langue: "fr",
@@ -257,7 +256,7 @@ describe("Fonctionalités serveurs", function () {
             const val2 = await attendreNoms.attendreQue(
               (x) => Object.keys(x).length > 0
             );
-            expect(val2).toEqual({ fr: "Julien Jean Malard-Adam" });
+            expect(val2).to.deep.equal({ fr: "Julien Jean Malard-Adam" });
 
             await oublierNoms();
 
@@ -265,12 +264,11 @@ describe("Fonctionalités serveurs", function () {
               langue: "es",
               nom: "Julien Jean Malard-Adam",
             });
-            expect(attendreNoms.val).toEqual({ fr: "Julien Jean Malard-Adam" });
+            expect(attendreNoms.val).to.deep.equal({ fr: "Julien Jean Malard-Adam" });
           },
-          limTempsTest(typeServeur)
         );
 
-        test("Rechercher", async () => {
+        it("Rechercher", async () => {
           // Eléments détectés
           const { fOublier, fChangerN } =
             await monClient.recherche!.rechercherMotsClefsSelonNom({
@@ -294,48 +292,40 @@ describe("Fonctionalités serveurs", function () {
           const val = await attendreMC.attendreQue(
             (x) => x.length > 0 && x[0].id === idMotClef2
           );
-          expect(val.map((r) => r.id)).toEqual(
-            expect.arrayContaining([idMotClef2])
+          expect(val.map((r) => r.id)).to.have.members(
+            [idMotClef2]
           );
 
           // Augmenter N résultats désirés
           await fChangerN(2);
           const val2 = await attendreMC.attendreQue((x) => x.length > 1);
-          expect(val2.map((r) => r.id)).toEqual(
-            expect.arrayContaining([idMotClef1, idMotClef2])
-          );
+          expect(val2.map((r) => r.id)).to.have.members([idMotClef1, idMotClef2]);
 
           // Diminuer N
           await fChangerN(1);
           const val3 = await attendreMC.attendreQue((x) => x.length <= 1);
-          expect(val3.map((r) => r.id)).toEqual(
-            expect.arrayContaining([idMotClef2])
-          );
+          expect(val3.map((r) => r.id)).to.have.members([idMotClef2]);
 
           await fOublier();
         });
 
-        test(
+        it(
           "Erreur fonction suivi inexistante",
           async () => {
-            await expect(() =>
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-              // @ts-ignore
+            await expect(
+              // @ts-expect-error On fait exprès
               monClient.jeNeSuisPasUneFonction({ f: faisRien })
-            ).rejects.toThrow();
+            ).to.be.rejected();
           },
-          limTempsTest(typeServeur)
         );
-        test(
+        it(
           "Erreur action inexistante",
           async () => {
-            await expect(() =>
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-              // @ts-ignore
+            await expect(
+              // @ts-expect-error On fait exprès
               monClient.jeNeSuisPasUnAtribut.ouUneFonction()
-            ).rejects.toThrow();
+            ).to.be.rejected();
           },
-          limTempsTest(typeServeur)
         );
       });
 
@@ -354,14 +344,14 @@ describe("Fonctionalités serveurs", function () {
           types.résultatRecherche<types.infoRésultatTexte>[]
         >();
 
-        beforeAll(async () => {
+        before(async () => {
           ({ client: client1, fermerClient: fermerClient1 } =
             await générerClient({ port }));
           ({ client: client2, fermerClient: fermerClient2 } =
             await générerClient({ port }));
-        }, limTempsTest(typeServeur));
+        });
 
-        afterAll(async () => {
+        after(async () => {
           if (fermerClient1) fermerClient1();
           if (fermerClient2) fermerClient2();
           await Promise.all(fsOublier.map((f) => f()));
@@ -369,21 +359,20 @@ describe("Fonctionalités serveurs", function () {
           attendreVars2.toutAnnuler();
         });
 
-        test(
+        it(
           "Action",
           async () => {
             const [idDispositif1, idDispositif2] = await Promise.all([
               client1.obtIdDispositif(),
               client2.obtIdDispositif(),
             ]);
-            expect(typeof idDispositif1).toEqual("string");
-            expect(idDispositif1.length).toBeGreaterThan(0);
+            expect(typeof idDispositif1).to.equal("string");
+            expect(idDispositif1.length).to.be.greaterThan(0);
 
-            expect(idDispositif1).toEqual(idDispositif2);
+            expect(idDispositif1).to.equal(idDispositif2);
           },
-          limTempsTest(typeServeur)
         );
-        test(
+        it(
           "Suivre",
           async () => {
             let courriel1: string | null = null;
@@ -405,13 +394,12 @@ describe("Fonctionalités serveurs", function () {
             });
             await new Promise((résoudre) => setTimeout(résoudre, 2000));
 
-            expect(courriel1).toEqual("julien.malard@mail.mcgill.ca");
-            expect(courriel2).toEqual("julien.malard@mail.mcgill.ca");
+            expect(courriel1).to.equal("julien.malard@mail.mcgill.ca");
+            expect(courriel2).to.equal("julien.malard@mail.mcgill.ca");
           },
-          limTempsTest(typeServeur)
         );
 
-        test("Rechercher", async () => {
+        it("Rechercher", async () => {
           // Eléments détectés
           const { fOublier: fOublier1, fChangerN: fChangerN1 } =
             await client1.recherche!.rechercherVariablesSelonNom({
@@ -445,73 +433,63 @@ describe("Fonctionalités serveurs", function () {
           const val1 = await attendreVars1.attendreQue(
             (x) => x.length > 0 && x[0].id === idVariable2
           );
-          expect(val1.length).toEqual(1);
-          expect(val1.map((r) => r.id)).toEqual(
-            expect.arrayContaining([idVariable2])
-          );
+          expect(val1.length).to.equal(1);
+          expect(val1.map((r) => r.id)).to.have.members([idVariable2]);
           const val2 = await attendreVars2.attendreExiste();
-          expect(val2.length).toEqual(1);
+          expect(val2.length).to.equal(1);
 
           // Augmenter N résultats désirés
           await fChangerN1(2);
           const val3 = await attendreVars1.attendreQue((x) => x.length > 1);
-          expect(val3.map((r) => r.id)).toEqual(
-            expect.arrayContaining([idVariable1, idVariable2])
-          );
+          expect(val3.map((r) => r.id)).to.have.members([idVariable1, idVariable2]);
           const val4 = await attendreVars2.attendreExiste();
-          expect(val4.length).toEqual(1); // Client 2 n'a pas demandé de changement
+          expect(val4.length).to.equal(1); // Client 2 n'a pas demandé de changement
 
           await fChangerN2(2);
           const val5 = await attendreVars2.attendreQue((x) => x.length > 1);
-          expect(val5.length).toEqual(2);
+          expect(val5.length).to.equal(2);
 
           // Diminuer N
           await fChangerN1(1);
           const val6 = await attendreVars1.attendreQue((x) => x.length <= 1);
-          expect(val6.map((r) => r.id)).toEqual(
-            expect.arrayContaining([idVariable2])
+          expect(val6.map((r) => r.id)).to.have.members(
+            [idVariable2]
           );
           const val7 = await attendreVars2.attendreExiste();
-          expect(val7.length).toEqual(2); // Toujours 2 résultats ici
+          expect(val7.length).to.equal(2); // Toujours 2 résultats ici
 
           await fOublier1();
           await fOublier2();
         });
 
-        test(
+        it(
           "Erreur action",
           async () => {
-            await expect(() =>
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-              // @ts-ignore
+            await expect(
+              // @ts-expect-error On fait exprès
               client1.jeNeSuisPasUneFonction()
-            ).rejects.toThrow();
+            ).to.be.rejected();
 
-            await expect(() =>
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-              // @ts-ignore
+            await expect(
+              // @ts-expect-error On fait exprès
               client2.jeNeSuisPasUnAtribut.ouUneFonction()
-            ).rejects.toThrow();
+            ).to.be.rejected();
           },
-          limTempsTest(typeServeur)
         );
 
-        test(
+        it(
           "Erreur suivi",
           async () => {
-            await expect(() =>
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-              // @ts-ignore
+            await expect(
+              // @ts-expect-error On fait exprès
               client1.jeNeSuisPasUneFonction({ f: faisRien })
-            ).rejects.toThrow();
+            ).to.be.rejected();
 
-            await expect(() =>
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-              // @ts-ignore
+            await expect(
+              // @ts-expect-error On fait exprès
               client2.jeNeSuisPasUnAtribut.ouUneFonction({ f: faisRien })
-            ).rejects.toThrow();
+            ).to.be.rejected();
           },
-          limTempsTest(typeServeur)
         );
       });
     })
