@@ -27,7 +27,7 @@ dependencies:
     specifier: ^2.0.0
     version: 2.0.0
   iso-constants:
-    specifier: github:inverted-capital/iso-constants#patch-1
+    specifier: git+https://github.com/inverted-capital/iso-constants.git#patch-1
     version: github.com/inverted-capital/iso-constants/2af6fdfb2cacaa03ebd58543703918783e62649f
   isomorphic-ws:
     specifier: ^5.0.0
