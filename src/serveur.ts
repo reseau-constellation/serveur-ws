@@ -36,7 +36,7 @@ export default async ({
   const fermerServeur = () => {
     return new Promise<void>((résoudre) => {
       wsServer.close(() => {
-        fermerConstellation().then(() => {
+        fermerConstellation().finally(() => {
           server.close();
           résoudre();
         });
