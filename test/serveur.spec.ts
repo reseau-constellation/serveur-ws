@@ -5,7 +5,7 @@ import { tmpdir } from "os";
 import { sep, join } from "path";
 
 import { version as versionIPA, types, client } from "@constl/ipa";
-import { attente, sfip as utilsTestSfip } from "@constl/utils-tests"
+import { attente, sfip as utilsTestSfip } from "@constl/utils-tests";
 
 import { MandataireClientConstellation } from "@constl/mandataire";
 
@@ -164,26 +164,22 @@ describe("Configuration serveur", function () {
 
       it("Dossier SFIP", async () => {
         const attendreSFIPExiste = new attente.AttendreFichierExiste(
-          join(dossier, "sfip")
+          join(dossier, "sfip"),
         );
         fsOublier.push(() => attendreSFIPExiste.annuler());
 
         await attendreSFIPExiste.attendre();
         expect(existsSync(join(dossier, "sfip"))).to.be.true();
       });
-      it(
-        "Dossier Orbite",
-        async () => {
-          const attendreOrbiteExiste =
-            new attente.AttendreFichierExiste(
-              join(dossier, "orbite")
-            );
-          fsOublier.push(() => attendreOrbiteExiste.annuler());
-          await attendreOrbiteExiste.attendre();
-          expect(existsSync(join(dossier, "orbite"))).to.be.true();
-        },
-      );
-    })
+      it("Dossier Orbite", async () => {
+        const attendreOrbiteExiste = new attente.AttendreFichierExiste(
+          join(dossier, "orbite"),
+        );
+        fsOublier.push(() => attendreOrbiteExiste.annuler());
+        await attendreOrbiteExiste.attendre();
+        expect(existsSync(join(dossier, "orbite"))).to.be.true();
+      });
+    }),
   );
 });
 
@@ -221,44 +217,40 @@ describe("Fonctionalités serveurs", function () {
           attendreMC.toutAnnuler();
         });
 
-        it(
-          "Action",
-          async () => {
-            const idDispositif = await monClient.obtIdDispositif();
+        it("Action", async () => {
+          const idDispositif = await monClient.obtIdDispositif();
 
-            expect(typeof idDispositif).to.equal("string");
-            expect(idDispositif.length).to.be.greaterThan(0);
-          },
-        ); // Beaucoup plus long pour le premier it (le serveur doit se réveiller)
+          expect(typeof idDispositif).to.equal("string");
+          expect(idDispositif.length).to.be.greaterThan(0);
+        }); // Beaucoup plus long pour le premier it (le serveur doit se réveiller)
 
-        it(
-          "Suivre",
-          async () => {
-            const oublierNoms = await monClient.profil!.suivreNoms({
-              f: (n) => attendreNoms.mettreÀJour(n),
-            });
+        it("Suivre", async () => {
+          const oublierNoms = await monClient.profil!.suivreNoms({
+            f: (n) => attendreNoms.mettreÀJour(n),
+          });
 
-            const val = await attendreNoms.attendreExiste();
-            expect(Object.keys(val)).to.be.empty();
+          const val = await attendreNoms.attendreExiste();
+          expect(Object.keys(val)).to.be.empty();
 
-            await monClient.profil!.sauvegarderNom({
-              langue: "fr",
-              nom: "Julien Jean Malard-Adam",
-            });
-            const val2 = await attendreNoms.attendreQue(
-              (x) => Object.keys(x).length > 0
-            );
-            expect(val2).to.deep.equal({ fr: "Julien Jean Malard-Adam" });
+          await monClient.profil!.sauvegarderNom({
+            langue: "fr",
+            nom: "Julien Jean Malard-Adam",
+          });
+          const val2 = await attendreNoms.attendreQue(
+            (x) => Object.keys(x).length > 0,
+          );
+          expect(val2).to.deep.equal({ fr: "Julien Jean Malard-Adam" });
 
-            await oublierNoms();
+          await oublierNoms();
 
-            await monClient.profil!.sauvegarderNom({
-              langue: "es",
-              nom: "Julien Jean Malard-Adam",
-            });
-            expect(attendreNoms.val).to.deep.equal({ fr: "Julien Jean Malard-Adam" });
-          },
-        );
+          await monClient.profil!.sauvegarderNom({
+            langue: "es",
+            nom: "Julien Jean Malard-Adam",
+          });
+          expect(attendreNoms.val).to.deep.equal({
+            fr: "Julien Jean Malard-Adam",
+          });
+        });
 
         it("Rechercher", async () => {
           // Eléments détectés
@@ -282,16 +274,17 @@ describe("Fonctionalités serveurs", function () {
           });
 
           const val = await attendreMC.attendreQue(
-            (x) => x.length > 0 && x[0].id === idMotClef2
+            (x) => x.length > 0 && x[0].id === idMotClef2,
           );
-          expect(val.map((r) => r.id)).to.have.members(
-            [idMotClef2]
-          );
+          expect(val.map((r) => r.id)).to.have.members([idMotClef2]);
 
           // Augmenter N résultats désirés
           await fChangerN(2);
           const val2 = await attendreMC.attendreQue((x) => x.length > 1);
-          expect(val2.map((r) => r.id)).to.have.members([idMotClef1, idMotClef2]);
+          expect(val2.map((r) => r.id)).to.have.members([
+            idMotClef1,
+            idMotClef2,
+          ]);
 
           // Diminuer N
           await fChangerN(1);
@@ -301,24 +294,18 @@ describe("Fonctionalités serveurs", function () {
           await fOublier();
         });
 
-        it(
-          "Erreur fonction suivi inexistante",
-          async () => {
-            await expect(
-              // @ts-expect-error On fait exprès
-              monClient.jeNeSuisPasUneFonction({ f: faisRien })
-            ).to.be.rejected();
-          },
-        );
-        it(
-          "Erreur action inexistante",
-          async () => {
-            await expect(
-              // @ts-expect-error On fait exprès
-              monClient.jeNeSuisPasUnAtribut.ouUneFonction()
-            ).to.be.rejected();
-          },
-        );
+        it("Erreur fonction suivi inexistante", async () => {
+          await expect(
+            // @ts-expect-error On fait exprès
+            monClient.jeNeSuisPasUneFonction({ f: faisRien }),
+          ).to.be.rejected();
+        });
+        it("Erreur action inexistante", async () => {
+          await expect(
+            // @ts-expect-error On fait exprès
+            monClient.jeNeSuisPasUnAtribut.ouUneFonction(),
+          ).to.be.rejected();
+        });
       });
 
       describe("Multiples clients", function () {
@@ -351,45 +338,39 @@ describe("Fonctionalités serveurs", function () {
           attendreVars2.toutAnnuler();
         });
 
-        it(
-          "Action",
-          async () => {
-            const [idDispositif1, idDispositif2] = await Promise.all([
-              client1.obtIdDispositif(),
-              client2.obtIdDispositif(),
-            ]);
-            expect(typeof idDispositif1).to.equal("string");
-            expect(idDispositif1.length).to.be.greaterThan(0);
+        it("Action", async () => {
+          const [idDispositif1, idDispositif2] = await Promise.all([
+            client1.obtIdDispositif(),
+            client2.obtIdDispositif(),
+          ]);
+          expect(typeof idDispositif1).to.equal("string");
+          expect(idDispositif1.length).to.be.greaterThan(0);
 
-            expect(idDispositif1).to.equal(idDispositif2);
-          },
-        );
-        it(
-          "Suivre",
-          async () => {
-            let courriel1: string | null = null;
-            let courriel2: string | null = null;
+          expect(idDispositif1).to.equal(idDispositif2);
+        });
+        it("Suivre", async () => {
+          let courriel1: string | null = null;
+          let courriel2: string | null = null;
 
-            fsOublier.push(
-              await client1.profil!.suivreCourriel({
-                f: (courriel) => (courriel1 = courriel),
-              })
-            );
-            fsOublier.push(
-              await client2.profil!.suivreCourriel({
-                f: (courriel) => (courriel2 = courriel),
-              })
-            );
+          fsOublier.push(
+            await client1.profil!.suivreCourriel({
+              f: (courriel) => (courriel1 = courriel),
+            }),
+          );
+          fsOublier.push(
+            await client2.profil!.suivreCourriel({
+              f: (courriel) => (courriel2 = courriel),
+            }),
+          );
 
-            await client1.profil!.sauvegarderCourriel({
-              courriel: "julien.malard@mail.mcgill.ca",
-            });
-            await new Promise((résoudre) => setTimeout(résoudre, 2000));
+          await client1.profil!.sauvegarderCourriel({
+            courriel: "julien.malard@mail.mcgill.ca",
+          });
+          await new Promise((résoudre) => setTimeout(résoudre, 2000));
 
-            expect(courriel1).to.equal("julien.malard@mail.mcgill.ca");
-            expect(courriel2).to.equal("julien.malard@mail.mcgill.ca");
-          },
-        );
+          expect(courriel1).to.equal("julien.malard@mail.mcgill.ca");
+          expect(courriel2).to.equal("julien.malard@mail.mcgill.ca");
+        });
 
         it("Rechercher", async () => {
           // Eléments détectés
@@ -423,7 +404,7 @@ describe("Fonctionalités serveurs", function () {
           });
 
           const val1 = await attendreVars1.attendreQue(
-            (x) => x.length > 0 && x[0].id === idVariable2
+            (x) => x.length > 0 && x[0].id === idVariable2,
           );
           expect(val1.length).to.equal(1);
           expect(val1.map((r) => r.id)).to.have.members([idVariable2]);
@@ -433,7 +414,10 @@ describe("Fonctionalités serveurs", function () {
           // Augmenter N résultats désirés
           await fChangerN1(2);
           const val3 = await attendreVars1.attendreQue((x) => x.length > 1);
-          expect(val3.map((r) => r.id)).to.have.members([idVariable1, idVariable2]);
+          expect(val3.map((r) => r.id)).to.have.members([
+            idVariable1,
+            idVariable2,
+          ]);
           const val4 = await attendreVars2.attendreExiste();
           expect(val4.length).to.equal(1); // Client 2 n'a pas demandé de changement
 
@@ -444,9 +428,7 @@ describe("Fonctionalités serveurs", function () {
           // Diminuer N
           await fChangerN1(1);
           const val6 = await attendreVars1.attendreQue((x) => x.length <= 1);
-          expect(val6.map((r) => r.id)).to.have.members(
-            [idVariable2]
-          );
+          expect(val6.map((r) => r.id)).to.have.members([idVariable2]);
           const val7 = await attendreVars2.attendreExiste();
           expect(val7.length).to.equal(2); // Toujours 2 résultats ici
 
@@ -454,36 +436,30 @@ describe("Fonctionalités serveurs", function () {
           await fOublier2();
         });
 
-        it(
-          "Erreur action",
-          async () => {
-            await expect(
-              // @ts-expect-error On fait exprès
-              client1.jeNeSuisPasUneFonction()
-            ).to.be.rejected();
+        it("Erreur action", async () => {
+          await expect(
+            // @ts-expect-error On fait exprès
+            client1.jeNeSuisPasUneFonction(),
+          ).to.be.rejected();
 
-            await expect(
-              // @ts-expect-error On fait exprès
-              client2.jeNeSuisPasUnAtribut.ouUneFonction()
-            ).to.be.rejected();
-          },
-        );
+          await expect(
+            // @ts-expect-error On fait exprès
+            client2.jeNeSuisPasUnAtribut.ouUneFonction(),
+          ).to.be.rejected();
+        });
 
-        it(
-          "Erreur suivi",
-          async () => {
-            await expect(
-              // @ts-expect-error On fait exprès
-              client1.jeNeSuisPasUneFonction({ f: faisRien })
-            ).to.be.rejected();
+        it("Erreur suivi", async () => {
+          await expect(
+            // @ts-expect-error On fait exprès
+            client1.jeNeSuisPasUneFonction({ f: faisRien }),
+          ).to.be.rejected();
 
-            await expect(
-              // @ts-expect-error On fait exprès
-              client2.jeNeSuisPasUnAtribut.ouUneFonction({ f: faisRien })
-            ).to.be.rejected();
-          },
-        );
+          await expect(
+            // @ts-expect-error On fait exprès
+            client2.jeNeSuisPasUnAtribut.ouUneFonction({ f: faisRien }),
+          ).to.be.rejected();
+        });
       });
-    })
+    }),
   );
 });

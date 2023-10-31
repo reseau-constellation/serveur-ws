@@ -6,7 +6,7 @@ let n = 0;
 const prises: { [key: string]: ws.WebSocket } = {};
 
 const obtPrisesRéponseMessage = (
-  idMessage?: string
+  idMessage?: string,
 ): { prise: ws.WebSocket; id?: string }[] => {
   let prisesFinales: { prise: ws.WebSocket; id?: string }[] = [];
   let id: string;
@@ -32,7 +32,7 @@ const fMessage = (message: mandataire.messages.MessageDeTravailleur) => {
       JSON.stringify({
         ...message,
         id: prise.id,
-      })
+      }),
     );
   });
 };
@@ -49,8 +49,8 @@ const fErreur = (erreur: string, id?: string) => {
       JSON.stringify({
         ...messageErreur,
         id: p.id,
-      })
-    )
+      }),
+    ),
   );
 };
 
@@ -58,7 +58,7 @@ export default (
   serveur: ws.Server,
   constellation:
     | client.optsConstellation
-    | mandataire.gestionnaireClient.default = {}
+    | mandataire.gestionnaireClient.default = {},
 ): (() => Promise<void>) => {
   let client: mandataire.gestionnaireClient.default;
   let fFermer: () => Promise<void>;
@@ -72,7 +72,7 @@ export default (
     client = new mandataire.gestionnaireClient.default(
       fMessage,
       fErreur,
-      constellation
+      constellation,
     );
     fFermer = async () => {
       await client.fermer();

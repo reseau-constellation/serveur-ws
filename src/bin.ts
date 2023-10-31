@@ -100,11 +100,11 @@ yargs(hideBin(process.argv))
         roue!.succeed(
           chalk.yellow(
             // eslint-disable-next-line no-irregular-whitespace
-            `Nœud local prêt sur port : ${port}\nFrappez « retour » pour arrêter le nœud.`
-          )
+            `Nœud local prêt sur port : ${port}\nFrappez « retour » pour arrêter le nœud.`,
+          ),
         );
       }
-    }
+    },
   )
   .command(
     ["v-constl-obli"],
@@ -114,7 +114,7 @@ yargs(hideBin(process.argv))
     },
     async () => {
       console.log(packageJson.peerDependencies["@constl/ipa"]);
-    }
+    },
   )
   .command(
     ["v-constl"],
@@ -124,7 +124,7 @@ yargs(hideBin(process.argv))
     },
     async () => {
       console.log(versionIPA);
-    }
+    },
   )
   .command(
     ["version"],
@@ -134,12 +134,12 @@ yargs(hideBin(process.argv))
     },
     async () => {
       console.log(packageJson.version);
-    }
+    },
   )
   .demandCommand()
   .help("aide", "Obtenir de l'aide")
   .alias("aide", "a")
   .epilog(
-    "Code source et rapportage d'erreurs: https://github.com/reseau-constellation/serveur-ws"
+    "Code source et rapportage d'erreurs: https://github.com/reseau-constellation/serveur-ws",
   )
   .parse();
