@@ -89,7 +89,6 @@ yargs(hideBin(process.argv))
         try {
           await fermerServeur();
         } finally {
-
           if (argv.machine) {
             envoyerMessageMachine({ message: { type: "NŒUD FERMÉ" } });
           } else {
