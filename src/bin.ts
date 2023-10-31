@@ -86,13 +86,17 @@ yargs(hideBin(process.argv))
         } else {
           roue?.start(chalk.yellow("On ferme le nœud..."));
         }
-        await fermerServeur();
-        if (argv.machine) {
-          envoyerMessageMachine({ message: { type: "NŒUD FERMÉ" } });
-        } else {
-          roue?.succeed(chalk.yellow("Nœud fermé."));
+        try {
+          await fermerServeur();
+        } finally {
+
+          if (argv.machine) {
+            envoyerMessageMachine({ message: { type: "NŒUD FERMÉ" } });
+          } else {
+            roue?.succeed(chalk.yellow("Nœud fermé."));
+          }
+          process.exit(0);
         }
-        process.exit(0);
       });
       if (argv.machine) {
         envoyerMessageMachine({ message: { type: "NŒUD PRÊT", port } });
