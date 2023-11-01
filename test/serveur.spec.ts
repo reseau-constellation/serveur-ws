@@ -188,11 +188,12 @@ describe("Fermeture serveur sécuritaire", function () {
     describe(typeServeur, () => {
       it("Fermeture suivant ouverture", async () => {
         const { fermerServeur } = await fGénérerServeur({});
-        console.log("\nici")
+        console.log("\nici");
         await fermerServeur();
       });
-    }))
-  });
+    }),
+  );
+});
 
 describe("Fonctionalités serveurs", function () {
   Object.entries(typesServeurs()).forEach(([typeServeur, fGénérerServeur]) =>
