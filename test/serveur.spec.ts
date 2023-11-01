@@ -183,6 +183,17 @@ describe("Configuration serveur", function () {
   );
 });
 
+describe("Fermeture serveur sécuritaire", function () {
+  Object.entries(typesServeurs()).forEach(([typeServeur, fGénérerServeur]) =>
+    describe(typeServeur, () => {
+      it("Fermeture suivant ouverture", async () => {
+        const { fermerServeur } = await fGénérerServeur({});
+        console.log("\nici")
+        await fermerServeur();
+      });
+    }))
+  });
+
 describe("Fonctionalités serveurs", function () {
   Object.entries(typesServeurs()).forEach(([typeServeur, fGénérerServeur]) =>
     describe(typeServeur, () => {

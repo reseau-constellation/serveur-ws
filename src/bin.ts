@@ -7,7 +7,7 @@ import fs from "fs";
 import path from "path";
 import url from "url";
 
-import { client, version as versionIPA } from "@constl/ipa";
+import { type client, version as versionIPA } from "@constl/ipa";
 
 import lancerServeur from "@/serveur.js";
 import { MessageBinaire, PRÉFIX_MACHINE } from "@/const.js";
@@ -87,7 +87,7 @@ yargs(hideBin(process.argv))
           roue?.start(chalk.yellow("On ferme le nœud..."));
         }
         try {
-          await fermerServeur();
+          fermerServeur();
         } finally {
           if (argv.machine) {
             envoyerMessageMachine({ message: { type: "NŒUD FERMÉ" } });
