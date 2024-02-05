@@ -59,7 +59,11 @@ const typesServeurs: () => {
         port,
         fermerServeur: async () => {
           await fermerServeur();
-          fEffacer();
+          try {
+            fEffacer();
+          } catch (e) {
+            console.error(e)
+          }
         },
       };
     };
@@ -94,7 +98,11 @@ const typesServeurs: () => {
             const message = analyserMessage(données.toString());
 
             if (message && message.type === "NŒUD FERMÉ") {
-              fEffacer();
+              try {
+                fEffacer();
+              } catch (e) {
+                console.error(e)
+              }
               résoudre();
             }
           });
@@ -156,7 +164,11 @@ describe("Configuration serveur", function () {
 
       after(async () => {
         if (fermerServeur) fermerServeur();
-        fEffacer?.()
+        try {
+          fEffacer?.()
+        } catch (e) {
+          console.error(e)
+        }
         await Promise.all(fsOublier.map((f) => f()));
       });
 
