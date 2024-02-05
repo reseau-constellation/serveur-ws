@@ -207,7 +207,10 @@ describe("Fonctionalités serveurs", function () {
       });
 
       after(async () => {
-        if (fermerServeur) await fermerServeur();
+        if (fermerServeur) {
+          if (process.platform === "win32") fermerServeur()
+          else await fermerServeur();
+        };
       });
 
       describe("Fonctionalités base serveur", () => {
