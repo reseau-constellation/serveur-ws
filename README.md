@@ -83,12 +83,7 @@ import { lancerServeur } from "@constl/serveur";
 const { fermerServeur, port } = await lancerServeur({
   port: 5003,
   optsConstellation: {
-    orbite: {
-      dossier: "mon-dossier-orbite",  // Dossier pour bd-orbite
-      sfip: {
-        dossier: "mon-dossier-sfip"  // Dossier du Système de fichiers interplanétaire
-      }
-    },
+    dossier: "mon-dossier-constellation",  // Dossier du compte Constellation
   }
 });
 

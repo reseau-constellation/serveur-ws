@@ -27,56 +27,48 @@
     "@achingbrain/nat-port-mapper": "1.0.13",
     "bufferutil": "^4.0.8",
     "chalk": "^5.3.0",
-    "core-js": "^3.33.2",
+    "core-js": "^3.35.1",
     "express": "^4.18.2",
     "find-free-port": "^2.0.0",
     "iso-constants": "github:inverted-capital/iso-constants#patch-1",
     "isomorphic-ws": "^5.0.0",
-    "ora": "^8.0.0",
-    "ws": "^8.14.2",
+    "ora": "^8.0.1",
+    "ws": "^8.16.0",
     "yargs": "^17.7.2"
   },
   "devDependencies": {
-    "@constl/ipa": "^0.9.10",
-    "@constl/mandataire": "^0.1.15",
-    "@constl/utils-tests": "^0.2.2",
-    "@types/express": "^4.17.20",
-    "@types/mocha": "^10.0.3",
-    "@types/node": "^20.8.10",
-    "@types/ws": "^8.5.8",
-    "@types/yargs": "^17.0.29",
-    "@typescript-eslint/eslint-plugin": "^6.9.1",
-    "@typescript-eslint/parser": "^6.9.1",
-    "aegir": "^42.0.0",
-    "eslint": "^8.52.0",
+    "@constl/ipa": "1.0.1-76af3ada9.0",
+    "@constl/mandataire": "1.0.1-92dfc7d.0",
+    "@constl/utils-tests": "1.1.0",
+    "@types/express": "^4.17.21",
+    "@types/mocha": "^10.0.6",
+    "@types/node": "^20.11.16",
+    "@types/ws": "^8.5.10",
+    "@types/yargs": "^17.0.32",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0",
+    "aegir": "^42.2.2",
+    "eslint": "^8.56.0",
     "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-config-prettier": "^9.0.0",
+    "eslint-config-prettier": "^9.1.0",
     "eslint-config-standard": "^17.1.0",
-    "eslint-plugin-import": "^2.29.0",
+    "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^6.1.1",
     "execa": "^8.0.1",
-    "genversion": "^3.1.1",
+    "genversion": "^3.2.0",
     "ipfsd-ctl": "^13.0.0",
     "keyv": "^4.5.4",
-    "prettier": "^3.0.3",
+    "prettier": "^3.2.5",
     "rimraf": "^5.0.5",
-    "ts-patch": "^3.0.2",
+    "ts-patch": "^3.1.2",
     "typescript": "5.3.3",
     "typescript-transform-paths": "^3.4.6"
-  },
-  "resolutions": {
-    "iso-constants": "git+https://github.com/inverted-capital/iso-constants.git#patch-1"
-  },
-  "overrides": {
-    "iso-constants": {
-      ".": "git+https://github.com/inverted-capital/iso-constants.git#patch-1"
-    }
   },
   "bin": {
     "constl": "./dist/src/bin.js"
   },
   "peerDependencies": {
-    "@constl/ipa": "^0.9.8"
+    "@constl/ipa": "1.0.1-ec2b9d2da.0"
   }
 }

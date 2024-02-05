@@ -1,11 +1,9 @@
 import { execa } from "execa";
-import { rimraf } from "rimraf";
-import { mkdtempSync, existsSync } from "fs";
-import { tmpdir } from "os";
-import { sep, join } from "path";
+import { existsSync } from "fs";
+import { join } from "path";
 
 import { version as versionIPA, types, client } from "@constl/ipa";
-import { attente, sfip as utilsTestSfip } from "@constl/utils-tests";
+import { attente, dossiers } from "@constl/utils-tests";
 
 import { MandataireClientConstellation } from "@constl/mandataire";
 
@@ -43,50 +41,48 @@ const typesServeurs: () => {
     }) => Promise<{ fermerServeur: () => Promise<void>; port: number }>;
   } = {};
   if (process.env.TYPE_SERVEUR === "proc" || !process.env.TYPE_SERVEUR) {
-    typesFinaux["Serveur même fil"] = async ({
-      dossier,
-    }: {
-      dossier?: string;
-    }) => {
-      const dirTemp = dossier ? dossier : mkdtempSync(`${tmpdir()}${sep}`);
+    typesFinaux["Serveur même fil"] = async ({dossier}: {dossier?: string}) => {
+      let fEffacer: () => void;
 
-      const dossierSFIP = join(dirTemp, "sfip");
-      const sfip = await utilsTestSfip.initierSFIP(dossierSFIP);
+      if (dossier) {
+        fEffacer = faisRien
+      } else {
+        ({ dossier, fEffacer } = await dossiers.dossierTempo());
+      }
 
       const { fermerServeur, port } = await lancerServeur({
         optsConstellation: {
-          orbite: {
-            dossier: join(dirTemp, "orbite"),
-            sfip: { sfip },
-          },
+          dossier,
         },
       });
       return {
         port,
         fermerServeur: async () => {
           await fermerServeur();
-          await utilsTestSfip.arrêterSFIP(sfip);
-          rimraf.sync(dirTemp);
+          fEffacer();
         },
       };
     };
   }
 
   if (process.env.TYPE_SERVEUR === "bin" || !process.env.TYPE_SERVEUR) {
-    typesFinaux["Serveur ligne de commande"] = ({
+    typesFinaux["Serveur ligne de commande"] = async ({
       dossier,
     }: {
       dossier?: string;
     }) => {
-      const dirTemp = dossier ? dossier : mkdtempSync(`${tmpdir()}${sep}`);
+      let fEffacer: () => void;
 
-      const dossierSFIP = join(dirTemp, "sfip");
-      const dossierOrbite = join(dirTemp, "orbite");
+      if (dossier) {
+        fEffacer = faisRien
+      } else {
+        ({ dossier, fEffacer } = await dossiers.dossierTempo());
+      }
+
       const { stdout, stdin, stderr } = execa("./dist/src/bin.js", [
         "lancer",
         "-m",
-        `--doss-sfip=${dossierSFIP}`,
-        `--doss-orbite=${dossierOrbite}`,
+        `--dossier=${dossier}`,
       ]);
       stderr?.on("data", (d) => {
         console.warn(d.toString());
@@ -98,7 +94,7 @@ const typesServeurs: () => {
             const message = analyserMessage(données.toString());
 
             if (message && message.type === "NŒUD FERMÉ") {
-              rimraf.sync(dirTemp);
+              fEffacer();
               résoudre();
             }
           });
@@ -148,10 +144,11 @@ describe("Configuration serveur", function () {
     describe(typeServeur, () => {
       let fermerServeur: () => Promise<void>;
       let dossier: string;
+      let fEffacer: () => void;
       const fsOublier: (() => void)[] = [];
 
       before(async () => {
-        dossier = mkdtempSync(`${tmpdir()}${sep}`);
+        ({dossier, fEffacer} = await dossiers.dossierTempo());
         ({ fermerServeur } = await fGénérerServeur({
           dossier,
         }));
@@ -159,10 +156,11 @@ describe("Configuration serveur", function () {
 
       after(async () => {
         if (fermerServeur) fermerServeur();
+        fEffacer?.()
         await Promise.all(fsOublier.map((f) => f()));
       });
 
-      it("Dossier SFIP", async () => {
+      it("Dossier compte", async () => {
         const attendreSFIPExiste = new attente.AttendreFichierExiste(
           join(dossier, "sfip"),
         );
@@ -170,14 +168,6 @@ describe("Configuration serveur", function () {
 
         await attendreSFIPExiste.attendre();
         expect(existsSync(join(dossier, "sfip"))).to.be.true();
-      });
-      it("Dossier Orbite", async () => {
-        const attendreOrbiteExiste = new attente.AttendreFichierExiste(
-          join(dossier, "orbite"),
-        );
-        fsOublier.push(() => attendreOrbiteExiste.annuler());
-        await attendreOrbiteExiste.attendre();
-        expect(existsSync(join(dossier, "orbite"))).to.be.true();
       });
     }),
   );
@@ -188,7 +178,6 @@ describe("Fermeture serveur sécuritaire", function () {
     describe(typeServeur, () => {
       it("Fermeture suivant ouverture", async () => {
         const { fermerServeur } = await fGénérerServeur({});
-        console.log("\nici");
         await fermerServeur();
       });
     }),
@@ -234,7 +223,7 @@ describe("Fonctionalités serveurs", function () {
 
           expect(typeof idDispositif).to.equal("string");
           expect(idDispositif.length).to.be.greaterThan(0);
-        }); // Beaucoup plus long pour le premier it (le serveur doit se réveiller)
+        });
 
         it("Suivre", async () => {
           const oublierNoms = await monClient.profil!.suivreNoms({

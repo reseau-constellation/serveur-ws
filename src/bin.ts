@@ -24,7 +24,7 @@ yargs(hideBin(process.argv))
   .usage("Utilisation: $0 <commande> [options]")
   .command(
     [
-      "lancer [-m] [--port <port>] [--compte <id-compte>] [--doss-orbite <dossierOrbite>] [--doss-sfip <dossierSFIP>]",
+      "lancer [-m] [--port <port>] [--dossier <dossier>]",
     ],
     "Lancer le serveur",
     (yargs) => {
@@ -34,29 +34,19 @@ yargs(hideBin(process.argv))
           describe: "Le numéro du port de connexion.",
           type: "string",
         })
-        .option("compte", {
-          alias: "c",
-          describe: "Id du compte Constellation (format id orbite).",
-          type: "string",
-        })
         .option("sujet", {
           alias: "s",
           describe: "Configurer un canal d'écoute personnalisé pour le réseau.",
           type: "string",
         })
-        .option("doss-orbite", {
-          alias: "do",
-          describe: "Le dossier local à utiliser pour Orbite-BD.",
-          type: "string",
-        })
-        .option("doss-sfip", {
-          alias: "ds",
-          describe: "Le dossier local à utiliser pour SFIP.",
+        .option("dossier", {
+          alias: "d",
+          describe: "Le dossier du compte Constellation.",
           type: "string",
         })
         .option("machine", {
           alias: "m",
-          describe: "",
+          describe: "Mode communication machine.",
           type: "boolean",
         });
     },
@@ -68,12 +58,8 @@ yargs(hideBin(process.argv))
         roue = ora(chalk.yellow(`Initialisation du nœud).start()`));
       }
       const optsConstellation: client.optsConstellation = {
-        compte: argv.compte,
+        dossier: argv.dossier,
         sujetRéseau: argv.sujet,
-        orbite: {
-          dossier: argv.dossOrbite,
-          sfip: { dossier: argv.dossSfip },
-        },
       };
 
       const { port, fermerServeur } = await lancerServeur({
