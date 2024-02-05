@@ -9,7 +9,10 @@ on:
 jobs:
   tests-binaire:
     name: Ligne de commande
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
     steps:
       - name: Préparation de Node.js
         uses: actions/setup-node@v4
@@ -35,7 +38,10 @@ jobs:
 
   tests-processus:
     name: Processus
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
     steps:
       - name: Préparation de Node.js
         uses: actions/setup-node@v4
