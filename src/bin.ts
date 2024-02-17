@@ -23,9 +23,7 @@ const envoyerMessageMachine = ({ message }: { message: MessageBinaire }) => {
 yargs(hideBin(process.argv))
   .usage("Utilisation: $0 <commande> [options]")
   .command(
-    [
-      "lancer [-m] [--port <port>] [--dossier <dossier>]",
-    ],
+    ["lancer [-m] [--port <port>] [--dossier <dossier>]"],
     "Lancer le serveur",
     (yargs) => {
       return yargs

@@ -63,7 +63,9 @@ export default (
   let client: mandataire.gestionnaireClient.GestionnaireClient;
   let fFermer: () => Promise<void>;
 
-  if (constellation instanceof mandataire.gestionnaireClient.GestionnaireClient) {
+  if (
+    constellation instanceof mandataire.gestionnaireClient.GestionnaireClient
+  ) {
     client = constellation;
     fFermer = async () => {
       // On ne ferme pas le client s'il a été fourni de l'extérieur

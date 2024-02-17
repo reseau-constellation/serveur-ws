@@ -41,11 +41,15 @@ const typesServeurs: () => {
     }) => Promise<{ fermerServeur: () => Promise<void>; port: number }>;
   } = {};
   if (process.env.TYPE_SERVEUR === "proc" || !process.env.TYPE_SERVEUR) {
-    typesFinaux["Serveur même fil"] = async ({dossier}: {dossier?: string}) => {
+    typesFinaux["Serveur même fil"] = async ({
+      dossier,
+    }: {
+      dossier?: string;
+    }) => {
       let fEffacer: () => void;
 
       if (dossier) {
-        fEffacer = faisRien
+        fEffacer = faisRien;
       } else {
         ({ dossier, fEffacer } = await dossiers.dossierTempo());
       }
@@ -62,7 +66,7 @@ const typesServeurs: () => {
           try {
             fEffacer();
           } catch (e) {
-            console.error(e)
+            console.error(e);
           }
         },
       };
@@ -78,7 +82,7 @@ const typesServeurs: () => {
       let fEffacer: () => void;
 
       if (dossier) {
-        fEffacer = faisRien
+        fEffacer = faisRien;
       } else {
         ({ dossier, fEffacer } = await dossiers.dossierTempo());
       }
@@ -101,7 +105,7 @@ const typesServeurs: () => {
               try {
                 fEffacer();
               } catch (e) {
-                console.error(e)
+                console.error(e);
               }
               résoudre();
             }
@@ -156,7 +160,7 @@ describe("Configuration serveur", function () {
       const fsOublier: (() => void)[] = [];
 
       before(async () => {
-        ({dossier, fEffacer} = await dossiers.dossierTempo());
+        ({ dossier, fEffacer } = await dossiers.dossierTempo());
         ({ fermerServeur } = await fGénérerServeur({
           dossier,
         }));
@@ -165,9 +169,9 @@ describe("Configuration serveur", function () {
       after(async () => {
         if (fermerServeur) fermerServeur();
         try {
-          fEffacer?.()
+          fEffacer?.();
         } catch (e) {
-          console.error(e)
+          console.error(e);
         }
         await Promise.all(fsOublier.map((f) => f()));
       });
@@ -208,9 +212,9 @@ describe("Fonctionalités serveurs", function () {
 
       after(async () => {
         if (fermerServeur) {
-          if (process.platform === "win32") fermerServeur()
+          if (process.platform === "win32") fermerServeur();
           else await fermerServeur();
-        };
+        }
       });
 
       describe("Fonctionalités base serveur", () => {
