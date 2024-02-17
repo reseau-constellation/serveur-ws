@@ -13,7 +13,7 @@ export default async ({
   port?: number;
   optsConstellation:
     | client.optsConstellation
-    | mandataire.gestionnaireClient.default;
+    | mandataire.gestionnaireClient.GestionnaireClient;
 }): Promise<{ fermerServeur: () => Promise<void>; port: number }> => {
   port = port || (await trouverUnPort(5000))[0];
 

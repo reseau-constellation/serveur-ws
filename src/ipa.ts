@@ -58,18 +58,18 @@ export default (
   serveur: ws.Server,
   constellation:
     | client.optsConstellation
-    | mandataire.gestionnaireClient.default = {},
+    | mandataire.gestionnaireClient.GestionnaireClient = {},
 ): (() => Promise<void>) => {
-  let client: mandataire.gestionnaireClient.default;
+  let client: mandataire.gestionnaireClient.GestionnaireClient;
   let fFermer: () => Promise<void>;
 
-  if (constellation instanceof mandataire.gestionnaireClient.default) {
+  if (constellation instanceof mandataire.gestionnaireClient.GestionnaireClient) {
     client = constellation;
     fFermer = async () => {
       // On ne ferme pas le client s'il a été fourni de l'extérieur
     };
   } else {
-    client = new mandataire.gestionnaireClient.default(
+    client = new mandataire.gestionnaireClient.GestionnaireClient(
       fMessage,
       fErreur,
       constellation,
