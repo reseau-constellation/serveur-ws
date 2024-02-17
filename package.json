@@ -69,6 +69,6 @@
     "constl": "./dist/src/bin.js"
   },
   "peerDependencies": {
-    "@constl/ipa": "1.0.1-ec2b9d2da.0"
+    "@constl/ipa": "1.0.0"
   }
 }
