@@ -1,4 +1,4 @@
-#!/usr/bin/env node --no-warnings=ExperimentalWarning
+#!/usr/bin/env -S node --no-warnings=ExperimentalWarning
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 import ora, { Ora } from "ora";
