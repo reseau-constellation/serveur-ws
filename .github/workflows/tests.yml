@@ -34,7 +34,7 @@ jobs:
         run: pnpm test:binaire
 
       - name: Envoyer couverure à Codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
 
   tests-processus:
     name: Processus
@@ -63,5 +63,5 @@ jobs:
         run: pnpm test:processus
 
       - name: Envoyer couverure à Codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
 
