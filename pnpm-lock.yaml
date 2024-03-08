@@ -41,14 +41,24 @@ dependencies:
 
 devDependencies:
   '@constl/ipa':
+<<<<<<< HEAD
     specifier: 1.0.1-76af3ada9.0
     version: 1.0.1-76af3ada9.0(bufferutil@4.0.8)(react-native@0.73.3)(wrtc@0.4.7)
+=======
+    specifier: ^1.0.0
+    version: 1.0.0(bufferutil@4.0.8)(react-native@0.73.4)(wrtc@0.4.7)
+>>>>>>> a74d571 (version)
   '@constl/mandataire':
-    specifier: 1.0.1-92dfc7d.0
-    version: 1.0.1-92dfc7d.0
+    specifier: 1.0.1
+    version: 1.0.1
   '@constl/utils-tests':
+<<<<<<< HEAD
     specifier: 1.1.0
     version: 1.1.0(bufferutil@4.0.8)(react-native@0.73.3)
+=======
+    specifier: ^1.1.2
+    version: 1.1.2(bufferutil@4.0.8)(react-native@0.73.4)
+>>>>>>> a74d571 (version)
   '@types/express':
     specifier: ^4.17.21
     version: 4.17.21
@@ -116,7 +126,7 @@ devDependencies:
     specifier: ^3.1.2
     version: 3.1.2
   typescript:
-    specifier: 5.3.3
+    specifier: ^5.3.3
     version: 5.3.3
   typescript-transform-paths:
     specifier: ^3.4.6
@@ -1742,6 +1752,8 @@ packages:
       uint8arraylist: 2.4.8
       uint8arrays: 5.0.2
       wherearewe: 2.0.1
+    transitivePeerDependencies:
+      - supports-color
     dev: true
 
   /@chainsafe/libp2p-yamux@6.0.2:
@@ -1881,8 +1893,8 @@ packages:
       uuid: 9.0.1
     dev: true
 
-  /@constl/mandataire@1.0.1-92dfc7d.0:
-    resolution: {integrity: sha512-31Bcf1EIrxz2CbRGJnhOiX0aFvjyq8nHB/7N+NXlyPOKKRWF1o4Dahoa/31S6gjY6uSwYUaqhuAjlsVDi/5WZQ==}
+  /@constl/mandataire@1.0.1:
+    resolution: {integrity: sha512-pXFP2ha5llHEgTF21cLjpoJrRKzBoqtTB/z55krTnxvexagHRHM810iSBv4DbfwJwRkRWhbeIbgoXaXCYrl/xg==}
     dependencies:
       events: 3.3.0
       uuid: 9.0.1
@@ -2739,8 +2751,6 @@ packages:
       interface-store: 5.1.8
       multiformats: 13.0.1
       progress-events: 1.0.0
-    transitivePeerDependencies:
-      - supports-color
     dev: true
 
   /@helia/unixfs@3.0.0:
@@ -3060,7 +3070,11 @@ packages:
       multiformats: 13.0.1
       protons-runtime: 5.4.0
       uint8arraylist: 2.4.8
+<<<<<<< HEAD
       uint8arrays: 5.0.1
+=======
+      uint8arrays: 5.0.2
+>>>>>>> a74d571 (version)
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -3261,7 +3275,11 @@ packages:
       merge-options: 3.0.4
       multiformats: 13.0.1
       sanitize-filename: 1.6.3
+<<<<<<< HEAD
       uint8arrays: 5.0.1
+=======
+      uint8arrays: 5.0.2
+>>>>>>> a74d571 (version)
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -3365,7 +3383,11 @@ packages:
       '@libp2p/peer-id': 4.0.6
       protons-runtime: 5.4.0
       uint8arraylist: 2.4.8
+<<<<<<< HEAD
       uint8arrays: 5.0.1
+=======
+      uint8arrays: 5.0.2
+>>>>>>> a74d571 (version)
     transitivePeerDependencies:
       - supports-color
     dev: true
