@@ -37,15 +37,9 @@
     "yargs": "^17.7.2"
   },
   "devDependencies": {
-<<<<<<< HEAD
     "@constl/ipa": "1.0.0",
-    "@constl/mandataire": "1.0.1-92dfc7d.0",
+    "@constl/mandataire": "1.0.1",
     "@constl/utils-tests": "1.2.3",
-=======
-    "@constl/ipa": "^1.0.0",
-    "@constl/mandataire": "^1.0.1",
-    "@constl/utils-tests": "^1.1.2",
->>>>>>> a74d571 (version)
     "@types/express": "^4.17.21",
     "@types/mocha": "^10.0.6",
     "@types/node": "^20.11.19",
