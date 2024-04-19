@@ -102,9 +102,6 @@ importers:
       genversion:
         specifier: ^3.2.0
         version: 3.2.0
-      ipfsd-ctl:
-        specifier: ^14.0.0
-        version: 14.0.6(undici@5.28.3)
       keyv:
         specifier: ^4.5.4
         version: 4.5.4
@@ -1370,102 +1367,11 @@ packages:
     resolution: {integrity: sha512-+KpH+QxZU7O4675t3mnkQKcZZg56u+K/Ct2K+N2AZYNVK8kyeo/bI18tI8aPm3tvNNRyTWfj6s5tnGNlcbQRsA==}
     engines: {node: '>=14'}
 
-  '@hapi/accept@6.0.3':
-    resolution: {integrity: sha512-p72f9k56EuF0n3MwlBNThyVE5PXX40g+aQh+C/xbKrfzahM2Oispv3AXmOIU51t3j77zay1qrX7IIziZXspMlw==}
-
-  '@hapi/ammo@6.0.1':
-    resolution: {integrity: sha512-pmL+nPod4g58kXrMcsGLp05O2jF4P2Q3GiL8qYV7nKYEh3cGf+rV4P5Jyi2Uq0agGhVU63GtaSAfBEZOlrJn9w==}
-
-  '@hapi/b64@6.0.1':
-    resolution: {integrity: sha512-ZvjX4JQReUmBheeCq+S9YavcnMMHWqx3S0jHNXWIM1kQDxB9cyfSycpVvjfrKcIS8Mh5N3hmu/YKo4Iag9g2Kw==}
-
-  '@hapi/boom@10.0.1':
-    resolution: {integrity: sha512-ERcCZaEjdH3OgSJlyjVk8pHIFeus91CjKP3v+MpgBNp5IvGzP2l/bRiD78nqYcKPaZdbKkK5vDBVPd2ohHBlsA==}
-
-  '@hapi/bounce@3.0.1':
-    resolution: {integrity: sha512-G+/Pp9c1Ha4FDP+3Sy/Xwg2O4Ahaw3lIZFSX+BL4uWi64CmiETuZPxhKDUD4xBMOUZbBlzvO8HjiK8ePnhBadA==}
-
-  '@hapi/bourne@3.0.0':
-    resolution: {integrity: sha512-Waj1cwPXJDucOib4a3bAISsKJVb15MKi9IvmTI/7ssVEm6sywXGjVJDhl6/umt1pK1ZS7PacXU3A1PmFKHEZ2w==}
-
-  '@hapi/call@9.0.1':
-    resolution: {integrity: sha512-uPojQRqEL1GRZR4xXPqcLMujQGaEpyVPRyBlD8Pp5rqgIwLhtveF9PkixiKru2THXvuN8mUrLeet5fqxKAAMGg==}
-
-  '@hapi/catbox-memory@6.0.1':
-    resolution: {integrity: sha512-sVb+/ZxbZIvaMtJfAbdyY+QJUQg9oKTwamXpEg/5xnfG5WbJLTjvEn4kIGKz9pN3ENNbIL/bIdctmHmqi/AdGA==}
-
-  '@hapi/catbox@12.1.1':
-    resolution: {integrity: sha512-hDqYB1J+R0HtZg4iPH3LEnldoaBsar6bYp0EonBmNQ9t5CO+1CqgCul2ZtFveW1ReA5SQuze9GPSU7/aecERhw==}
-
-  '@hapi/content@6.0.0':
-    resolution: {integrity: sha512-CEhs7j+H0iQffKfe5Htdak5LBOz/Qc8TRh51cF+BFv0qnuph3Em4pjGVzJMkI2gfTDdlJKWJISGWS1rK34POGA==}
-
-  '@hapi/cryptiles@6.0.1':
-    resolution: {integrity: sha512-9GM9ECEHfR8lk5ASOKG4+4ZsEzFqLfhiryIJ2ISePVB92OHLp/yne4m+zn7z9dgvM98TLpiFebjDFQ0UHcqxXQ==}
-    engines: {node: '>=14.0.0'}
-
-  '@hapi/file@3.0.0':
-    resolution: {integrity: sha512-w+lKW+yRrLhJu620jT3y+5g2mHqnKfepreykvdOcl9/6up8GrQQn+l3FRTsjHTKbkbfQFkuksHpdv2EcpKcJ4Q==}
-
-  '@hapi/hapi@21.3.9':
-    resolution: {integrity: sha512-AT5m+Rb8iSOFG3zWaiEuTJazf4HDYl5UpRpyxMJ3yR+g8tOEmqDv6FmXrLHShdvDOStAAepHGnr1G7egkFSRdw==}
-    engines: {node: '>=14.15.0'}
-
-  '@hapi/heavy@8.0.1':
-    resolution: {integrity: sha512-gBD/NANosNCOp6RsYTsjo2vhr5eYA3BEuogk6cxY0QdhllkkTaJFYtTXv46xd6qhBVMbMMqcSdtqey+UQU3//w==}
-
-  '@hapi/hoek@11.0.4':
-    resolution: {integrity: sha512-PnsP5d4q7289pS2T2EgGz147BFJ2Jpb4yrEdkpz2IhgEUzos1S7HTl7ezWh1yfYzYlj89KzLdCRkqsP6SIryeQ==}
-
   '@hapi/hoek@9.3.0':
     resolution: {integrity: sha512-/c6rf4UJlmHlC9b5BaNvzAcFv7HZ2QHaV0D4/HNlBdvFnvQq8RI4kYdhyPCl7Xj+oWvTWQ8ujhqS53LIgAe6KQ==}
 
-  '@hapi/iron@7.0.1':
-    resolution: {integrity: sha512-tEZnrOujKpS6jLKliyWBl3A9PaE+ppuL/+gkbyPPDb/l2KSKQyH4lhMkVb+sBhwN+qaxxlig01JRqB8dk/mPxQ==}
-
-  '@hapi/mimos@7.0.1':
-    resolution: {integrity: sha512-b79V+BrG0gJ9zcRx1VGcCI6r6GEzzZUgiGEJVoq5gwzuB2Ig9Cax8dUuBauQCFKvl2YWSWyOc8mZ8HDaJOtkew==}
-
-  '@hapi/nigel@5.0.1':
-    resolution: {integrity: sha512-uv3dtYuB4IsNaha+tigWmN8mQw/O9Qzl5U26Gm4ZcJVtDdB1AVJOwX3X5wOX+A07qzpEZnOMBAm8jjSqGsU6Nw==}
-    engines: {node: '>=14.0.0'}
-
-  '@hapi/pez@6.1.0':
-    resolution: {integrity: sha512-+FE3sFPYuXCpuVeHQ/Qag1b45clR2o54QoonE/gKHv9gukxQ8oJJZPR7o3/ydDTK6racnCJXxOyT1T93FCJMIg==}
-
-  '@hapi/podium@5.0.1':
-    resolution: {integrity: sha512-eznFTw6rdBhAijXFIlBOMJJd+lXTvqbrBIS4Iu80r2KTVIo4g+7fLy4NKp/8+UnSt5Ox6mJtAlKBU/Sf5080TQ==}
-
-  '@hapi/shot@6.0.1':
-    resolution: {integrity: sha512-s5ynMKZXYoDd3dqPw5YTvOR/vjHvMTxc388+0qL0jZZP1+uwXuUD32o9DuuuLsmTlyXCWi02BJl1pBpwRuUrNA==}
-
-  '@hapi/somever@4.1.1':
-    resolution: {integrity: sha512-lt3QQiDDOVRatS0ionFDNrDIv4eXz58IibQaZQDOg4DqqdNme8oa0iPWcE0+hkq/KTeBCPtEOjDOBKBKwDumVg==}
-
-  '@hapi/statehood@8.1.1':
-    resolution: {integrity: sha512-YbK7PSVUA59NArAW5Np0tKRoIZ5VNYUicOk7uJmWZF6XyH5gGL+k62w77SIJb0AoAJ0QdGQMCQ/WOGL1S3Ydow==}
-
-  '@hapi/subtext@8.1.0':
-    resolution: {integrity: sha512-PyaN4oSMtqPjjVxLny1k0iYg4+fwGusIhaom9B2StinBclHs7v46mIW706Y+Wo21lcgulGyXbQrmT/w4dus6ww==}
-
-  '@hapi/teamwork@6.0.0':
-    resolution: {integrity: sha512-05HumSy3LWfXpmJ9cr6HzwhAavrHkJ1ZRCmNE2qJMihdM5YcWreWPfyN0yKT2ZjCM92au3ZkuodjBxOibxM67A==}
-    engines: {node: '>=14.0.0'}
-
   '@hapi/topo@5.1.0':
     resolution: {integrity: sha512-foQZKJig7Ob0BMAYBfcJk8d77QtOe7Wo4ox7ff1lQYoNNAb6jwcY1ncdoy2e9wQZzvNy7ODZCYJkK8kzmcAnAg==}
-
-  '@hapi/topo@6.0.2':
-    resolution: {integrity: sha512-KR3rD5inZbGMrHmgPxsJ9dbi6zEK+C3ZwUwTa+eMwWLz7oijWUTWD2pMSNNYJAU6Qq+65NkxXjqHr/7LM2Xkqg==}
-
-  '@hapi/validate@2.0.1':
-    resolution: {integrity: sha512-NZmXRnrSLK8MQ9y/CMqE9WSspgB9xA41/LlYR0k967aSZebWr4yNrpxIbov12ICwKy4APSlWXZga9jN5p6puPA==}
-
-  '@hapi/vise@5.0.1':
-    resolution: {integrity: sha512-XZYWzzRtINQLedPYlIkSkUr7m5Ddwlu99V9elh8CSygXstfv3UnWIXT0QD+wmR0VAG34d2Vx3olqcEhRRoTu9A==}
-
-  '@hapi/wreck@18.1.0':
-    resolution: {integrity: sha512-0z6ZRCmFEfV/MQqkQomJ7sl/hyxvcZM7LtuVqN3vdAO4vM9eBbowl0kaqQj9EJJQab+3Uuh1GxbGIBFy4NfJ4w==}
 
   '@helia/block-brokers@1.0.0':
     resolution: {integrity: sha512-VP9KDj6fNT1FKk/vWjDzk8eYyVclxHFQaOLI0+rvifg+w8X+atCa/v2JKzZzbW6BX3/dxcn/mZz+ZHgdmuQ1qg==}
@@ -2852,9 +2758,6 @@ packages:
   bl@5.1.0:
     resolution: {integrity: sha512-tv1ZJHLfTDnXE6tMHv73YgSJaWR2AFuPwMntBe7XL/GBFHnT0CLnsHMogfk5+GzCDC5ZWarSCYaIGATZt9dNsQ==}
 
-  blob-to-it@2.0.5:
-    resolution: {integrity: sha512-3VIFla8L4JuB+0WCdf+0POI7E1tTl8mhdGiwwwmnZEu6QjRJciS9fIvz8NgWY9URb0iagXYModGEYTcYeq9BMg==}
-
   blockstore-core@4.4.0:
     resolution: {integrity: sha512-tjOJAJMPWlqahqCjn5awLJz2eZeJnrGOBA0OInBFK69/FfPZbSID2t7s5jFcBRhGaglca56BzG4t5XOV3MPxOQ==}
 
@@ -3425,9 +3328,6 @@ packages:
     resolution: {integrity: sha512-TVF6svNzeQCOpjCqsy0/CSy8VgObG3wXusJ73xW2GbG5rGx7lC8zxDSURicsXI2UsGdi2L0QNRCi745/wUDvsA==}
     engines: {node: '>=0.4.0'}
 
-  dag-jose@5.0.0:
-    resolution: {integrity: sha512-9IVE/OyubkGEGEuqRhSxpugwBtVKn6gd2fw2AMmlpYowjUrFfDpLPT0QToBstfyFgI9XNsKIQxQRM8Dq+nMASQ==}
-
   datastore-core@9.2.8:
     resolution: {integrity: sha512-+S3rI6FSQphrGQZraYcCLeaVzCpDkNBYBk9a8QU8Kt+7xPAphNVA6a37kc6K9CQBppVOOmRaPBKU19fhHJLszg==}
 
@@ -3689,10 +3589,6 @@ packages:
     resolution: {integrity: sha512-rC+QVNMJWv+MtPgkt0y+0rVEIdbtxVADApW9JXrUVlzHetgcyczP/E7DJmWJ4fJCZF2cPcBk0laWO9ZHMG3DmQ==}
     engines: {node: '>=0.10.0'}
     hasBin: true
-
-  electron-fetch@1.9.1:
-    resolution: {integrity: sha512-M9qw6oUILGVrcENMSRRefE1MbHPIz0h79EKIeJWK9v563aT9Qkh8aEHPO1H5vi970wPirNY+jO9OpFoLiMsMGA==}
-    engines: {node: '>=6'}
 
   electron-mocha-main@11.0.3:
     resolution: {integrity: sha512-F9tfE9cvTpyXYGH/8g2ZtrhNjZdF2amnM9u7CIJ59Lcs0uHjlaVFrlIKNegS05ZwkajPAWkiB2KkpHco8GhD9g==}
@@ -4131,9 +4027,6 @@ packages:
   fast-deep-equal@3.1.3:
     resolution: {integrity: sha512-f3qQ9oQy9j2AhBe/H9VC91wLmKBCCU/gDOnKNAYG5hswO7BLKj09Hc5HYNz9cGI++xlpDCIgDaitVs03ATR84Q==}
 
-  fast-fifo@1.3.2:
-    resolution: {integrity: sha512-/d9sfos4yxzpwkDkuN7k2SqFKtYNmCTzgfEpz82x34IM9/zc8KGxQoXg1liNC/izpRM/MBdt44Nmx41ZWqk+FQ==}
-
   fast-glob@3.3.2:
     resolution: {integrity: sha512-oX2ruAFQwf/Orj8m737Y5adxDQO0LAB7/S5MnxCdTNDd4p6BsyIVsv9JQsATbTSq8KHRpLwIHbVlUNatxd+1Ow==}
     engines: {node: '>=8.6.0'}
@@ -4389,9 +4282,6 @@ packages:
   get-intrinsic@1.2.4:
     resolution: {integrity: sha512-5uYhsJH8VJBTv7oslg4BznJYhDoRI6waYCxMmCdnTrcCrHA/fCFKoTFz2JKKE0HdDFUF7/oQuhzumXJK7paBRQ==}
     engines: {node: '>= 0.4'}
-
-  get-iterator@1.0.2:
-    resolution: {integrity: sha512-v+dm9bNVfOYsY1OrhaCrmyOcYoSeVvbt+hHZ0Au+T+p1y+0Uyj9aMaGIeUTT6xdpRbWzDeYKvfOslPhggQMcsg==}
 
   get-iterator@2.0.1:
     resolution: {integrity: sha512-7HuY/hebu4gryTDT7O/XY/fvY9wRByEGdK6QOa4of8npTcv0+NS6frFKABcf6S9EBAsveTuKTsZQQBFMMNILIg==}
@@ -4816,12 +4706,6 @@ packages:
   ipfs-unixfs@11.1.3:
     resolution: {integrity: sha512-sy6Koojwm/EcM8yvDlycRYA89C8wIcLcGTMMpqnCPUtqTCdl+JxsuPNCBgAu7tmO8Nipm7Tv7f0g/erxTGKKRA==}
 
-  ipfs-unixfs@11.1.4:
-    resolution: {integrity: sha512-RE4nyx5qgG2w7JOLj0Y0D7SfAR1ZkEdramNaBx0OSD4DlQ2Y2NORgc4FHfej3Pgy31v+QISDVP1pQJhdv3bUUg==}
-
-  ipfsd-ctl@14.0.6:
-    resolution: {integrity: sha512-t3tzvNDeRcxT463UTnLszXh38s+J2R6xOd+yyi5OghTm58EHJLThLvOWwG7SREjJMrQ8mROIQr3WojgOGae2rw==}
-
   ipns@7.0.2:
     resolution: {integrity: sha512-jsrIgsCmFZL/kATuO+4N5Oy3b4xhnO42N39nCLyhhC8NM+SZIxTmZmUSDU0GoI8Vn0X/Zy2Sj3Lxbhg3UlVMUA==}
 
@@ -5096,10 +4980,6 @@ packages:
     resolution: {integrity: sha512-yJvs+Nnelic1L2vH2JzWvvPQFA4r7kSTnpST/+LkAQjSz0hos2oqLD+qIVi9Qk38Hoe7mNDt3j0S27R58MVjLQ==}
     engines: {node: '>=10'}
 
-  iso-url@1.2.1:
-    resolution: {integrity: sha512-9JPDgCN4B7QPkLtYAAOrEuAWvP9rWvR5offAr0/SeF046wIkglqH3VXgYYP6NcsKslH80UIVgmPqNe3j7tG2ng==}
-    engines: {node: '>=12'}
-
   isobject@3.0.1:
     resolution: {integrity: sha512-WhB9zCku7EGTj/HQQRz5aUQEUeoQZH2bWcltRErOpymJ4boYE6wL9Tbr23krRPSZ+C5zqNSrSw+Cc7sZZ4b7vg==}
     engines: {node: '>=0.10.0'}
@@ -5233,9 +5113,6 @@ packages:
 
   it-to-buffer@4.0.5:
     resolution: {integrity: sha512-DoQWOBhYmVHa0ooMauJLVbZ8V8K3AsFgqBs7I+kX7f3KbFMEy0MA9w7TJo9Utd4T4H+iUScyLFwo7REA4dWreA==}
-
-  it-to-stream@1.0.0:
-    resolution: {integrity: sha512-pLULMZMAB/+vbdvbZtebC0nWBTbG581lk6w8P7DfIIIKUfa8FbY7Oi0FxZcFPbxvISs7A9E+cMpLDBc1XhpAOA==}
 
   it-ws@6.1.1:
     resolution: {integrity: sha512-oyk4eCeZto2lzWDnJOa3j1S2M+VOGKUh8isEf94ySoaL6IFlyie0T4P9E0ZUaIvX8LyJxYFHFKCt8Zk7Sm/XPQ==}
@@ -5394,9 +5271,6 @@ packages:
   kleur@4.1.5:
     resolution: {integrity: sha512-o+NO+8WrRiQEE4/7nwRJhN1HWpVmJm511pBHUxPLtp0BUISzlBplORYSmTclCnJvQq2tKu/sgl3xVpkc7ZWuQQ==}
     engines: {node: '>=6'}
-
-  kubo-rpc-client@4.0.1:
-    resolution: {integrity: sha512-t6SlFbTKclRJOGUsvRm809uhXaRNoj1OfCFX+ToXw0qbYXwuKQxPdpHSq59MXtIAvV2ixA1cNLRisAt3npu9sg==}
 
   latest-version@8.0.0:
     resolution: {integrity: sha512-FvwzZ43AtFdin94Mmuu/Sa+2vpDKbaDarz/MZU2EuDU7B9aGWq+c6M7EccBD7XJGnEwBmSDRRYabkvnEKqqksw==}
@@ -6482,10 +6356,6 @@ packages:
     resolution: {integrity: sha512-mlVgR3PGuzlo0MmTdk4cXqXWlwQDLnONTAg6sm62XkMJEiRxN3GL3SffkYvqwonbkJBcrI7Uvv5Zh9yjvn2iUw==}
     engines: {node: '>=12.20'}
 
-  p-defer@3.0.0:
-    resolution: {integrity: sha512-ugZxsxmtTln604yeYd29EGrNhazN2lywetzpKhfmQjW/VJmhpDmWbiX+h0zL8V91R0UXkhb3KtPmyq9PZw3aYw==}
-    engines: {node: '>=8'}
-
   p-defer@4.0.0:
     resolution: {integrity: sha512-Vb3QRvQ0Y5XnF40ZUWW7JfLogicVh/EnA5gBIvKDJoYpeI82+1E3AlB9yOcKFS0AhHrWVnAQO39fbR0G99IVEQ==}
     engines: {node: '>=12'}
@@ -6509,9 +6379,6 @@ packages:
   p-event@6.0.1:
     resolution: {integrity: sha512-Q6Bekk5wpzW5qIyUP4gdMEujObYstZl6DMMOSenwBvV0BlE5LkDwkjs5yHbZmdCEq2o4RJx4tE1vwxFVf2FG1w==}
     engines: {node: '>=16.17'}
-
-  p-fifo@1.0.0:
-    resolution: {integrity: sha512-IjoCxXW48tqdtDFz6fqo5q1UfFVjjVZe8TC1QRflvNUJtNfCUhxOUw6MOVZhDPjqhSzc26xKdugsO17gmzd5+A==}
 
   p-filter@3.0.0:
     resolution: {integrity: sha512-QtoWLjXAW++uTX67HZQz1dbTpqBfiidsB6VtQUC9iR85S120+s0T5sO6s+B5MLzFcZkrEd/DGMmCjR+f2Qpxwg==}
@@ -6621,10 +6488,6 @@ packages:
     resolution: {integrity: sha512-R4nPAVTAU0B9D35/Gk3uJf/7XYbQcyohSKdvAxIRSNghFl4e71hVoGnBNQz9cWaXxO2I10KTC+3jMdvvoKw6dQ==}
     engines: {node: '>=6'}
 
-  p-wait-for@5.0.2:
-    resolution: {integrity: sha512-lwx6u1CotQYPVju77R+D0vFomni/AqRfqLmqQ8hekklqZ6gAY9rONh7lBQ0uxWMkC2AuX9b2DVAl8To0NyP1JA==}
-    engines: {node: '>=12'}
-
   package-hash@4.0.0:
     resolution: {integrity: sha512-whdkPIooSu/bASggZ96BWVvZTRMOFxnyUG5PnTSGKoJE2gd5mbVNmR2Nj20QFzxYYgAXpoqC+AiXzl+UMRh7zQ==}
     engines: {node: '>=8'}
@@ -6646,9 +6509,6 @@ packages:
   parse-asn1@5.1.7:
     resolution: {integrity: sha512-CTM5kuWR3sx9IFamcl5ErfPl6ea/N8IYwiJ+vpeB2g+1iknv7zBl5uPwbMbRVznRVbrNY6lGuDoE5b30grmbqg==}
     engines: {node: '>= 0.10'}
-
-  parse-duration@1.1.0:
-    resolution: {integrity: sha512-z6t9dvSJYaPoQq7quMzdEagSFtpGu+utzHqqxmpVWNNZRIXnvqyCvn9XsTdh7c/w0Bqmdz3RB3YnRaKtpRtEXQ==}
 
   parse-json@4.0.0:
     resolution: {integrity: sha512-aOIos8bujGN93/8Ox/jPLh7RwVnPEysynVFE+fQZyg6jKELEHwzgKdLRFHUgXJL6kylijVSBC4BvN9OmsB48Rw==}
@@ -6991,9 +6851,6 @@ packages:
 
   react-is@18.2.0:
     resolution: {integrity: sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==}
-
-  react-native-fetch-api@3.0.0:
-    resolution: {integrity: sha512-g2rtqPjdroaboDKTsJCTlcmtw54E25OjyaunUP0anOZn4Fuo2IKs8BVfe02zVggA/UysbmfSnRJIqtNkAgggNA==}
 
   react-native-test-runner@5.0.0:
     resolution: {integrity: sha512-/ztZUqRqV98/lLbGN781egGXjkR8i7MhfAm7nGtKe1DoDuITkvQk/4fF/nXfDyZEtaae9NYuv2MocUR/qcN1bQ==}
@@ -10102,174 +9959,11 @@ snapshots:
 
   '@fastify/busboy@2.1.0': {}
 
-  '@hapi/accept@6.0.3':
-    dependencies:
-      '@hapi/boom': 10.0.1
-      '@hapi/hoek': 11.0.4
-
-  '@hapi/ammo@6.0.1':
-    dependencies:
-      '@hapi/hoek': 11.0.4
-
-  '@hapi/b64@6.0.1':
-    dependencies:
-      '@hapi/hoek': 11.0.4
-
-  '@hapi/boom@10.0.1':
-    dependencies:
-      '@hapi/hoek': 11.0.4
-
-  '@hapi/bounce@3.0.1':
-    dependencies:
-      '@hapi/boom': 10.0.1
-      '@hapi/hoek': 11.0.4
-
-  '@hapi/bourne@3.0.0': {}
-
-  '@hapi/call@9.0.1':
-    dependencies:
-      '@hapi/boom': 10.0.1
-      '@hapi/hoek': 11.0.4
-
-  '@hapi/catbox-memory@6.0.1':
-    dependencies:
-      '@hapi/boom': 10.0.1
-      '@hapi/hoek': 11.0.4
-
-  '@hapi/catbox@12.1.1':
-    dependencies:
-      '@hapi/boom': 10.0.1
-      '@hapi/hoek': 11.0.4
-      '@hapi/podium': 5.0.1
-      '@hapi/validate': 2.0.1
-
-  '@hapi/content@6.0.0':
-    dependencies:
-      '@hapi/boom': 10.0.1
-
-  '@hapi/cryptiles@6.0.1':
-    dependencies:
-      '@hapi/boom': 10.0.1
-
-  '@hapi/file@3.0.0': {}
-
-  '@hapi/hapi@21.3.9':
-    dependencies:
-      '@hapi/accept': 6.0.3
-      '@hapi/ammo': 6.0.1
-      '@hapi/boom': 10.0.1
-      '@hapi/bounce': 3.0.1
-      '@hapi/call': 9.0.1
-      '@hapi/catbox': 12.1.1
-      '@hapi/catbox-memory': 6.0.1
-      '@hapi/heavy': 8.0.1
-      '@hapi/hoek': 11.0.4
-      '@hapi/mimos': 7.0.1
-      '@hapi/podium': 5.0.1
-      '@hapi/shot': 6.0.1
-      '@hapi/somever': 4.1.1
-      '@hapi/statehood': 8.1.1
-      '@hapi/subtext': 8.1.0
-      '@hapi/teamwork': 6.0.0
-      '@hapi/topo': 6.0.2
-      '@hapi/validate': 2.0.1
-
-  '@hapi/heavy@8.0.1':
-    dependencies:
-      '@hapi/boom': 10.0.1
-      '@hapi/hoek': 11.0.4
-      '@hapi/validate': 2.0.1
-
-  '@hapi/hoek@11.0.4': {}
-
   '@hapi/hoek@9.3.0': {}
-
-  '@hapi/iron@7.0.1':
-    dependencies:
-      '@hapi/b64': 6.0.1
-      '@hapi/boom': 10.0.1
-      '@hapi/bourne': 3.0.0
-      '@hapi/cryptiles': 6.0.1
-      '@hapi/hoek': 11.0.4
-
-  '@hapi/mimos@7.0.1':
-    dependencies:
-      '@hapi/hoek': 11.0.4
-      mime-db: 1.52.0
-
-  '@hapi/nigel@5.0.1':
-    dependencies:
-      '@hapi/hoek': 11.0.4
-      '@hapi/vise': 5.0.1
-
-  '@hapi/pez@6.1.0':
-    dependencies:
-      '@hapi/b64': 6.0.1
-      '@hapi/boom': 10.0.1
-      '@hapi/content': 6.0.0
-      '@hapi/hoek': 11.0.4
-      '@hapi/nigel': 5.0.1
-
-  '@hapi/podium@5.0.1':
-    dependencies:
-      '@hapi/hoek': 11.0.4
-      '@hapi/teamwork': 6.0.0
-      '@hapi/validate': 2.0.1
-
-  '@hapi/shot@6.0.1':
-    dependencies:
-      '@hapi/hoek': 11.0.4
-      '@hapi/validate': 2.0.1
-
-  '@hapi/somever@4.1.1':
-    dependencies:
-      '@hapi/bounce': 3.0.1
-      '@hapi/hoek': 11.0.4
-
-  '@hapi/statehood@8.1.1':
-    dependencies:
-      '@hapi/boom': 10.0.1
-      '@hapi/bounce': 3.0.1
-      '@hapi/bourne': 3.0.0
-      '@hapi/cryptiles': 6.0.1
-      '@hapi/hoek': 11.0.4
-      '@hapi/iron': 7.0.1
-      '@hapi/validate': 2.0.1
-
-  '@hapi/subtext@8.1.0':
-    dependencies:
-      '@hapi/boom': 10.0.1
-      '@hapi/bourne': 3.0.0
-      '@hapi/content': 6.0.0
-      '@hapi/file': 3.0.0
-      '@hapi/hoek': 11.0.4
-      '@hapi/pez': 6.1.0
-      '@hapi/wreck': 18.1.0
-
-  '@hapi/teamwork@6.0.0': {}
 
   '@hapi/topo@5.1.0':
     dependencies:
       '@hapi/hoek': 9.3.0
-
-  '@hapi/topo@6.0.2':
-    dependencies:
-      '@hapi/hoek': 11.0.4
-
-  '@hapi/validate@2.0.1':
-    dependencies:
-      '@hapi/hoek': 11.0.4
-      '@hapi/topo': 6.0.2
-
-  '@hapi/vise@5.0.1':
-    dependencies:
-      '@hapi/hoek': 11.0.4
-
-  '@hapi/wreck@18.1.0':
-    dependencies:
-      '@hapi/boom': 10.0.1
-      '@hapi/bourne': 3.0.0
-      '@hapi/hoek': 11.0.4
 
   '@helia/block-brokers@1.0.0':
     dependencies:
@@ -12698,10 +12392,6 @@ snapshots:
       inherits: 2.0.4
       readable-stream: 3.6.2
 
-  blob-to-it@2.0.5:
-    dependencies:
-      browser-readablestream-to-it: 2.0.5
-
   blockstore-core@4.4.0:
     dependencies:
       '@libp2p/logger': 4.0.10
@@ -13426,11 +13116,6 @@ snapshots:
 
   cycle@1.0.3: {}
 
-  dag-jose@5.0.0:
-    dependencies:
-      '@ipld/dag-cbor': 9.2.0
-      multiformats: 13.1.0
-
   datastore-core@9.2.8:
     dependencies:
       '@libp2p/logger': 4.0.10
@@ -13724,10 +13409,6 @@ snapshots:
     dependencies:
       jake: 10.8.7
 
-  electron-fetch@1.9.1:
-    dependencies:
-      encoding: 0.1.13
-
   electron-mocha-main@11.0.3:
     dependencies:
       ansi-colors: 4.1.3
@@ -13771,6 +13452,7 @@ snapshots:
   encoding@0.1.13:
     dependencies:
       iconv-lite: 0.6.3
+    optional: true
 
   end-of-stream@1.4.4:
     dependencies:
@@ -14487,8 +14169,6 @@ snapshots:
 
   fast-deep-equal@3.1.3: {}
 
-  fast-fifo@1.3.2: {}
-
   fast-glob@3.3.2:
     dependencies:
       '@nodelib/fs.stat': 2.0.5
@@ -14774,8 +14454,6 @@ snapshots:
       has-proto: 1.0.3
       has-symbols: 1.0.3
       hasown: 2.0.2
-
-  get-iterator@1.0.2: {}
 
   get-iterator@2.0.1: {}
 
@@ -15192,6 +14870,7 @@ snapshots:
   iconv-lite@0.6.3:
     dependencies:
       safer-buffer: 2.1.2
+    optional: true
 
   idb-wrapper@1.7.2: {}
 
@@ -15362,30 +15041,6 @@ snapshots:
       err-code: 3.0.1
       protons-runtime: 5.4.0
       uint8arraylist: 2.4.8
-
-  ipfs-unixfs@11.1.4:
-    dependencies:
-      err-code: 3.0.1
-      protons-runtime: 5.4.0
-      uint8arraylist: 2.4.8
-
-  ipfsd-ctl@14.0.6(undici@5.28.3):
-    dependencies:
-      '@hapi/boom': 10.0.1
-      '@hapi/hapi': 21.3.9
-      '@libp2p/interface': 1.2.0
-      '@libp2p/logger': 4.0.10
-      execa: 8.0.1
-      joi: 17.12.3
-      kubo-rpc-client: 4.0.1(undici@5.28.3)
-      merge-options: 3.0.4
-      nanoid: 5.0.7
-      p-defer: 4.0.1
-      p-wait-for: 5.0.2
-      wherearewe: 2.0.1
-    transitivePeerDependencies:
-      - supports-color
-      - undici
 
   ipns@7.0.2:
     dependencies:
@@ -15624,8 +15279,6 @@ snapshots:
       events: 3.3.0
       readable-stream: 3.6.2
 
-  iso-url@1.2.1: {}
-
   isobject@3.0.1: {}
 
   isomorphic-ws@5.0.0(ws@8.16.0(bufferutil@4.0.8)):
@@ -15792,15 +15445,6 @@ snapshots:
   it-to-buffer@4.0.5:
     dependencies:
       uint8arrays: 5.0.3
-
-  it-to-stream@1.0.0:
-    dependencies:
-      buffer: 6.0.3
-      fast-fifo: 1.3.2
-      get-iterator: 1.0.2
-      p-defer: 3.0.0
-      p-fifo: 1.0.0
-      readable-stream: 3.6.2
 
   it-ws@6.1.1(bufferutil@4.0.8):
     dependencies:
@@ -15996,44 +15640,6 @@ snapshots:
   kleur@3.0.3: {}
 
   kleur@4.1.5: {}
-
-  kubo-rpc-client@4.0.1(undici@5.28.3):
-    dependencies:
-      '@ipld/dag-cbor': 9.2.0
-      '@ipld/dag-json': 10.2.0
-      '@ipld/dag-pb': 4.1.0
-      '@libp2p/interface': 1.2.0
-      '@libp2p/logger': 4.0.10
-      '@libp2p/peer-id': 4.0.10
-      '@multiformats/multiaddr': 12.2.1
-      '@multiformats/multiaddr-to-uri': 10.0.1
-      any-signal: 4.1.1
-      blob-to-it: 2.0.5
-      browser-readablestream-to-it: 2.0.5
-      dag-jose: 5.0.0
-      electron-fetch: 1.9.1
-      err-code: 3.0.1
-      ipfs-unixfs: 11.1.4
-      iso-url: 1.2.1
-      it-all: 3.0.4
-      it-first: 3.0.4
-      it-glob: 2.0.6
-      it-last: 3.0.4
-      it-map: 3.0.5
-      it-peekable: 3.0.3
-      it-to-stream: 1.0.0
-      merge-options: 3.0.4
-      multiformats: 13.1.0
-      nanoid: 5.0.7
-      native-fetch: 4.0.2(undici@5.28.3)
-      parse-duration: 1.1.0
-      react-native-fetch-api: 3.0.0
-      stream-to-it: 1.0.1
-      uint8arrays: 5.0.3
-      wherearewe: 2.0.1
-    transitivePeerDependencies:
-      - supports-color
-      - undici
 
   latest-version@8.0.0:
     dependencies:
@@ -17517,8 +17123,6 @@ snapshots:
 
   p-cancelable@3.0.0: {}
 
-  p-defer@3.0.0: {}
-
   p-defer@4.0.0: {}
 
   p-defer@4.0.1: {}
@@ -17536,11 +17140,6 @@ snapshots:
   p-event@6.0.1:
     dependencies:
       p-timeout: 6.1.2
-
-  p-fifo@1.0.0:
-    dependencies:
-      fast-fifo: 1.3.2
-      p-defer: 3.0.0
 
   p-filter@3.0.0:
     dependencies:
@@ -17633,10 +17232,6 @@ snapshots:
 
   p-try@2.2.0: {}
 
-  p-wait-for@5.0.2:
-    dependencies:
-      p-timeout: 6.1.2
-
   package-hash@4.0.0:
     dependencies:
       graceful-fs: 4.2.11
@@ -17669,8 +17264,6 @@ snapshots:
       hash-base: 3.0.4
       pbkdf2: 3.1.2
       safe-buffer: 5.2.1
-
-  parse-duration@1.1.0: {}
 
   parse-json@4.0.0:
     dependencies:
@@ -18073,10 +17666,6 @@ snapshots:
   react-is@17.0.2: {}
 
   react-is@18.2.0: {}
-
-  react-native-fetch-api@3.0.0:
-    dependencies:
-      p-defer: 3.0.0
 
   react-native-test-runner@5.0.0(@babel/core@7.23.9):
     dependencies:
