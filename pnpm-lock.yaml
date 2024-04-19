@@ -104,7 +104,7 @@ importers:
         version: 3.2.0
       ipfsd-ctl:
         specifier: ^14.0.0
-        version: 14.0.0(undici@5.28.3)
+        version: 14.0.6(undici@5.28.3)
       keyv:
         specifier: ^4.5.4
         version: 4.5.4
@@ -1407,8 +1407,8 @@ packages:
   '@hapi/file@3.0.0':
     resolution: {integrity: sha512-w+lKW+yRrLhJu620jT3y+5g2mHqnKfepreykvdOcl9/6up8GrQQn+l3FRTsjHTKbkbfQFkuksHpdv2EcpKcJ4Q==}
 
-  '@hapi/hapi@21.3.3':
-    resolution: {integrity: sha512-6pgwWVl/aSKSNVn86n+mWa06jRqCAKi2adZp/Hti19A0u5x3/6eiKz8UTBPMzfrdGf9WcrYbFBYzWr/qd2s28g==}
+  '@hapi/hapi@21.3.9':
+    resolution: {integrity: sha512-AT5m+Rb8iSOFG3zWaiEuTJazf4HDYl5UpRpyxMJ3yR+g8tOEmqDv6FmXrLHShdvDOStAAepHGnr1G7egkFSRdw==}
     engines: {node: '>=14.15.0'}
 
   '@hapi/heavy@8.0.1':
@@ -1464,8 +1464,8 @@ packages:
   '@hapi/vise@5.0.1':
     resolution: {integrity: sha512-XZYWzzRtINQLedPYlIkSkUr7m5Ddwlu99V9elh8CSygXstfv3UnWIXT0QD+wmR0VAG34d2Vx3olqcEhRRoTu9A==}
 
-  '@hapi/wreck@18.0.1':
-    resolution: {integrity: sha512-OLHER70+rZxvDl75xq3xXOfd3e8XIvz8fWY0dqg92UvhZ29zo24vQgfqgHSYhB5ZiuFpSLeriOisAlxAo/1jWg==}
+  '@hapi/wreck@18.1.0':
+    resolution: {integrity: sha512-0z6ZRCmFEfV/MQqkQomJ7sl/hyxvcZM7LtuVqN3vdAO4vM9eBbowl0kaqQj9EJJQab+3Uuh1GxbGIBFy4NfJ4w==}
 
   '@helia/block-brokers@1.0.0':
     resolution: {integrity: sha512-VP9KDj6fNT1FKk/vWjDzk8eYyVclxHFQaOLI0+rvifg+w8X+atCa/v2JKzZzbW6BX3/dxcn/mZz+ZHgdmuQ1qg==}
@@ -4815,8 +4815,8 @@ packages:
   ipfs-unixfs@11.1.4:
     resolution: {integrity: sha512-RE4nyx5qgG2w7JOLj0Y0D7SfAR1ZkEdramNaBx0OSD4DlQ2Y2NORgc4FHfej3Pgy31v+QISDVP1pQJhdv3bUUg==}
 
-  ipfsd-ctl@14.0.0:
-    resolution: {integrity: sha512-T8uqZOtAcLPx3UEwGiMrotL0sAcz898KzRbH4cEZOFG8MN5eJbo1KFthOoXp3zNjrBQw0ACeveh5p1KznstNOw==}
+  ipfsd-ctl@14.0.6:
+    resolution: {integrity: sha512-t3tzvNDeRcxT463UTnLszXh38s+J2R6xOd+yyi5OghTm58EHJLThLvOWwG7SREjJMrQ8mROIQr3WojgOGae2rw==}
 
   ipns@7.0.2:
     resolution: {integrity: sha512-jsrIgsCmFZL/kATuO+4N5Oy3b4xhnO42N39nCLyhhC8NM+SZIxTmZmUSDU0GoI8Vn0X/Zy2Sj3Lxbhg3UlVMUA==}
@@ -5391,8 +5391,8 @@ packages:
     resolution: {integrity: sha512-o+NO+8WrRiQEE4/7nwRJhN1HWpVmJm511pBHUxPLtp0BUISzlBplORYSmTclCnJvQq2tKu/sgl3xVpkc7ZWuQQ==}
     engines: {node: '>=6'}
 
-  kubo-rpc-client@4.0.0:
-    resolution: {integrity: sha512-EDhdo8fA31Z/LMUlM/zjRdSTXxyiop5B9TiXjbqEQoUAGBUpx6BwTHRh2fZ8mkOBkKO40pPPU9nWa1xkF0Qghw==}
+  kubo-rpc-client@4.0.1:
+    resolution: {integrity: sha512-t6SlFbTKclRJOGUsvRm809uhXaRNoj1OfCFX+ToXw0qbYXwuKQxPdpHSq59MXtIAvV2ixA1cNLRisAt3npu9sg==}
 
   latest-version@8.0.0:
     resolution: {integrity: sha512-FvwzZ43AtFdin94Mmuu/Sa+2vpDKbaDarz/MZU2EuDU7B9aGWq+c6M7EccBD7XJGnEwBmSDRRYabkvnEKqqksw==}
@@ -6100,11 +6100,6 @@ packages:
   nanoid@3.3.7:
     resolution: {integrity: sha512-eSRppjcPIatRIMC1U6UngP8XFcz8MQWGQdt1MTBQ7NaAmvXDfvNxbvWV3x2y6CdEUciCSsDHDQZbhYaB8QEo2g==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
-    hasBin: true
-
-  nanoid@5.0.5:
-    resolution: {integrity: sha512-/Veqm+QKsyMY3kqi4faWplnY1u+VuKO3dD2binyPIybP31DRO29bPF+1mszgLnrR2KqSLceFLBNw0zmvDzN1QQ==}
-    engines: {node: ^18 || >=20}
     hasBin: true
 
   nanoid@5.0.7:
@@ -7993,9 +7988,6 @@ packages:
 
   uint8arrays@4.0.10:
     resolution: {integrity: sha512-AnJNUGGDJAgFw/eWu/Xb9zrVKEGlwJJCaeInlf3BkecE/zcTobk5YXYIPNQJO1q5Hh1QZrQQHf0JvcHqz2hqoA==}
-
-  uint8arrays@5.0.2:
-    resolution: {integrity: sha512-S0GaeR+orZt7LaqzTRs4ZP8QqzAauJ+0d4xvP2lJTA99jIkKsE2FgDs4tGF/K/z5O9I/2W5Yvrh7IuqNeYH+0Q==}
 
   uint8arrays@5.0.3:
     resolution: {integrity: sha512-6LBuKji28kHjgPJMkQ6GDaBb1lRwIhyOYq6pDGwYMoDPfImE9SkuYENVmR0yu9yGgs2clHUSY9fKDukR+AXfqQ==}
@@ -10150,7 +10142,7 @@ snapshots:
 
   '@hapi/file@3.0.0': {}
 
-  '@hapi/hapi@21.3.3':
+  '@hapi/hapi@21.3.9':
     dependencies:
       '@hapi/accept': 6.0.3
       '@hapi/ammo': 6.0.1
@@ -10241,7 +10233,7 @@ snapshots:
       '@hapi/file': 3.0.0
       '@hapi/hoek': 11.0.4
       '@hapi/pez': 6.1.0
-      '@hapi/wreck': 18.0.1
+      '@hapi/wreck': 18.1.0
 
   '@hapi/teamwork@6.0.0': {}
 
@@ -10262,7 +10254,7 @@ snapshots:
     dependencies:
       '@hapi/hoek': 11.0.4
 
-  '@hapi/wreck@18.0.1':
+  '@hapi/wreck@18.1.0':
     dependencies:
       '@hapi/boom': 10.0.1
       '@hapi/bourne': 3.0.0
@@ -11167,7 +11159,7 @@ snapshots:
       dns-over-http-resolver: 3.0.2
       multiformats: 13.1.0
       uint8-varint: 2.0.4
-      uint8arrays: 5.0.2
+      uint8arrays: 5.0.3
     transitivePeerDependencies:
       - supports-color
 
@@ -15357,15 +15349,15 @@ snapshots:
       protons-runtime: 5.4.0
       uint8arraylist: 2.4.8
 
-  ipfsd-ctl@14.0.0(undici@5.28.3):
+  ipfsd-ctl@14.0.6(undici@5.28.3):
     dependencies:
       '@hapi/boom': 10.0.1
-      '@hapi/hapi': 21.3.3
+      '@hapi/hapi': 21.3.9
       '@libp2p/interface': 1.2.0
       '@libp2p/logger': 4.0.10
       execa: 8.0.1
       joi: 17.12.3
-      kubo-rpc-client: 4.0.0(undici@5.28.3)
+      kubo-rpc-client: 4.0.1(undici@5.28.3)
       merge-options: 3.0.4
       nanoid: 5.0.7
       p-defer: 4.0.1
@@ -15985,7 +15977,7 @@ snapshots:
 
   kleur@4.1.5: {}
 
-  kubo-rpc-client@4.0.0(undici@5.28.3):
+  kubo-rpc-client@4.0.1(undici@5.28.3):
     dependencies:
       '@ipld/dag-cbor': 9.2.0
       '@ipld/dag-json': 10.2.0
@@ -17136,8 +17128,6 @@ snapshots:
 
   nanoid@3.3.7: {}
 
-  nanoid@5.0.5: {}
-
   nanoid@5.0.7: {}
 
   napi-build-utils@1.0.2: {}
@@ -17815,7 +17805,7 @@ snapshots:
       lilconfig: 3.1.0
       lodash: 4.17.21
       merge-options: 3.0.4
-      nanoid: 5.0.5
+      nanoid: 5.0.7
       ora: 7.0.1
       p-timeout: 6.1.2
       path-browserify: 1.0.1
@@ -19213,10 +19203,6 @@ snapshots:
   uint8arrays@4.0.10:
     dependencies:
       multiformats: 12.1.3
-
-  uint8arrays@5.0.2:
-    dependencies:
-      multiformats: 13.1.0
 
   uint8arrays@5.0.3:
     dependencies:
