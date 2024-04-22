@@ -122,7 +122,7 @@ importers:
         version: 5.4.5
       typescript-transform-paths:
         specifier: ^3.4.6
-        version: 3.4.6(typescript@5.4.5)
+        version: 3.4.7(typescript@5.4.5)
 
 packages:
 
@@ -7973,8 +7973,8 @@ packages:
     peerDependencies:
       typescript: '>3.8.3'
 
-  typescript-transform-paths@3.4.6:
-    resolution: {integrity: sha512-qdgpCk9oRHkIBhznxaHAapCFapJt5e4FbFik7Y4qdqtp6VyC3smAIPoDEIkjZ2eiF7x5+QxUPYNwJAtw0thsTw==}
+  typescript-transform-paths@3.4.7:
+    resolution: {integrity: sha512-1Us1kdkdfKd2unbkBAOV2HHRmbRBYpSuk9nJ7cLD2hP4QmfToiM/VpxNlhJc1eezVwVqSKSBjNSzZsK/fWR/9A==}
     peerDependencies:
       typescript: '>=3.6.5'
 
@@ -19201,7 +19201,7 @@ snapshots:
       - '@swc/wasm'
       - '@types/node'
 
-  typescript-transform-paths@3.4.6(typescript@5.4.5):
+  typescript-transform-paths@3.4.7(typescript@5.4.5):
     dependencies:
       minimatch: 3.1.2
       typescript: 5.4.5
