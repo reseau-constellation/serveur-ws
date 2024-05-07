@@ -54,12 +54,17 @@ const fErreur = (erreur: string, id?: string) => {
   );
 };
 
-export default (
+export default ({
+  serveur,
+  constellation = {},
+  port,
+}: {
   serveur: ws.Server,
-  constellation:
+  constellation?:
     | client.optsConstellation
-    | mandataire.gestionnaireClient.GestionnaireClient = {},
-): (() => Promise<void>) => {
+    | mandataire.gestionnaireClient.GestionnaireClient,
+  port: number,
+}): (() => Promise<void>) => {
   let client: mandataire.gestionnaireClient.GestionnaireClient;
   let fFermer: () => Promise<void>;
 
@@ -74,7 +79,10 @@ export default (
     client = new mandataire.gestionnaireClient.GestionnaireClient(
       fMessage,
       fErreur,
-      constellation,
+      {
+        ...constellation,
+        
+      },
     );
     fFermer = async () => {
       await client.fermer();

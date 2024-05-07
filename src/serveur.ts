@@ -21,7 +21,11 @@ export default async ({
   // https://masteringjs.io/tutorials/express/websockets
 
   const wsServer = new WebSocketServer({ noServer: true });
-  const fermerConstellation = ipa(wsServer, optsConstellation);
+  const fermerConstellation = ipa({
+    serveur: wsServer, 
+    constellation: optsConstellation, 
+    port
+  });
 
   // `server` is a vanilla Node.js HTTP server, so use
   // the same ws upgrade process described here:
