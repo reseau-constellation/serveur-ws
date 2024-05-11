@@ -38,7 +38,7 @@
   },
   "devDependencies": {
     "@constl/ipa": "1.0.13",
-    "@constl/mandataire": "1.0.1",
+    "@constl/mandataire": "1.0.2",
     "@constl/utils-tests": "1.2.5",
     "@types/express": "^4.17.21",
     "@types/mocha": "^10.0.6",
