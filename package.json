@@ -37,7 +37,7 @@
     "yargs": "^17.7.2"
   },
   "devDependencies": {
-    "@constl/ipa": "1.0.17",
+    "@constl/ipa": "1.0.20",
     "@constl/mandataire": "1.0.2",
     "@constl/utils-tests": "1.2.5",
     "@types/express": "^4.17.21",
