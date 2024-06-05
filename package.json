@@ -39,7 +39,7 @@
   "devDependencies": {
     "@constl/ipa": "1.0.21",
     "@constl/mandataire": "1.0.2",
-    "@constl/utils-tests": "1.2.5",
+    "@constl/utils-tests": "1.2.6",
     "@types/express": "^4.17.21",
     "@types/mocha": "^10.0.6",
     "@types/node": "^20.12.10",
