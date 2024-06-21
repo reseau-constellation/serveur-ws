@@ -9,7 +9,7 @@ import url from "url";
 
 import { type client, version as versionIPA } from "@constl/ipa";
 
-import lancerServeur from "@/serveur.js";
+import { lancerServeur } from "@/serveur.js";
 import { MessageBinaire, PRÉFIX_MACHINE } from "@/const.js";
 
 const dirBase = url.fileURLToPath(new URL("..", import.meta.url));

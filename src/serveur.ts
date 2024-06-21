@@ -1,6 +1,7 @@
 import type { IncomingMessage } from "http";
+import type TypedEmitter from "typed-emitter";
 
-import express from "express";
+import express, {type Response} from "express";
 import { WebSocketServer } from "ws";
 import { parse } from "url";
 import trouverUnPort from "find-free-port";
@@ -9,6 +10,12 @@ import { generateMnemonic, wordlists } from "bip39";
 import { client, mandataire } from "@constl/ipa";
 
 import ipa from "@/ipa.js";
+import EventEmitter from "events"
+
+type MessageÉvénementRequète = {
+  changement: (requètes: string[]) => void,
+}
+
 
 const authentifier = (
   requète: IncomingMessage,
@@ -19,7 +26,7 @@ const authentifier = (
   return code === bonMotDePasse;
 };
 
-export default async ({
+export const lancerServeur = async ({
   port,
   optsConstellation = {},
 }: {
@@ -31,8 +38,14 @@ export default async ({
   fermerServeur: () => Promise<void>;
   port: number;
   codeSecret: string;
+  suivreRequètes: (f: (x: string[]) => void) => () => void;
+  approuverRequète: (id: string) => void;
+  refuserRequète: (id: string) => void;
 }> => {
   port = port || (await trouverUnPort(5000))[0];
+  let requètes: {id: string, rép: Response}[] = [];
+  const événementsRequètes = new EventEmitter() as TypedEmitter<MessageÉvénementRequète>;
+  const requètesChangées = () => événementsRequètes.emit("changement", requètes.map(r=>r.id));
 
   const codeSecret = generateMnemonic(undefined, undefined, wordlists.french);
 
@@ -45,6 +58,33 @@ export default async ({
     constellation: optsConstellation,
     port,
   });
+
+  app.get("/demande", (req, rép)  => {
+    const id = req.query["id"]
+    if (typeof id === "string") {
+      requètes.push({ id, rép });
+      requètesChangées();
+    }
+  })
+
+  const suivreRequètes = (f: (r: string[]) => void): (() => void) => {
+    événementsRequètes.on("changement", f);
+    f(requètes.map(r=>r.id));
+    return () => événementsRequètes.off("changement", f)
+  }
+
+  const approuverRequète = (id: string) => {
+    const requète = requètes.find(r=>r.id === id)
+    requète?.rép.send(codeSecret)
+    requètesChangées();
+  }
+
+  const refuserRequète = (id: string) => {
+    const requète = requètes.find(r=>r.id === id)
+    requète?.rép.status(401);
+    requètes = requètes.filter(r=>r.id !== id);
+    requètesChangées();
+  }
 
   // `server` is a vanilla Node.js HTTP server, so use
   // the same ws upgrade process described here:
@@ -74,5 +114,5 @@ export default async ({
       });
     });
   };
-  return { fermerServeur, port, codeSecret };
+  return { fermerServeur, port, codeSecret, suivreRequètes, approuverRequète, refuserRequète };
 };

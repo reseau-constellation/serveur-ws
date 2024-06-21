@@ -1,5 +1,8 @@
 import { once } from "events";
+import { v4 as uuidv4 } from "uuid";
 import ws from "isomorphic-ws";
+import axios from "axios";
+
 import {
   ClientMandatairifiable,
   générerMandataire,
@@ -37,7 +40,7 @@ export class MandataireClientWS extends ClientMandatairifiable {
   }
 }
 
-export default async ({
+export const lancerClient = async ({
   port,
   codeSecret,
 }: {
@@ -57,5 +60,24 @@ export default async ({
     fermerClient: async () => {
       await client.fermer();
     },
+  };
+};
+
+export const demanderAccès = async ({
+  port,
+  monId,
+}: {
+  port: number;
+  monId?: string;
+}): Promise<{
+  codeSecret: string;
+}> => {
+  monId = monId || uuidv4();
+  const réponse = await axios(
+    `http://localhost:${port}/demande/?id=${monId}`,
+  );
+
+  return {
+    codeSecret: réponse.data,
   };
 };

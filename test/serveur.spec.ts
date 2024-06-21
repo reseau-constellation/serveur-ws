@@ -7,8 +7,8 @@ import { attente, dossiers } from "@constl/utils-tests";
 
 import { MandataireClientConstellation } from "@constl/mandataire";
 
-import lancerServeur from "@/serveur.js";
-import générerClient from "@/client.js";
+import { lancerServeur } from "@/serveur.js";
+import { demanderAccès, lancerClient } from "@/client.js";
 import { version } from "@/version.js";
 import { MessageBinaire, PRÉFIX_MACHINE } from "@/const.js";
 import { expect } from "aegir/chai";
@@ -35,6 +35,9 @@ const typesServeurs: () => {
     fermerServeur: () => Promise<void>;
     port: number;
     codeSecret: string;
+    suivreRequètes?: (f: (x: string[]) => void) => () => void;
+    approuverRequète?: (id: string) => void;
+    refuserRequète?: (id: string) => void;
   }>;
 } = () => {
   const typesFinaux: {
@@ -62,14 +65,14 @@ const typesServeurs: () => {
         ({ dossier, fEffacer } = await dossiers.dossierTempo());
       }
 
-      const { fermerServeur, port, codeSecret } = await lancerServeur({
+      const { fermerServeur, port, codeSecret, suivreRequètes, refuserRequète, approuverRequète } = await lancerServeur({
         optsConstellation: {
           dossier,
         },
       });
       return {
         port,
-        codeSecret,
+        codeSecret, suivreRequètes, refuserRequète, approuverRequète,
         fermerServeur: async () => {
           await fermerServeur();
           try {
@@ -216,9 +219,12 @@ describe("Fonctionalités serveurs", function () {
       let fermerServeur: () => Promise<void>;
       let port: number;
       let codeSecret: string;
+      let suivreRequètes: ((f: (x: string[]) => void) => () => void) | undefined;
+      let approuverRequète: ((id: string) => void) | undefined;
+      let refuserRequète: ((id: string) => void) | undefined;
 
       before(async () => {
-        ({ fermerServeur, port, codeSecret } = await fGénérerServeur({}));
+        ({ fermerServeur, port, codeSecret, suivreRequètes, refuserRequète, approuverRequète } = await fGénérerServeur({}));
       });
 
       after(async () => {
@@ -231,16 +237,56 @@ describe("Fonctionalités serveurs", function () {
       describe("Authentification", () => {
         it("Connection sans mot de passe rejetée", async () => {
           // @ts-expect-error On fait exprès d'oublier le mot de passe
-          await expect(générerClient({ port })).to.be.rejectedWith("401");
+          await expect(lancerClient({ port })).to.be.rejectedWith("401");
         });
         it("Connection avec mauvais mot de passe rejetée", async () => {
           await expect(
-            générerClient({
+            lancerClient({
               port,
               codeSecret: "Je ne suis pas le mot de passe secret.",
             }),
           ).to.be.rejectedWith("401");
         });
+
+        describe("Demandes mot de passe", function () {
+          if (typeServeur.includes("ligne de commande")) return;
+
+          let demande: Promise<{
+            codeSecret: string;
+          }>
+          const attendreRequètes = new attente.AttendreRésultat<string[]>();
+          const fsOublier: (()=>void)[] = [];
+          
+          before(() => {
+            suivreRequètes?.(rqts => attendreRequètes.mettreÀJour(rqts));
+          })
+          after(()=>{
+            attendreRequètes.toutAnnuler();
+            fsOublier.map(f=>f());
+          })
+          
+          it("Suivi demandes de mot de passe", async () => {
+            demande = demanderAccès({ port, monId: "C'est moi" });
+            const requètes = await attendreRequètes.attendreQue(x=>x.length > 0);
+            expect(requètes).to.include("C'est moi");
+          });
+
+          it("Rejet demande de mot de passe", async () => {
+            refuserRequète?.("C'est moi");
+            expect(demande).to.be.rejected();
+          });
+          
+          it("Acceptation demande mot de passe", async () => {
+            const nouvelleDemande = demanderAccès({port, monId: "S'il te plaît..."});
+            await attendreRequètes.attendreQue(x=>!!x.includes("S'il te plaît..."))
+            approuverRequète?.("S'il te plaît...");
+
+            const {codeSecret} = await nouvelleDemande;
+
+            const {fermerClient} = await lancerClient({port, codeSecret});
+            fsOublier.push(fermerClient)
+          });
+        })
       });
 
       describe("Fonctionalités base serveur", () => {
@@ -254,7 +300,7 @@ describe("Fonctionalités serveurs", function () {
         >();
 
         before(async () => {
-          ({ client: monClient, fermerClient } = await générerClient({
+          ({ client: monClient, fermerClient } = await lancerClient({
             port,
             codeSecret,
           }));
@@ -374,9 +420,9 @@ describe("Fonctionalités serveurs", function () {
 
         before(async () => {
           ({ client: client1, fermerClient: fermerClient1 } =
-            await générerClient({ port, codeSecret }));
+            await lancerClient({ port, codeSecret }));
           ({ client: client2, fermerClient: fermerClient2 } =
-            await générerClient({ port, codeSecret }));
+            await lancerClient({ port, codeSecret }));
         });
 
         after(async () => {
