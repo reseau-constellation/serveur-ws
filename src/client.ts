@@ -47,7 +47,9 @@ export default async ({
   client: MandataireClientConstellation<client.ClientConstellation>;
   fermerClient: () => void;
 }> => {
-  const connexion = new ws.WebSocket(`ws://localhost:${port}?code=${codeSecret}`);
+  const connexion = new ws.WebSocket(
+    `ws://localhost:${port}?code=${codeSecret}`,
+  );
   await once(connexion, "open");
   const client = new MandataireClientWS(connexion);
   return {

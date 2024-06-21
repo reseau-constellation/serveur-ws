@@ -31,14 +31,22 @@ const typesServeurs: () => {
     dossier,
   }: {
     dossier?: string;
-  }) => Promise<{ fermerServeur: () => Promise<void>; port: number, codeSecret: string }>;
+  }) => Promise<{
+    fermerServeur: () => Promise<void>;
+    port: number;
+    codeSecret: string;
+  }>;
 } = () => {
   const typesFinaux: {
     [clef: string]: ({
       dossier,
     }: {
       dossier?: string;
-    }) => Promise<{ fermerServeur: () => Promise<void>; port: number, codeSecret: string }>;
+    }) => Promise<{
+      fermerServeur: () => Promise<void>;
+      port: number;
+      codeSecret: string;
+    }>;
   } = {};
   if (process.env.TYPE_SERVEUR === "proc" || !process.env.TYPE_SERVEUR) {
     typesFinaux["Serveur même fil"] = async ({
@@ -220,6 +228,21 @@ describe("Fonctionalités serveurs", function () {
         }
       });
 
+      describe("Authentification", () => {
+        it("Connection sans mot de passe rejetée", async () => {
+          // @ts-expect-error On fait exprès d'oublier le mot de passe
+          await expect(générerClient({ port })).to.be.rejectedWith("401");
+        });
+        it("Connection avec mauvais mot de passe rejetée", async () => {
+          await expect(
+            générerClient({
+              port,
+              codeSecret: "Je ne suis pas le mot de passe secret.",
+            }),
+          ).to.be.rejectedWith("401");
+        });
+      });
+
       describe("Fonctionalités base serveur", () => {
         let fermerClient: () => void;
         let monClient: MandataireClientConstellation<client.ClientConstellation>;
@@ -231,7 +254,10 @@ describe("Fonctionalités serveurs", function () {
         >();
 
         before(async () => {
-          ({ client: monClient, fermerClient } = await générerClient({ port, codeSecret}));
+          ({ client: monClient, fermerClient } = await générerClient({
+            port,
+            codeSecret,
+          }));
         });
 
         after(async () => {

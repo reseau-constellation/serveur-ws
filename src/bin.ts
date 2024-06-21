@@ -82,7 +82,9 @@ yargs(hideBin(process.argv))
         }
       });
       if (argv.machine) {
-        envoyerMessageMachine({ message: { type: "NŒUD PRÊT", port, codeSecret } });
+        envoyerMessageMachine({
+          message: { type: "NŒUD PRÊT", port, codeSecret },
+        });
       } else {
         roue!.succeed(
           chalk.yellow(
