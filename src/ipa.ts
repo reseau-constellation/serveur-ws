@@ -59,11 +59,11 @@ export default ({
   constellation = {},
   port,
 }: {
-  serveur: ws.Server,
+  serveur: ws.Server;
   constellation?:
     | client.optsConstellation
-    | mandataire.gestionnaireClient.GestionnaireClient,
-  port: number,
+    | mandataire.gestionnaireClient.GestionnaireClient;
+  port: number;
 }): (() => Promise<void>) => {
   let client: mandataire.gestionnaireClient.GestionnaireClient;
   let fFermer: () => Promise<void>;
@@ -81,7 +81,6 @@ export default ({
       fErreur,
       {
         ...constellation,
-        
       },
     );
     fFermer = async () => {
