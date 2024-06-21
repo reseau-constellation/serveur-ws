@@ -52,9 +52,9 @@ export const lancerServeur = async ({
   const app = express();
   // https://masteringjs.io/tutorials/express/websockets
 
-  const wsServer = new WebSocketServer({ noServer: true });
+  const serveurWs = new WebSocketServer({ noServer: true });
   const fermerConstellation = ipa({
-    serveur: wsServer,
+    serveur: serveurWs,
     constellation: optsConstellation,
     port,
   });
@@ -90,14 +90,14 @@ export const lancerServeur = async ({
   // `server` is a vanilla Node.js HTTP server, so use
   // the same ws upgrade process described here:
   // https://www.npmjs.com/package/ws#multiple-servers-sharing-a-single-https-server
-  const server = app.listen(port);
+  const serveur = app.listen(port);
 
-  server.on("upgrade", (request, socket, head) => {
+  serveur.on("upgrade", (request, socket, head) => {
     const authentifié = authentifier(request, codeSecret);
 
     if (authentifié) {
-      wsServer.handleUpgrade(request, socket, head, (socket) => {
-        wsServer.emit("connection", socket, request);
+      serveurWs.handleUpgrade(request, socket, head, (socket) => {
+        serveurWs.emit("connection", socket, request);
       });
     } else {
       socket.write("HTTP/1.1 401 Authorisation refusée\r\n\r\n");
@@ -107,9 +107,9 @@ export const lancerServeur = async ({
   });
   const fermerServeur = () => {
     return new Promise<void>((résoudre) => {
-      wsServer.close(() => {
+      serveurWs.close(() => {
         fermerConstellation().finally(() => {
-          server.close();
+          serveur.close();
           résoudre();
         });
       });
