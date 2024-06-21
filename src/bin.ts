@@ -89,7 +89,7 @@ yargs(hideBin(process.argv))
         roue!.succeed(
           chalk.yellow(
             // eslint-disable-next-line no-irregular-whitespace
-            `Nœud local prêt sur port : ${port}\nFrappez « retour » pour arrêter le nœud.`,
+            `Nœud local prêt sur port : ${port}\nCode secret : ${codeSecret}\nFrappez « retour » pour arrêter le nœud.`,
           ),
         );
       }
