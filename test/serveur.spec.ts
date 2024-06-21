@@ -27,11 +27,7 @@ const analyserMessage = (message: string): MessageBinaire | undefined => {
 };
 
 const typesServeurs: () => {
-  [clef: string]: ({
-    dossier,
-  }: {
-    dossier?: string;
-  }) => Promise<{
+  [clef: string]: ({ dossier }: { dossier?: string }) => Promise<{
     fermerServeur: () => Promise<void>;
     port: number;
     codeSecret: string;
@@ -41,11 +37,7 @@ const typesServeurs: () => {
   }>;
 } = () => {
   const typesFinaux: {
-    [clef: string]: ({
-      dossier,
-    }: {
-      dossier?: string;
-    }) => Promise<{
+    [clef: string]: ({ dossier }: { dossier?: string }) => Promise<{
       fermerServeur: () => Promise<void>;
       port: number;
       codeSecret: string;
@@ -65,14 +57,24 @@ const typesServeurs: () => {
         ({ dossier, fEffacer } = await dossiers.dossierTempo());
       }
 
-      const { fermerServeur, port, codeSecret, suivreRequètes, refuserRequète, approuverRequète } = await lancerServeur({
+      const {
+        fermerServeur,
+        port,
+        codeSecret,
+        suivreRequètes,
+        refuserRequète,
+        approuverRequète,
+      } = await lancerServeur({
         optsConstellation: {
           dossier,
         },
       });
       return {
         port,
-        codeSecret, suivreRequètes, refuserRequète, approuverRequète,
+        codeSecret,
+        suivreRequètes,
+        refuserRequète,
+        approuverRequète,
         fermerServeur: async () => {
           await fermerServeur();
           try {
@@ -219,12 +221,21 @@ describe("Fonctionalités serveurs", function () {
       let fermerServeur: () => Promise<void>;
       let port: number;
       let codeSecret: string;
-      let suivreRequètes: ((f: (x: string[]) => void) => () => void) | undefined;
+      let suivreRequètes:
+        | ((f: (x: string[]) => void) => () => void)
+        | undefined;
       let approuverRequète: ((id: string) => void) | undefined;
       let refuserRequète: ((id: string) => void) | undefined;
 
       before(async () => {
-        ({ fermerServeur, port, codeSecret, suivreRequètes, refuserRequète, approuverRequète } = await fGénérerServeur({}));
+        ({
+          fermerServeur,
+          port,
+          codeSecret,
+          suivreRequètes,
+          refuserRequète,
+          approuverRequète,
+        } = await fGénérerServeur({}));
       });
 
       after(async () => {
@@ -253,45 +264,56 @@ describe("Fonctionalités serveurs", function () {
 
           let demande: Promise<{
             codeSecret: string;
-          }>
+          }>;
           const attendreRequètes = new attente.AttendreRésultat<string[]>();
-          const fsOublier: (()=>void)[] = [];
-          
+          const fsOublier: (() => void)[] = [];
+
           before(() => {
-            suivreRequètes?.(rqts => attendreRequètes.mettreÀJour(rqts));
-          })
-          after(()=>{
+            suivreRequètes?.((rqts) => attendreRequètes.mettreÀJour(rqts));
+          });
+          after(() => {
             attendreRequètes.toutAnnuler();
-            fsOublier.map(f=>f());
-          })
-          
+            fsOublier.map((f) => f());
+          });
+
           it("Suivi demandes de mot de passe", async () => {
             demande = demanderAccès({ port, monId: "C'est moi" });
-            const requètes = await attendreRequètes.attendreQue(x=>x.length > 0);
+            const requètes = await attendreRequètes.attendreQue(
+              (x) => x.length > 0,
+            );
             expect(requètes).to.include("C'est moi");
           });
 
           it("Rejet demande de mot de passe", async () => {
             refuserRequète?.("C'est moi");
             await expect(demande).to.be.rejected();
-            const requètes = await attendreRequètes.attendreQue(x=>!x.includes("C'est moi"));
+            const requètes = await attendreRequètes.attendreQue(
+              (x) => !x.includes("C'est moi"),
+            );
             expect(requètes).to.be.empty();
           });
-          
+
           it("Acceptation demande mot de passe", async () => {
-            const nouvelleDemande = demanderAccès({port, monId: "S'il te plaît..."});
-            await attendreRequètes.attendreQue(x=>!!x.includes("S'il te plaît..."))
+            const nouvelleDemande = demanderAccès({
+              port,
+              monId: "S'il te plaît...",
+            });
+            await attendreRequètes.attendreQue(
+              (x) => !!x.includes("S'il te plaît..."),
+            );
             approuverRequète?.("S'il te plaît...");
 
-            const {codeSecret} = await nouvelleDemande;
-            
-            const requètes = await attendreRequètes.attendreQue(x=>!x.includes("S'il te plaît..."));
+            const { codeSecret } = await nouvelleDemande;
+
+            const requètes = await attendreRequètes.attendreQue(
+              (x) => !x.includes("S'il te plaît..."),
+            );
             expect(requètes).to.be.empty();
 
-            const {fermerClient} = await lancerClient({port, codeSecret});
-            fsOublier.push(fermerClient)
+            const { fermerClient } = await lancerClient({ port, codeSecret });
+            fsOublier.push(fermerClient);
           });
-        })
+        });
       });
 
       describe("Fonctionalités base serveur", () => {

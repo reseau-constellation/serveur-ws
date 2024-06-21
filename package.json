@@ -19,7 +19,7 @@
     "test:processus": "pnpm compiler && env TYPE_SERVEUR=proc pnpm aegir test -t node --cov -- --exit",
     "test:binaire": "pnpm compiler && env TYPE_SERVEUR=bin pnpm aegir test -t node --cov -- --exit",
     "test": "pnpm test:processus && pnpm test:binaire",
-    "formatter": "pnpm prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\" && pnpm eslint --ext .js,.ts src",
+    "formatter": "pnpm prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\" && pnpm eslint src",
     "publier": "pnpm test && pnpm formatter && pnpm compiler && (git commit -a -m 'version' || true) && pnpm publish",
     "versioner": "pnpm genversion  --es6 --semi src/version.ts"
   },
@@ -43,6 +43,7 @@
     "@constl/ipa": "1.0.25",
     "@constl/mandataire": "1.0.2",
     "@constl/utils-tests": "1.2.7",
+    "@eslint/js": "^9.5.0",
     "@types/express": "^4.17.21",
     "@types/mocha": "^10.0.6",
     "@types/node": "^20.14.7",
@@ -67,6 +68,7 @@
     "ts-patch": "^3.2.0",
     "typed-emitter": "^2.1.0",
     "typescript": "^5.4.5",
+    "typescript-eslint": "^7.13.1",
     "typescript-transform-paths": "^3.4.7"
   },
   "bin": {

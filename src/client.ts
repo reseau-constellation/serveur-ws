@@ -73,14 +73,12 @@ export const demanderAccès = async ({
   codeSecret: string;
 }> => {
   monId = monId || uuidv4();
-  const réponse = await axios(
-    `http://localhost:${port}/demande/?id=${monId}`,
-  );
+  const réponse = await axios(`http://localhost:${port}/demande/?id=${monId}`);
   if (réponse.status === 200) {
     return {
       codeSecret: réponse.data,
     };
   } else {
-    return Promise.reject()
+    return Promise.reject();
   }
 };

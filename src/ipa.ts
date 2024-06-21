@@ -76,6 +76,7 @@ export default ({
       // On ne ferme pas le client s'il a été fourni de l'extérieur
     };
   } else {
+    constellation.messageVerrou = `{port: ${port}}`;
     client = new mandataire.gestionnaireClient.GestionnaireClient(
       fMessage,
       fErreur,

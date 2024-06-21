@@ -1,7 +1,7 @@
 import type { IncomingMessage } from "http";
 import type TypedEmitter from "typed-emitter";
 
-import express, {type Response} from "express";
+import express, { type Response } from "express";
 import { WebSocketServer } from "ws";
 import { parse } from "url";
 import trouverUnPort from "find-free-port";
@@ -10,12 +10,11 @@ import { generateMnemonic, wordlists } from "bip39";
 import { client, mandataire } from "@constl/ipa";
 
 import ipa from "@/ipa.js";
-import EventEmitter from "events"
+import EventEmitter from "events";
 
 type MessageÉvénementRequète = {
-  changement: (requètes: string[]) => void,
-}
-
+  changement: (requètes: string[]) => void;
+};
 
 const authentifier = (
   requète: IncomingMessage,
@@ -43,9 +42,14 @@ export const lancerServeur = async ({
   refuserRequète: (id: string) => void;
 }> => {
   port = port || (await trouverUnPort(5000))[0];
-  let requètes: {id: string, rép: Response}[] = [];
-  const événementsRequètes = new EventEmitter() as TypedEmitter<MessageÉvénementRequète>;
-  const requètesChangées = () => événementsRequètes.emit("changement", requètes.map(r=>r.id));
+  let requètes: { id: string; rép: Response }[] = [];
+  const événementsRequètes =
+    new EventEmitter() as TypedEmitter<MessageÉvénementRequète>;
+  const requètesChangées = () =>
+    événementsRequètes.emit(
+      "changement",
+      requètes.map((r) => r.id),
+    );
 
   const codeSecret = generateMnemonic(undefined, undefined, wordlists.french);
 
@@ -59,33 +63,33 @@ export const lancerServeur = async ({
     port,
   });
 
-  app.get("/demande", (req, rép)  => {
-    const id = req.query["id"]
+  app.get("/demande", (req, rép) => {
+    const id = req.query["id"];
     if (typeof id === "string") {
       requètes.push({ id, rép });
       requètesChangées();
     }
-  })
+  });
 
   const suivreRequètes = (f: (r: string[]) => void): (() => void) => {
     événementsRequètes.on("changement", f);
-    f(requètes.map(r=>r.id));
-    return () => événementsRequètes.off("changement", f)
-  }
+    f(requètes.map((r) => r.id));
+    return () => événementsRequètes.off("changement", f);
+  };
 
   const approuverRequète = (id: string) => {
-    const requète = requètes.find(r=>r.id === id);
+    const requète = requètes.find((r) => r.id === id);
     requète?.rép.status(200).send(codeSecret);
-    requètes = requètes.filter(r=>r.id !== id);
+    requètes = requètes.filter((r) => r.id !== id);
     requètesChangées();
-  }
+  };
 
   const refuserRequète = (id: string) => {
-    const requète = requètes.find(r=>r.id === id)
+    const requète = requètes.find((r) => r.id === id);
     requète?.rép.status(401).send("Accès refusé");
-    requètes = requètes.filter(r=>r.id !== id);
+    requètes = requètes.filter((r) => r.id !== id);
     requètesChangées();
-  }
+  };
 
   // `server` is a vanilla Node.js HTTP server, so use
   // the same ws upgrade process described here:
@@ -115,5 +119,12 @@ export const lancerServeur = async ({
       });
     });
   };
-  return { fermerServeur, port, codeSecret, suivreRequètes, approuverRequète, refuserRequète };
+  return {
+    fermerServeur,
+    port,
+    codeSecret,
+    suivreRequètes,
+    approuverRequète,
+    refuserRequète,
+  };
 };
