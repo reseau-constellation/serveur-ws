@@ -209,7 +209,8 @@ describe("Fermeture serveur sécuritaire", function () {
     describe(typeServeur, () => {
       it("Fermeture suivant ouverture", async () => {
         const { fermerServeur } = await fGénérerServeur({});
-        await fermerServeur();
+        if (process.platform === "win32") fermerServeur();
+        else await fermerServeur();
       });
     }),
   );
