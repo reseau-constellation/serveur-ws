@@ -22,7 +22,7 @@ const authentifier = (
 ): boolean => {
   if (!requète.url) return false;
   const { code } = parse(requète.url, true).query;
-  return typeof code === 'string' && decodeURI(code) === bonMotDePasse;
+  return typeof code === "string" && decodeURI(code) === bonMotDePasse;
 };
 
 export const lancerServeur = async ({

@@ -348,14 +348,14 @@ describe("Fonctionalités serveurs", function () {
         });
 
         it("Suivre", async () => {
-          const oublierNoms = await monClient.profil!.suivreNoms({
+          const oublierNoms = await monClient.profil.suivreNoms({
             f: (n) => attendreNoms.mettreÀJour(n),
           });
 
           const val = await attendreNoms.attendreExiste();
           expect(Object.keys(val)).to.be.empty();
 
-          await monClient.profil!.sauvegarderNom({
+          await monClient.profil.sauvegarderNom({
             langue: "fr",
             nom: "Julien Jean Malard-Adam",
           });
@@ -366,7 +366,7 @@ describe("Fonctionalités serveurs", function () {
 
           await oublierNoms();
 
-          await monClient.profil!.sauvegarderNom({
+          await monClient.profil.sauvegarderNom({
             langue: "es",
             nom: "Julien Jean Malard-Adam",
           });
@@ -378,20 +378,20 @@ describe("Fonctionalités serveurs", function () {
         it("Rechercher", async () => {
           // Eléments détectés
           const { fOublier, fChangerN } =
-            await monClient.recherche!.rechercherMotsClefsSelonNom({
+            await monClient.recherche.rechercherMotsClefsSelonNom({
               nomMotClef: "Météo Montréal",
               f: (x) => attendreMC.mettreÀJour(x),
               nRésultatsDésirés: 1,
             });
 
-          const idMotClef1 = await monClient.motsClefs!.créerMotClef();
-          await monClient.motsClefs!.sauvegarderNomsMotClef({
+          const idMotClef1 = await monClient.motsClefs.créerMotClef();
+          await monClient.motsClefs.sauvegarderNomsMotClef({
             idMotClef: idMotClef1,
             noms: { fr: "Météo à Montréal" },
           });
 
-          const idMotClef2 = await monClient.motsClefs!.créerMotClef();
-          await monClient.motsClefs!.sauvegarderNomsMotClef({
+          const idMotClef2 = await monClient.motsClefs.créerMotClef();
+          await monClient.motsClefs.sauvegarderNomsMotClef({
             idMotClef: idMotClef2,
             noms: { fr: "Météo Montréal" },
           });
@@ -476,17 +476,17 @@ describe("Fonctionalités serveurs", function () {
           let courriel2: string | null = null;
 
           fsOublier.push(
-            await client1.profil!.suivreCourriel({
+            await client1.profil.suivreCourriel({
               f: (courriel) => (courriel1 = courriel),
             }),
           );
           fsOublier.push(
-            await client2.profil!.suivreCourriel({
+            await client2.profil.suivreCourriel({
               f: (courriel) => (courriel2 = courriel),
             }),
           );
 
-          await client1.profil!.sauvegarderCourriel({
+          await client1.profil.sauvegarderCourriel({
             courriel: "julien.malard@mail.mcgill.ca",
           });
           await new Promise((résoudre) => setTimeout(résoudre, 2000));
@@ -498,30 +498,30 @@ describe("Fonctionalités serveurs", function () {
         it("Rechercher", async () => {
           // Eléments détectés
           const { fOublier: fOublier1, fChangerN: fChangerN1 } =
-            await client1.recherche!.rechercherVariablesSelonNom({
+            await client1.recherche.rechercherVariablesSelonNom({
               nomVariable: "Précipitation",
               f: (x) => attendreVars1.mettreÀJour(x),
               nRésultatsDésirés: 1,
             });
           const { fOublier: fOublier2, fChangerN: fChangerN2 } =
-            await client2.recherche!.rechercherVariablesSelonNom({
+            await client2.recherche.rechercherVariablesSelonNom({
               nomVariable: "Précipitation",
               f: (x) => attendreVars2.mettreÀJour(x),
               nRésultatsDésirés: 1,
             });
 
-          const idVariable1 = await client1.variables!.créerVariable({
+          const idVariable1 = await client1.variables.créerVariable({
             catégorie: "numérique",
           });
-          await client1.variables!.sauvegarderNomsVariable({
+          await client1.variables.sauvegarderNomsVariable({
             idVariable: idVariable1,
             noms: { es: "Precipitación" },
           });
 
-          const idVariable2 = await client1.variables!.créerVariable({
+          const idVariable2 = await client1.variables.créerVariable({
             catégorie: "numérique",
           });
-          await client1.variables!.sauvegarderNomsVariable({
+          await client1.variables.sauvegarderNomsVariable({
             idVariable: idVariable2,
             noms: { fr: "Précipitation" },
           });

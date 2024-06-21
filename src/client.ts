@@ -73,7 +73,9 @@ export const demanderAccès = async ({
   codeSecret: string;
 }> => {
   monId = monId || uuidv4();
-  const réponse = await axios(`http://localhost:${port}/demande/?id=${encodeURIComponent(monId)}`);
+  const réponse = await axios(
+    `http://localhost:${port}/demande/?id=${encodeURIComponent(monId)}`,
+  );
   if (réponse.status === 200) {
     return {
       codeSecret: réponse.data,
