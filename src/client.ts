@@ -76,8 +76,11 @@ export const demanderAccès = async ({
   const réponse = await axios(
     `http://localhost:${port}/demande/?id=${monId}`,
   );
-
-  return {
-    codeSecret: réponse.data,
-  };
+  if (réponse.status === 200) {
+    return {
+      codeSecret: réponse.data,
+    };
+  } else {
+    return Promise.reject()
+  }
 };

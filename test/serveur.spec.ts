@@ -273,7 +273,9 @@ describe("Fonctionalités serveurs", function () {
 
           it("Rejet demande de mot de passe", async () => {
             refuserRequète?.("C'est moi");
-            expect(demande).to.be.rejected();
+            await expect(demande).to.be.rejected();
+            const requètes = await attendreRequètes.attendreQue(x=>!x.includes("C'est moi"));
+            expect(requètes).to.be.empty();
           });
           
           it("Acceptation demande mot de passe", async () => {
@@ -282,6 +284,9 @@ describe("Fonctionalités serveurs", function () {
             approuverRequète?.("S'il te plaît...");
 
             const {codeSecret} = await nouvelleDemande;
+            
+            const requètes = await attendreRequètes.attendreQue(x=>!x.includes("S'il te plaît..."));
+            expect(requètes).to.be.empty();
 
             const {fermerClient} = await lancerClient({port, codeSecret});
             fsOublier.push(fermerClient)

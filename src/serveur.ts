@@ -75,13 +75,13 @@ export const lancerServeur = async ({
 
   const approuverRequète = (id: string) => {
     const requète = requètes.find(r=>r.id === id)
-    requète?.rép.send(codeSecret)
+    requète?.rép.status(200).send(codeSecret)
     requètesChangées();
   }
 
   const refuserRequète = (id: string) => {
     const requète = requètes.find(r=>r.id === id)
-    requète?.rép.status(401);
+    requète?.rép.status(401).send("Accès refusé");
     requètes = requètes.filter(r=>r.id !== id);
     requètesChangées();
   }
