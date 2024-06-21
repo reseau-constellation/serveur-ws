@@ -74,8 +74,9 @@ export const lancerServeur = async ({
   }
 
   const approuverRequète = (id: string) => {
-    const requète = requètes.find(r=>r.id === id)
-    requète?.rép.status(200).send(codeSecret)
+    const requète = requètes.find(r=>r.id === id);
+    requète?.rép.status(200).send(codeSecret);
+    requètes = requètes.filter(r=>r.id !== id);
     requètesChangées();
   }
 
