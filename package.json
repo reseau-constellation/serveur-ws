@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "@achingbrain/nat-port-mapper": "1.0.13",
+    "bip39": "^3.1.0",
     "bufferutil": "^4.0.8",
     "chalk": "^5.3.0",
     "core-js": "^3.37.0",
@@ -37,7 +38,7 @@
     "yargs": "^17.7.2"
   },
   "devDependencies": {
-    "@constl/ipa": "1.0.21",
+    "@constl/ipa": "1.0.25",
     "@constl/mandataire": "1.0.2",
     "@constl/utils-tests": "1.2.7",
     "@types/express": "^4.17.21",

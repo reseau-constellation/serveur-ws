@@ -60,7 +60,7 @@ yargs(hideBin(process.argv))
         sujetRéseau: argv.sujet,
       };
 
-      const { port, fermerServeur } = await lancerServeur({
+      const { port, codeSecret, fermerServeur } = await lancerServeur({
         port: argv.port ? Number.parseInt(argv.port) : undefined,
         optsConstellation,
       });
@@ -82,7 +82,7 @@ yargs(hideBin(process.argv))
         }
       });
       if (argv.machine) {
-        envoyerMessageMachine({ message: { type: "NŒUD PRÊT", port } });
+        envoyerMessageMachine({ message: { type: "NŒUD PRÊT", port, codeSecret } });
       } else {
         roue!.succeed(
           chalk.yellow(

@@ -13,6 +13,7 @@ export type MessageLançageNœud = {
 export type MessageNœudPrêt = {
   type: "NŒUD PRÊT";
   port: number;
+  codeSecret: string;
 };
 
 export type MessageOnFerme = {

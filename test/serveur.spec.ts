@@ -31,14 +31,14 @@ const typesServeurs: () => {
     dossier,
   }: {
     dossier?: string;
-  }) => Promise<{ fermerServeur: () => Promise<void>; port: number }>;
+  }) => Promise<{ fermerServeur: () => Promise<void>; port: number, codeSecret: string }>;
 } = () => {
   const typesFinaux: {
     [clef: string]: ({
       dossier,
     }: {
       dossier?: string;
-    }) => Promise<{ fermerServeur: () => Promise<void>; port: number }>;
+    }) => Promise<{ fermerServeur: () => Promise<void>; port: number, codeSecret: string }>;
   } = {};
   if (process.env.TYPE_SERVEUR === "proc" || !process.env.TYPE_SERVEUR) {
     typesFinaux["Serveur même fil"] = async ({
@@ -54,13 +54,14 @@ const typesServeurs: () => {
         ({ dossier, fEffacer } = await dossiers.dossierTempo());
       }
 
-      const { fermerServeur, port } = await lancerServeur({
+      const { fermerServeur, port, codeSecret } = await lancerServeur({
         optsConstellation: {
           dossier,
         },
       });
       return {
         port,
+        codeSecret,
         fermerServeur: async () => {
           await fermerServeur();
           try {
@@ -127,6 +128,7 @@ const typesServeurs: () => {
             if (message && message.type === "NŒUD PRÊT") {
               résoudre({
                 port: message.port,
+                codeSecret: message.codeSecret,
                 fermerServeur,
               });
             }
@@ -205,9 +207,10 @@ describe("Fonctionalités serveurs", function () {
     describe(typeServeur, () => {
       let fermerServeur: () => Promise<void>;
       let port: number;
+      let codeSecret: string;
 
       before(async () => {
-        ({ fermerServeur, port } = await fGénérerServeur({}));
+        ({ fermerServeur, port, codeSecret } = await fGénérerServeur({}));
       });
 
       after(async () => {
@@ -228,7 +231,7 @@ describe("Fonctionalités serveurs", function () {
         >();
 
         before(async () => {
-          ({ client: monClient, fermerClient } = await générerClient({ port }));
+          ({ client: monClient, fermerClient } = await générerClient({ port, codeSecret}));
         });
 
         after(async () => {
@@ -345,9 +348,9 @@ describe("Fonctionalités serveurs", function () {
 
         before(async () => {
           ({ client: client1, fermerClient: fermerClient1 } =
-            await générerClient({ port }));
+            await générerClient({ port, codeSecret }));
           ({ client: client2, fermerClient: fermerClient2 } =
-            await générerClient({ port }));
+            await générerClient({ port, codeSecret }));
         });
 
         after(async () => {

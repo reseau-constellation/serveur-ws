@@ -39,13 +39,15 @@ export class MandataireClientWS extends ClientMandatairifiable {
 
 export default async ({
   port,
+  codeSecret,
 }: {
   port: number;
+  codeSecret: string;
 }): Promise<{
   client: MandataireClientConstellation<client.ClientConstellation>;
   fermerClient: () => void;
 }> => {
-  const connexion = new ws.WebSocket(`ws://localhost:${port}`);
+  const connexion = new ws.WebSocket(`ws://localhost:${port}?code=${codeSecret}`);
   await once(connexion, "open");
   const client = new MandataireClientWS(connexion);
   return {
