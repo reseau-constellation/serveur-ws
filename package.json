@@ -77,9 +77,7 @@
   "peerDependencies": {
     "@constl/ipa": "^1.0.25"
   },
-  "pnpm": {
-    "overrides": {
-      "@libp2p/autonat": "1.0.21"
-    }
+  "resolutions": {
+    "@libp2p/autonat": "1.0.21"
   }
 }
