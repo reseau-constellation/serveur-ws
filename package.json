@@ -75,6 +75,11 @@
     "constl": "./dist/src/bin.js"
   },
   "peerDependencies": {
-    "@constl/ipa": "^1.0.0"
+    "@constl/ipa": "^1.0.25"
+  },
+  "pnpm": {
+    "overrides": {
+      "@libp2p/autonat": "1.0.21"
+    }
   }
 }
