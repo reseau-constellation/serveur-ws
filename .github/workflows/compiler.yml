@@ -30,8 +30,20 @@ jobs:
       - name: Installer
         run: pnpm install
 
+      - name: Cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.nexe
+          key: ${{ runner.os }}-nexe
+
       - name: Compiler
         run: pnpm compiler
+
+      - name: Cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.nexe
+          key: ${{ runner.os }}-nexe
 
       - name: Vérifier compilation
         run: ls paquets/exec
