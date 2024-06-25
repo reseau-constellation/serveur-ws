@@ -13,7 +13,7 @@ const config = {
     assetsDir: '.',
     minify: process.env.MODE !== 'development',
     lib: {
-      entry: 'src/bin.ts',
+      entry: 'src/constl.ts',
       formats: ['cjs'],
     },
     rollupOptions: {
