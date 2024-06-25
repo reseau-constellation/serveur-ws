@@ -11,7 +11,7 @@
   },
   "scripts": {
     "nettoyer": "rimraf dist",
-    "compiler": "pnpm versioner && pnpm nettoyer && pnpm tspc -p tsconfig.build.json && pnpm vite build && npx nexe dist-bin/bin.cjs --build",
+    "compiler": "pnpm versioner && pnpm nettoyer && pnpm tspc -p tsconfig.build.json && pnpm vite build && npx nexe dist-bin/constl.cjs --build",
     "formatter": "pnpm prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\" && pnpm eslint src",
     "publier": "pnpm test && pnpm formatter && pnpm compiler && (git commit -a -m 'version' || true) && pnpm publish",
     "versioner": "pnpm genversion  --es6 --semi src/version.ts"
