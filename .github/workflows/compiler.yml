@@ -1,4 +1,4 @@
-name: Serveur WS
+name: Compilation
 on:
   push:
     branches:
@@ -34,4 +34,4 @@ jobs:
         run: pnpm compiler
 
       - name: Vérifier compilation
-        uses: ls paquets/exec
+        run: ls paquets/exec
