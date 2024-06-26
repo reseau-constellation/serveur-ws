@@ -12,9 +12,10 @@ const pkgJsonPath = join(
 
 const pkgJson = JSON.parse(readFileSync(pkgJsonPath));
 
-const résolutions = JSON.parse(readFileSync("package.json"))["pnpm"]?.[
-  "overrides"
-];
+const résolutions = {
+  "@libp2p/autonat": "1.0.21",
+  "node-datachannel": "^0.8.0"
+};
 
 if (!pkgJson.pnpm) pkgJson.pnpm = {};
 pkgJson.pnpm.overrides = {
@@ -24,4 +25,4 @@ pkgJson.pnpm.overrides = {
 
 writeFileSync(pkgJsonPath, JSON.stringify(pkgJson, null, 2));
 
-execSync("pnpm i");
+execSync("pnpm i -g");
