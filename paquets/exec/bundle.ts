@@ -13,7 +13,7 @@ import { build } from 'esbuild'
       platform: 'node',
       format: 'esm',
       splitting: false,
-      outfile: 'dist-bin/constl',
+      outfile: 'dist-bin/constl.js',
       external: ['node-gyp'],
       define: {
         'process.env.npm_package_name': JSON.stringify(
