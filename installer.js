@@ -1,9 +1,6 @@
 import { writeFileSync, readFileSync } from "fs";
 import { execSync } from "child_process";
 import { join, dirname } from "path";
-import { execArgv, exit } from "process";
-
-// if (!execArgv.includes("-g") || !execArgv.includes("--global")) exit(0);
 
 const pkgJsonPath = join(
   dirname(execSync("pnpm root -g").toString()),
@@ -25,4 +22,4 @@ pkgJson.pnpm.overrides = {
 
 writeFileSync(pkgJsonPath, JSON.stringify(pkgJson, null, 2));
 
-execSync("pnpm i -g");
+execSync("pnpm add -g @constl/serveur@latest");
