@@ -12,7 +12,7 @@
   },
   "scripts": {
     "nettoyer": "rimraf dist",
-    "compiler": "pnpm versioner && pnpm nettoyer && pnpm tspc -p tsconfig.build.json && npx tsx bundle.ts && npx nexe dist-bin/constl.js --build",
+    "compiler": "pnpm versioner && pnpm nettoyer && pnpm tspc -p tsconfig.build.json && npx tsx bundle.ts && npx nexe dist-bin/constl.mjs --build",
     "formatter": "pnpm prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\" && pnpm eslint src",
     "publier": "pnpm test && pnpm formatter && pnpm compiler && (git commit -a -m 'version' || true) && pnpm publish",
     "versioner": "pnpm genversion  --es6 --semi src/version.ts"
