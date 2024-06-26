@@ -21,8 +21,7 @@
     "test": "pnpm test:processus && pnpm test:binaire",
     "formatter": "pnpm prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\" && pnpm eslint src",
     "publier": "pnpm test && pnpm formatter && pnpm compiler && (git commit -a -m 'version' || true) && pnpm publish",
-    "versioner": "pnpm genversion  --es6 --semi src/version.ts",
-    "postinstall": "node post-install.js"
+    "versioner": "pnpm genversion  --es6 --semi src/version.ts"
   },
   "dependencies": {
     "@achingbrain/nat-port-mapper": "1.0.13",
