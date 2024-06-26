@@ -1,6 +1,6 @@
-import { writeFileSync, readFileSync } from "fs";
-import { execSync } from "child_process";
-import { join, dirname } from "path";
+const  { writeFileSync, readFileSync } = require("fs");
+const  { execSync } = require("child_process");
+const  { join, dirname } = require("path");
 
 const pkgJsonPath = join(
   dirname(execSync("pnpm root -g").toString()),

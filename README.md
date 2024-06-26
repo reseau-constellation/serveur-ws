@@ -36,7 +36,7 @@ de la ligne de commande.
 Si vous comptez simplement utiliser le serveur Constellation (y compris pour une
 analyse en Python, en R ou en Julia), c'est ceci ce que vous voulez.
 
-`pnpm add -g @constl/serveur @constl/ipa`
+`curl https://raw.githubusercontent.com/reseau-constellation/serveur-ws/principale/installer.cjs | node -`
 
 ### Ligne de commande
 Pour lancer le serveur :
