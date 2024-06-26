@@ -40,7 +40,7 @@ jobs:
         run: pnpm compiler
 
       - name: Vérifier compilation
-        run: chmod +x paquets/exec/constl && paquets/exec/constl
+        run: chmod +x paquets/exec/constl && paquets/exec/constl -a
 
       - name: Vérifier compilation - version
         run: paquets/exec/constl version
