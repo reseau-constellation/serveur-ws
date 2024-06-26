@@ -2,10 +2,10 @@ name: Serveur WS
 on:
   push:
     branches:
-      - master
+      - principale
   pull_request:
     branches:
-      - master
+      - principale
 jobs:
   tests-binaire:
     name: Ligne de commande
