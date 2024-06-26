@@ -1,17 +1,15 @@
 #!/usr/bin/env node
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
-  // @ts-ignore
 import type {Ora} from "ora";
 // import type {MessageBinaire} from "@constl/serveur"
-  // @ts-ignore
 import type { client} from "@constl/ipa";
 
 import packageJson from "../package.json";
 
-const ora = import("ora");
-const chalk = import("chalk");
-const serveur = import("@constl/serveur");
+import ora from "ora";
+import chalk from "chalk";
+import {lancerServeur} from "@constl/serveur";
 
 const envoyerMessageMachine = async ({ message }: { message: any }) => {
   // const {PRÉFIX_MACHINE} = await serveur;
@@ -51,13 +49,12 @@ yargs(hideBin(process.argv))
       if (argv.machine) {
         await envoyerMessageMachine({ message: { type: "LANÇAGE NŒUD" } });
       } else {
-        roue = (await ora).default((await chalk).default.yellow(`Initialisation du nœud).start()`));
+        roue = ora(chalk.yellow(`Initialisation du nœud).start()`));
       }
       const optsConstellation: client.optsConstellation = {
         dossier: argv.dossier,
         sujetRéseau: argv.sujet,
       };
-      const {lancerServeur} = (await serveur);
       const { port, codeSecret, fermerServeur } = await lancerServeur({
         port: argv.port ? Number.parseInt(argv.port) : undefined,
         optsConstellation,
@@ -66,7 +63,7 @@ yargs(hideBin(process.argv))
         if (argv.machine) {
           await envoyerMessageMachine({ message: { type: "ON FERME" } });
         } else {
-          roue?.start((await chalk).default.yellow("On ferme le nœud..."));
+          roue?.start(chalk.yellow("On ferme le nœud..."));
         }
         try {
           fermerServeur();
@@ -74,7 +71,7 @@ yargs(hideBin(process.argv))
           if (argv.machine) {
             await envoyerMessageMachine({ message: { type: "NŒUD FERMÉ" } });
           } else {
-            roue?.succeed((await chalk).default.yellow("Nœud fermé."));
+            roue?.succeed(chalk.yellow("Nœud fermé."));
           }
           process.exit(0);
         }
@@ -85,7 +82,7 @@ yargs(hideBin(process.argv))
         });
       } else {
         roue!.succeed(
-          (await chalk).default.yellow(
+          chalk.yellow(
             // eslint-disable-next-line no-irregular-whitespace
             `Nœud local prêt sur port : ${port}\nCode secret : ${codeSecret}\nFrappez « retour » pour arrêter le nœud.`,
           ),
