@@ -14,7 +14,7 @@ const pkgJson = JSON.parse(readFileSync(pkgJsonPath));
 
 const résolutions = {
   "@libp2p/autonat": "1.0.21",
-  "node-datachannel": "^0.8.0"
+  "node-datachannel": "^0.8.0",
 };
 
 if (!pkgJson.pnpm) pkgJson.pnpm = {};
