@@ -36,6 +36,9 @@ importers:
       ora:
         specifier: ^8.0.1
         version: 8.0.1
+      tslib:
+        specifier: ^2.6.3
+        version: 2.6.3
       yargs:
         specifier: ^17.7.2
         version: 17.7.2
@@ -61,6 +64,9 @@ importers:
       '@typescript-eslint/parser':
         specifier: ^7.8.0
         version: 7.14.1(eslint@9.5.0)(typescript@5.4.5)
+      '@vercel/ncc':
+        specifier: ^0.38.1
+        version: 0.38.1
       esbuild:
         specifier: ^0.21.5
         version: 0.21.5
@@ -2668,6 +2674,10 @@ packages:
 
   '@vascosantos/moving-average@1.1.0':
     resolution: {integrity: sha512-MVEJ4vWAPNbrGLjz7ITnHYg+YXZ6ijAqtH5/cHwSoCpbvuJ98aLXwFfPKAUfZpJMQR5uXB58UJajbY130IRF/w==}
+
+  '@vercel/ncc@0.38.1':
+    resolution: {integrity: sha512-IBBb+iI2NLu4VQn3Vwldyi2QwaXt5+hTyh58ggAMoCGE6DJmPvwL3KPBWcJl1m9LYPChBLE980Jw+CS4Wokqxw==}
+    hasBin: true
 
   '@vitest/expect@1.6.0':
     resolution: {integrity: sha512-ixEvFVQjycy/oNgHjqsL6AZCDduC+tflRluaHIzKIsdbzkLn2U/iBnVeJwB6HsIjQBdfMR8Z0tRxKUsvFJEeWQ==}
@@ -13395,6 +13405,8 @@ snapshots:
   '@ungap/structured-clone@1.2.0': {}
 
   '@vascosantos/moving-average@1.1.0': {}
+
+  '@vercel/ncc@0.38.1': {}
 
   '@vitest/expect@1.6.0':
     dependencies:

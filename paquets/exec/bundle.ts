@@ -8,11 +8,12 @@ import { build } from 'esbuild'
 ;(async () => {
   try {
     await build({
-      entryPoints: ['dist/bin.js'],
+      entryPoints: ['dist/src/constl.js'],
       bundle: true,
       platform: 'node',
-      format: 'cjs',
-      outfile: 'dist/constl.cjs',
+      format: 'esm',
+      splitting: false,
+      outfile: 'dist-bin/constl.js',
       external: ['node-gyp'],
       define: {
         'process.env.npm_package_name': JSON.stringify(

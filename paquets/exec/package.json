@@ -11,7 +11,7 @@
   },
   "scripts": {
     "nettoyer": "rimraf dist",
-    "compiler": "pnpm versioner && pnpm nettoyer && pnpm tspc -p tsconfig.build.json && pnpm vite build && npx nexe dist-bin/constl.cjs --build",
+    "compiler": "pnpm versioner && pnpm nettoyer && pnpm tspc -p tsconfig.build.json && npx tsx bundle.ts",
     "formatter": "pnpm prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\" && pnpm eslint src",
     "publier": "pnpm test && pnpm formatter && pnpm compiler && (git commit -a -m 'version' || true) && pnpm publish",
     "versioner": "pnpm genversion  --es6 --semi src/version.ts"
@@ -20,6 +20,7 @@
     "@constl/serveur": "^2.0.3",
     "chalk": "^5.3.0",
     "ora": "^8.0.1",
+    "tslib": "^2.6.3",
     "yargs": "^17.7.2"
   },
   "devDependencies": {
@@ -30,6 +31,7 @@
     "@types/yargs": "^17.0.32",
     "@typescript-eslint/eslint-plugin": "^7.8.0",
     "@typescript-eslint/parser": "^7.8.0",
+    "@vercel/ncc": "^0.38.1",
     "esbuild": "^0.21.5",
     "eslint": "^9.2.0",
     "eslint-config-airbnb-base": "^15.0.0",

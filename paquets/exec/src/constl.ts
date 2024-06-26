@@ -1,23 +1,17 @@
 #!/usr/bin/env node
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
+  // @ts-ignore
 import type {Ora} from "ora";
 // import type {MessageBinaire} from "@constl/serveur"
+  // @ts-ignore
 import type { client} from "@constl/ipa";
+
+import packageJson from "../package.json";
 
 const ora = import("ora");
 const chalk = import("chalk");
 const serveur = import("@constl/serveur");
-
-import fs from "fs";
-import path from "path";
-import url from "url";
-
-
-
-const dirBase = url.fileURLToPath(new URL("..", import.meta.url));
-// const fichierPackageJson = path.join(dirBase, "./package.json");
-// const packageJson = JSON.parse(fs.readFileSync(fichierPackageJson, "utf8"));
 
 const envoyerMessageMachine = async ({ message }: { message: any }) => {
   // const {PRÉFIX_MACHINE} = await serveur;
@@ -106,7 +100,7 @@ yargs(hideBin(process.argv))
       return yargs;
     },
     async () => {
-      console.log("packageJson.version");
+      console.log(packageJson.version);
     },
   )
   .demandCommand()
