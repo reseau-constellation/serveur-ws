@@ -5,6 +5,7 @@
   "author": "Julien Jean Malard-Adam",
   "license": "AGPL-3.0",
   "private": false,
+  "type": "module",
   "description": "Un serveur Constellation pour connecter à d'autres applications locales (sur la même machine)",
   "engines": {
     "node": ">=20"
@@ -24,10 +25,10 @@
     "yargs": "^17.7.2"
   },
   "devDependencies": {
-    "@constl/ipa": "1.0.25",
+    "@constl/ipa": "1.0.26",
     "@eslint/js": "^9.5.0",
     "@types/express": "^4.17.21",
-    "@types/node": "^20.14.7",
+    "@types/node": "^20.14.9",
     "@types/yargs": "^17.0.32",
     "@typescript-eslint/eslint-plugin": "^7.8.0",
     "@typescript-eslint/parser": "^7.8.0",
