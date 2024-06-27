@@ -1,14 +1,15 @@
-const  { writeFileSync, readFileSync, existsSync } = require("fs");
+const  { writeFileSync, readFileSync, existsSync, mkdirSync } = require("fs");
 const  { execSync } = require("child_process");
 const  { join, dirname } = require("path");
 
-const pkgJsonPath = join(
-  dirname(execSync("pnpm root -g").toString()),
+const dossierPnpmGlobal = dirname(execSync("pnpm root -g").toString());
+const adressePkgJson = join(
+  dossierPnpmGlobal,
   "package.json",
 );
 
 
-const pkgJson = existsSync(pkgJsonPath) ? JSON.parse(readFileSync(pkgJsonPath)) : {};
+const pkgJson = existsSync(adressePkgJson) ? JSON.parse(readFileSync(adressePkgJson)) : {};
 
 const résolutions = {
   "@libp2p/autonat": "1.0.21",
@@ -21,6 +22,7 @@ pkgJson.pnpm.overrides = {
   ...(résolutions || {}),
 };
 
-writeFileSync(pkgJsonPath, JSON.stringify(pkgJson, null, 2));
+if (!existsSync(dossierPnpmGlobal)) mkdirSync(dossierPnpmGlobal); 
+writeFileSync(adressePkgJson, JSON.stringify(pkgJson, null, 2));
 
 execSync("pnpm add -g @constl/serveur@latest");
