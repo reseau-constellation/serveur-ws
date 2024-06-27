@@ -1,4 +1,4 @@
-const  { writeFileSync, readFileSync } = require("fs");
+const  { writeFileSync, readFileSync, existsSync } = require("fs");
 const  { execSync } = require("child_process");
 const  { join, dirname } = require("path");
 
@@ -7,7 +7,8 @@ const pkgJsonPath = join(
   "package.json",
 );
 
-const pkgJson = JSON.parse(readFileSync(pkgJsonPath));
+
+const pkgJson = existsSync(pkgJsonPath) ? JSON.parse(readFileSync(pkgJsonPath)) : {};
 
 const résolutions = {
   "@libp2p/autonat": "1.0.21",
