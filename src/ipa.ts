@@ -1,6 +1,7 @@
 import ws from "ws";
 
 import { client, mandataire } from "@constl/ipa";
+import { MessageDIpa, MessageErreurDIpa, MessagePourIpa } from "@constl/mandataire";
 
 let n = 0;
 const prises: { [key: string]: ws.WebSocket } = {};
@@ -23,7 +24,7 @@ const obtPrisesRéponseMessage = (
   return prisesFinales;
 };
 
-const fMessage = (message: mandataire.messages.MessageDeTravailleur) => {
+const fMessage = (message: MessageDIpa) => {
   const { id } = message;
   const prisesPourMessage = obtPrisesRéponseMessage(id);
 
@@ -38,7 +39,7 @@ const fMessage = (message: mandataire.messages.MessageDeTravailleur) => {
 };
 
 const fErreur = (erreur: string, id?: string) => {
-  const messageErreur: mandataire.messages.MessageErreurDeTravailleur = {
+  const messageErreur: MessageErreurDIpa = {
     type: "erreur",
     erreur,
   };
@@ -96,7 +97,7 @@ export default ({
     prises[n.toString()] = prise;
 
     prise.on("message", (message) => {
-      const messageDécodé: mandataire.messages.MessagePourTravailleur =
+      const messageDécodé: MessagePourIpa =
         JSON.parse(message.toString());
       if (messageDécodé.id) messageDécodé.id = `${n_prise}:${messageDécodé.id}`;
       client.gérerMessage(messageDécodé);

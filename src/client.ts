@@ -4,13 +4,15 @@ import ws from "isomorphic-ws";
 import axios from "axios";
 
 import {
-  ClientMandatairifiable,
   générerMandataire,
-  MandataireClientConstellation,
+  Mandatairifiable,
+  MandataireConstellation,
+  MessageErreurDIpa,
+  MessagePourIpa,
 } from "@constl/mandataire";
-import type { mandataire, client } from "@constl/ipa";
+import type { client } from "@constl/ipa";
 
-export class MandataireClientWS extends ClientMandatairifiable {
+export class MandataireClientWS extends Mandatairifiable {
   connexion: ws.WebSocket;
 
   constructor(connexion: ws.WebSocket) {
@@ -23,7 +25,7 @@ export class MandataireClientWS extends ClientMandatairifiable {
     });
 
     this.connexion.onerror = (erreur) => {
-      const messageErreur: mandataire.messages.MessageErreurDeTravailleur = {
+      const messageErreur: MessageErreurDIpa = {
         type: "erreur",
         erreur: erreur.message,
       };
@@ -31,7 +33,7 @@ export class MandataireClientWS extends ClientMandatairifiable {
     };
   }
 
-  envoyerMessage(message: mandataire.messages.MessagePourTravailleur): void {
+  envoyerMessageÀIpa(message: MessagePourIpa): void {
     this.connexion.send(JSON.stringify(message));
   }
 
@@ -47,7 +49,7 @@ export const lancerClient = async ({
   port: number;
   codeSecret: string;
 }): Promise<{
-  client: MandataireClientConstellation<client.ClientConstellation>;
+  client: MandataireConstellation<client.Constellation>;
   fermerClient: () => void;
 }> => {
   const connexion = new ws.WebSocket(

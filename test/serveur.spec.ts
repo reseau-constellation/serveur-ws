@@ -5,7 +5,7 @@ import { join } from "path";
 import { version as versionIPA, types, client } from "@constl/ipa";
 import { attente, dossiers } from "@constl/utils-tests";
 
-import { MandataireClientConstellation } from "@constl/mandataire";
+import { MandataireConstellation } from "@constl/mandataire";
 
 import { lancerServeur } from "@/serveur.js";
 import { demanderAccès, lancerClient } from "@/client.js";
@@ -319,7 +319,7 @@ describe("Fonctionalités serveurs", function () {
 
       describe("Fonctionalités base serveur", () => {
         let fermerClient: () => void;
-        let monClient: MandataireClientConstellation<client.ClientConstellation>;
+        let monClient: MandataireConstellation<client.Constellation>;
         const attendreNoms = new attente.AttendreRésultat<{
           [clef: string]: string;
         }>();
@@ -432,8 +432,8 @@ describe("Fonctionalités serveurs", function () {
       });
 
       describe("Multiples clients", function () {
-        let client1: MandataireClientConstellation<client.ClientConstellation>;
-        let client2: MandataireClientConstellation<client.ClientConstellation>;
+        let client1: MandataireConstellation<client.Constellation>;
+        let client2: MandataireConstellation<client.Constellation>;
 
         let fermerClient1: () => void;
         let fermerClient2: () => void;
