@@ -21,7 +21,7 @@ export class MandataireClientWS extends Mandatairifiable {
 
     this.connexion.on("message", (é) => {
       const message = JSON.parse(é.toString());
-      this.événements.emit("message", message);
+      this.recevoirMessageDIpa(message);
     });
 
     this.connexion.onerror = (erreur) => {
@@ -29,7 +29,7 @@ export class MandataireClientWS extends Mandatairifiable {
         type: "erreur",
         erreur: erreur.message,
       };
-      this.événements.emit("message", messageErreur);
+      this.recevoirMessageDIpa(messageErreur);
     };
   }
 
