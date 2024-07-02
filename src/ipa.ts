@@ -42,7 +42,15 @@ const fMessage = (message: MessageDIpa) => {
   });
 };
 
-const fErreur = ({erreur, idRequète, code}: {erreur: string, idRequète?: string, code?: string}) => {
+const fErreur = ({
+  erreur,
+  idRequète,
+  code,
+}: {
+  erreur: string;
+  idRequète?: string;
+  code?: string;
+}) => {
   const messageErreur: MessageErreurDIpa = {
     type: "erreur",
     erreur,
