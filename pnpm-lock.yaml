@@ -41,7 +41,7 @@ importers:
         version: https://codeload.github.com/inverted-capital/iso-constants/tar.gz/2af6fdfb2cacaa03ebd58543703918783e62649f
       isomorphic-ws:
         specifier: ^5.0.0
-        version: 5.0.0(ws@8.17.1(bufferutil@4.0.8))
+        version: 5.0.0(ws@8.18.0(bufferutil@4.0.8))
       ora:
         specifier: ^8.0.1
         version: 8.0.1
@@ -50,7 +50,7 @@ importers:
         version: 10.0.0
       ws:
         specifier: ^8.17.0
-        version: 8.17.1(bufferutil@4.0.8)
+        version: 8.18.0(bufferutil@4.0.8)
       yargs:
         specifier: ^17.7.2
         version: 17.7.2
@@ -2381,6 +2381,11 @@ packages:
 
   acorn@8.12.0:
     resolution: {integrity: sha512-RTvkC4w+KNXrM39/lWCUaG0IbRkWdCv7W/IOW9oU6SawyxulvkQy5HQPVTKxEjczcUvapcrw3cFx/60VN/NRNw==}
+    engines: {node: '>=0.4.0'}
+    hasBin: true
+
+  acorn@8.12.1:
+    resolution: {integrity: sha512-tcpGyI9zbizT9JbV6oYE477V6mTlXvvi0T0G3SNIYE2apm/G5huBa1+K89VGeovbg+jycCrfhl3ADxErOuO6Jg==}
     engines: {node: '>=0.4.0'}
     hasBin: true
 
@@ -8012,8 +8017,8 @@ packages:
       utf-8-validate:
         optional: true
 
-  ws@8.17.1:
-    resolution: {integrity: sha512-6XQFvXTkbfUOZOKKILFG1PDK2NDQs4azKQl26T0YS5CxqWLgXajbPZ+h4gZekJyRqFU8pvnbAbbs/3TgRPy+GQ==}
+  ws@8.18.0:
+    resolution: {integrity: sha512-8VbfWfHLbbwu3+N6OKsOMpBdT4kXPDDB9cJk2bJ6mh9ucxdlnNvH1e+roYkKmN9Nxw2yjz7VzeO9oOz2zJ04Pw==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
       bufferutil: ^4.0.1
@@ -10303,7 +10308,7 @@ snapshots:
       it-ws: 6.1.1(bufferutil@4.0.8)
       p-defer: 4.0.1
       wherearewe: 2.0.1
-      ws: 8.17.1(bufferutil@4.0.8)
+      ws: 8.18.0(bufferutil@4.0.8)
     transitivePeerDependencies:
       - bufferutil
       - supports-color
@@ -11579,6 +11584,8 @@ snapshots:
       acorn: 8.12.0
 
   acorn@8.12.0: {}
+
+  acorn@8.12.1: {}
 
   aegir@44.0.1(@babel/core@7.24.7)(@typescript-eslint/parser@7.15.0(eslint@9.6.0)(typescript@5.5.3))(eslint-plugin-n@17.9.0(eslint@9.6.0)):
     dependencies:
@@ -14806,9 +14813,9 @@ snapshots:
 
   isobject@3.0.1: {}
 
-  isomorphic-ws@5.0.0(ws@8.17.1(bufferutil@4.0.8)):
+  isomorphic-ws@5.0.0(ws@8.18.0(bufferutil@4.0.8)):
     dependencies:
-      ws: 8.17.1(bufferutil@4.0.8)
+      ws: 8.18.0(bufferutil@4.0.8)
 
   isstream@0.1.2: {}
 
@@ -14979,7 +14986,7 @@ snapshots:
       event-iterator: 2.0.0
       it-stream-types: 2.0.1
       uint8arrays: 5.1.0
-      ws: 8.17.1(bufferutil@4.0.8)
+      ws: 8.18.0(bufferutil@4.0.8)
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -18051,7 +18058,7 @@ snapshots:
   terser@5.31.1:
     dependencies:
       '@jridgewell/source-map': 0.3.6
-      acorn: 8.12.0
+      acorn: 8.12.1
       commander: 2.20.3
       source-map-support: 0.5.21
 
@@ -18614,7 +18621,7 @@ snapshots:
     optionalDependencies:
       bufferutil: 4.0.8
 
-  ws@8.17.1(bufferutil@4.0.8):
+  ws@8.18.0(bufferutil@4.0.8):
     optionalDependencies:
       bufferutil: 4.0.8
 
