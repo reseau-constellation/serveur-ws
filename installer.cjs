@@ -1,7 +1,6 @@
 const { writeFileSync, readFileSync, existsSync, mkdirSync } = require("fs");
 const { execSync } = require("child_process");
 const { join, dirname } = require("path");
-const process = require("process");
 
 const dossierPnpmGlobal = dirname(execSync("pnpm root -g").toString());
 const adressePkgJson = join(
