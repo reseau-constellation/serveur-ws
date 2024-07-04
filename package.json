@@ -1,6 +1,6 @@
 {
   "name": "@constl/serveur",
-  "version": "2.0.11",
+  "version": "2.0.12",
   "repository": "https://github.com/reseau-constellation/serveur-ws",
   "author": "Julien Jean Malard-Adam",
   "license": "AGPL-3.0",
@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "@achingbrain/nat-port-mapper": "1.0.13",
+    "@constl/ipa": "^1.0.34",
     "axios": "^1.7.2",
     "bip39": "^3.1.0",
     "bufferutil": "^4.0.8",
@@ -40,7 +41,6 @@
     "yargs": "^17.7.2"
   },
   "devDependencies": {
-    "@constl/ipa": "1.0.34",
     "@constl/mandataire": "2.0.7",
     "@constl/utils-tests": "1.2.7",
     "@eslint/js": "^9.6.0",
@@ -73,9 +73,6 @@
   },
   "bin": {
     "constl": "./dist/src/bin.js"
-  },
-  "peerDependencies": {
-    "@constl/ipa": "^1.0.25"
   },
   "pnpm": {
     "overrides": {

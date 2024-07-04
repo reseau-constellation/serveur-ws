@@ -96,16 +96,6 @@ yargs(hideBin(process.argv))
     },
   )
   .command(
-    ["v-constl-obli"],
-    "Version Constellation obligatoire",
-    (yargs) => {
-      return yargs;
-    },
-    async () => {
-      console.log(packageJson.peerDependencies["@constl/ipa"]);
-    },
-  )
-  .command(
     ["v-constl"],
     "Version Constellation installée",
     (yargs) => {

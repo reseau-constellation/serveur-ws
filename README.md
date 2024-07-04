@@ -54,10 +54,6 @@ JavaScript, vous pouvez l'installer ainsi :
 
 `pnpm add @constl/serveur`
 
-Constellation elle-même (`@constl/ipa`) est spécifiée en tant que dépendance
-paire du serveur Constellation. Vous pouvez donc installer la version de Constellation
-qui vous convient.
-
 ### Utilisation programmatique
 
 #### Serveur
