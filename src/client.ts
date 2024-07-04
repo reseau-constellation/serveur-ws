@@ -19,8 +19,8 @@ export class MandataireClientWS extends Mandatairifiable {
     super();
     this.connexion = connexion;
 
-    this.connexion.on("message", (é) => {
-      const message = JSON.parse(é.toString());
+    this.connexion.on("message", (m) => {
+      const message = JSON.parse(m.toString());
       this.recevoirMessageDIpa(message);
     });
 

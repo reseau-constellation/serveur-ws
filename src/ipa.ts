@@ -36,7 +36,7 @@ const fMessage = (message: MessageDIpa) => {
     prise.prise.send(
       JSON.stringify({
         ...message,
-        id: prise.id,
+        id: prise.id,  // Mettre l'identifiant original de la requète (sans le numéro de prise)
       }),
     );
   });

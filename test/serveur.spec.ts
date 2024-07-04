@@ -423,6 +423,7 @@ describe("Fonctionalités serveurs", function () {
             monClient.jeNeSuisPasUneFonction({ f: faisRien }),
           ).to.be.rejected();
         });
+
         it("Erreur action inexistante", async () => {
           await expect(
             // @ts-expect-error On fait exprès

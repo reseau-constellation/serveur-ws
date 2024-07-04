@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "@achingbrain/nat-port-mapper": "1.0.13",
-    "@constl/ipa": "^1.0.34",
+    "@constl/ipa": "^1.0.35",
     "axios": "^1.7.2",
     "bip39": "^3.1.0",
     "bufferutil": "^4.0.8",
@@ -77,7 +77,7 @@
   "pnpm": {
     "overrides": {
       "@libp2p/autonat": "1.0.21",
-      "node-datachannel": "0.10.0"
+      "node-datachannel": "0.8.0"
     }
   }
 }
