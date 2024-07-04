@@ -31,9 +31,9 @@ const typesServeurs: () => {
     fermerServeur: () => Promise<void>;
     port: number;
     codeSecret: string;
-    suivreRequètes?: (f: (x: string[]) => void) => () => void;
-    approuverRequète?: (id: string) => void;
-    refuserRequète?: (id: string) => void;
+    suivreRequêtes?: (f: (x: string[]) => void) => () => void;
+    approuverRequête?: (id: string) => void;
+    refuserRequête?: (id: string) => void;
   }>;
 } = () => {
   const typesFinaux: {
@@ -61,9 +61,9 @@ const typesServeurs: () => {
         fermerServeur,
         port,
         codeSecret,
-        suivreRequètes,
-        refuserRequète,
-        approuverRequète,
+        suivreRequêtes,
+        refuserRequête,
+        approuverRequête,
       } = await lancerServeur({
         optsConstellation: {
           dossier,
@@ -72,9 +72,9 @@ const typesServeurs: () => {
       return {
         port,
         codeSecret,
-        suivreRequètes,
-        refuserRequète,
-        approuverRequète,
+        suivreRequêtes,
+        refuserRequête,
+        approuverRequête,
         fermerServeur: async () => {
           await fermerServeur();
           try {
@@ -222,20 +222,20 @@ describe("Fonctionalités serveurs", function () {
       let fermerServeur: () => Promise<void>;
       let port: number;
       let codeSecret: string;
-      let suivreRequètes:
+      let suivreRequêtes:
         | ((f: (x: string[]) => void) => () => void)
         | undefined;
-      let approuverRequète: ((id: string) => void) | undefined;
-      let refuserRequète: ((id: string) => void) | undefined;
+      let approuverRequête: ((id: string) => void) | undefined;
+      let refuserRequête: ((id: string) => void) | undefined;
 
       before(async () => {
         ({
           fermerServeur,
           port,
           codeSecret,
-          suivreRequètes,
-          refuserRequète,
-          approuverRequète,
+          suivreRequêtes,
+          refuserRequête,
+          approuverRequête,
         } = await fGénérerServeur({}));
       });
 
@@ -266,32 +266,32 @@ describe("Fonctionalités serveurs", function () {
           let demande: Promise<{
             codeSecret: string;
           }>;
-          const attendreRequètes = new attente.AttendreRésultat<string[]>();
+          const attendreRequêtes = new attente.AttendreRésultat<string[]>();
           const fsOublier: (() => void)[] = [];
 
           before(() => {
-            suivreRequètes?.((rqts) => attendreRequètes.mettreÀJour(rqts));
+            suivreRequêtes?.((rqts) => attendreRequêtes.mettreÀJour(rqts));
           });
           after(() => {
-            attendreRequètes.toutAnnuler();
+            attendreRequêtes.toutAnnuler();
             fsOublier.map((f) => f());
           });
 
           it("Suivi demandes de mot de passe", async () => {
             demande = demanderAccès({ port, monId: "C'est moi" });
-            const requètes = await attendreRequètes.attendreQue(
+            const requêtes = await attendreRequêtes.attendreQue(
               (x) => x.length > 0,
             );
-            expect(requètes).to.include("C'est moi");
+            expect(requêtes).to.include("C'est moi");
           });
 
           it("Rejet demande de mot de passe", async () => {
-            refuserRequète?.("C'est moi");
+            refuserRequête?.("C'est moi");
             await expect(demande).to.be.rejected();
-            const requètes = await attendreRequètes.attendreQue(
+            const requêtes = await attendreRequêtes.attendreQue(
               (x) => !x.includes("C'est moi"),
             );
-            expect(requètes).to.be.empty();
+            expect(requêtes).to.be.empty();
           });
 
           it("Acceptation demande mot de passe", async () => {
@@ -299,17 +299,17 @@ describe("Fonctionalités serveurs", function () {
               port,
               monId: "S'il te plaît...",
             });
-            await attendreRequètes.attendreQue(
+            await attendreRequêtes.attendreQue(
               (x) => !!x.includes("S'il te plaît..."),
             );
-            approuverRequète?.("S'il te plaît...");
+            approuverRequête?.("S'il te plaît...");
 
             const { codeSecret } = await nouvelleDemande;
 
-            const requètes = await attendreRequètes.attendreQue(
+            const requêtes = await attendreRequêtes.attendreQue(
               (x) => !x.includes("S'il te plaît..."),
             );
-            expect(requètes).to.be.empty();
+            expect(requêtes).to.be.empty();
 
             const { fermerClient } = await lancerClient({ port, codeSecret });
             fsOublier.push(fermerClient);

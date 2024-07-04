@@ -44,21 +44,21 @@ const fMessage = (message: MessageDIpa) => {
 
 const fErreur = ({
   erreur,
-  idRequète,
+  idRequête,
   code,
 }: {
   erreur: string;
-  idRequète?: string;
+  idRequête?: string;
   code?: string;
 }) => {
   const messageErreur: MessageErreurDIpa = {
     type: "erreur",
     erreur,
-    id: idRequète,
+    id: idRequête,
     codeErreur: code,
   };
 
-  const prisesPourMessage = obtPrisesRéponseMessage(idRequète);
+  const prisesPourMessage = obtPrisesRéponseMessage(idRequête);
   prisesPourMessage.forEach((p) =>
     p.prise.send(
       JSON.stringify({
