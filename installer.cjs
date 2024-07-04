@@ -1,6 +1,7 @@
-const  { writeFileSync, readFileSync, existsSync, mkdirSync } = require("fs");
-const  { execSync } = require("child_process");
-const  { join, dirname } = require("path");
+const { writeFileSync, readFileSync, existsSync, mkdirSync } = require("fs");
+const { execSync } = require("child_process");
+const { join, dirname } = require("path");
+const process = require("process");
 
 const dossierPnpmGlobal = dirname(execSync("pnpm root -g").toString());
 const adressePkgJson = join(
@@ -10,19 +11,19 @@ const adressePkgJson = join(
 
 
 const pkgJson = existsSync(adressePkgJson) ? JSON.parse(readFileSync(adressePkgJson)) : {};
+(async () => {
+  const réponsePackageJson = await fetch("https://raw.githubusercontent.com/reseau-constellation/serveur-ws/principale/package.json")
+  const résolutions = (await réponsePackageJson.json()).pnpm?.overrides || {};
 
-const résolutions = {
-  "@libp2p/autonat": "1.0.21",
-  "node-datachannel": "^0.8.0",
-};
-
-if (!pkgJson.pnpm) pkgJson.pnpm = {};
-pkgJson.pnpm.overrides = {
-  ...(pkgJson.pnpm.overrides || {}),
-  ...(résolutions || {}),
-};  
-
-if (!existsSync(dossierPnpmGlobal)) mkdirSync(dossierPnpmGlobal, {recursive: true}); 
-writeFileSync(adressePkgJson, JSON.stringify(pkgJson, null, 2));
-
-execSync("pnpm add -g @constl/serveur@latest");
+  if (!pkgJson.pnpm) pkgJson.pnpm = {};
+  pkgJson.pnpm.overrides = {
+    ...(pkgJson.pnpm.overrides || {}),
+    ...(résolutions || {}),
+  };  
+  
+  if (!existsSync(dossierPnpmGlobal)) mkdirSync(dossierPnpmGlobal, {recursive: true}); 
+  writeFileSync(adressePkgJson, JSON.stringify(pkgJson, null, 2));
+  
+  execSync("pnpm add -g @constl/serveur@latest");
+  
+})();
