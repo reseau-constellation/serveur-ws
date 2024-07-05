@@ -30,25 +30,34 @@ const suivreConnexions = async ({ ipa }: { ipa: Constellation }) => {
   const connexions: {
     sfip: { pair: string; adresses: string[] }[];
     constellation: réseau.statutMembre[];
+    monId?: string;
   } = {
     sfip: [],
     constellation: [],
   };
+
   const fFinale = () => {
+    const nConnexionsSfip = connexions.sfip.length;
+    const nConnexionsMembres = connexions.constellation.filter((c) => c.infoMembre.idCompte !== connexions.monId && !c.vuÀ).length;
+
     logUpdate(
       chalk.yellow(
         // eslint-disable-next-line no-irregular-whitespace
-        `Connexions réseau : ${connexions.sfip.length}\nComptes Constellation en ligne : ${connexions.constellation.filter((c) => !c.vuÀ).length}`,
+        `Connexions réseau : ${nConnexionsSfip}\nComptes Constellation en ligne : ${nConnexionsMembres}`,
       ),
     );
   };
-  const fOublierConnexionsSFIP = await ipa.réseau.suivreConnexionsPostesSFIP({
+
+  const oublierMonId = await ipa.suivreIdCompte({
+    f: id => connexions.monId = id,
+  });
+  const oublierConnexionsSFIP = await ipa.réseau.suivreConnexionsPostesSFIP({
     f: (x) => {
       connexions.sfip = x;
       fFinale();
     },
   });
-  const fOublierConnexionsConstellation =
+  const oublierConnexionsConstellation =
     await ipa.réseau.suivreConnexionsMembres({
       f: (x) => {
         connexions.constellation = x;
@@ -57,8 +66,9 @@ const suivreConnexions = async ({ ipa }: { ipa: Constellation }) => {
     });
   return async () => {
     await Promise.all([
-      fOublierConnexionsSFIP(),
-      fOublierConnexionsConstellation(),
+      oublierMonId(),
+      oublierConnexionsSFIP(),
+      oublierConnexionsConstellation(),
     ]);
   };
 };
