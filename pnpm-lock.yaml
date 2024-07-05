@@ -59,8 +59,8 @@ importers:
         version: 17.7.2
     devDependencies:
       '@constl/mandataire':
-        specifier: 2.0.7
-        version: 2.0.7
+        specifier: 2.0.8
+        version: 2.0.8
       '@constl/utils-tests':
         specifier: 1.2.7
         version: 1.2.7(bufferutil@4.0.8)(react-native@0.74.3(@babel/core@7.24.7)(@babel/preset-env@7.24.7(@babel/core@7.24.7))(bufferutil@4.0.8)(react@18.2.0))
@@ -937,8 +937,8 @@ packages:
     resolution: {integrity: sha512-snvMSq3/eRqrUGH3W962uxi0ecSoWeQxkjQbJLXq9+nNjVSbEPVUzdEL75KI+KbEwXa5hGHX1d64gsp0QP8tyg==}
     engines: {node: '>=20'}
 
-  '@constl/mandataire@2.0.7':
-    resolution: {integrity: sha512-cw/uljyJeX2qaeIWHrW0iF0lhW2FyueSF2NIj9ZUB5qNSeiN9Hflk8nfvpHoPr50CdlGBB16HIlOZvzzgOud/g==}
+  '@constl/mandataire@2.0.8':
+    resolution: {integrity: sha512-EL+saxpjmh8uh7U3qz1kI2NXAG9dHVh9naokqKeGcdsmpS8MHdsY4qxwuamukAxlYp2I416QtyIyx3TSdhKNFA==}
 
   '@constl/utils-ipa@1.0.1':
     resolution: {integrity: sha512-BIbwqwZ3T1RWXBTm7ocHGP8HxIQZnA19PCjGnrfuNdDThMwOK51WUnI/yLQAMuj7ze1lsBC+AAfvzQzX+7DPLg==}
@@ -9183,7 +9183,7 @@ snapshots:
       '@chainsafe/libp2p-yamux': 6.0.2
       '@chriscdn/promise-semaphore': 2.0.9
       '@constl/bohr-db': 1.1.0(bufferutil@4.0.8)(react-native@0.74.3(@babel/core@7.24.7)(@babel/preset-env@7.24.7(@babel/core@7.24.7))(bufferutil@4.0.8)(react@18.2.0))
-      '@constl/mandataire': 2.0.7
+      '@constl/mandataire': 2.0.8
       '@constl/utils-ipa': 1.0.1
       '@helia/block-brokers': 1.0.0
       '@helia/unixfs': 3.0.6
@@ -9247,7 +9247,7 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@constl/mandataire@2.0.7':
+  '@constl/mandataire@2.0.8':
     dependencies:
       events: 3.3.0
       uuid: 10.0.0
