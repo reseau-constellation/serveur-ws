@@ -30,9 +30,7 @@ export const lancerServeur = async ({
   optsConstellation = {},
 }: {
   port?: number;
-  optsConstellation:
-    | client.optsConstellation
-    | mandataire.EnveloppeIpa;
+  optsConstellation: client.optsConstellation | mandataire.EnveloppeIpa;
 }): Promise<{
   fermerServeur: () => Promise<void>;
   port: number;

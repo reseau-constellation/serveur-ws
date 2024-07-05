@@ -19,14 +19,15 @@ class Mandataire extends Mandatairifiable {
     super();
     this.ipa = ipa;
     this.ipa.connecterÉcouteurs({
-      fMessage: m => this.recevoirMessageDIpa(m),
-      fErreur: e => this.recevoirMessageDIpa({
-        type: "erreur",
-        erreur: e.erreur,
-        codeErreur: e.code,
-        id: e.id,
-      })
-    })
+      fMessage: (m) => this.recevoirMessageDIpa(m),
+      fErreur: (e) =>
+        this.recevoirMessageDIpa({
+          type: "erreur",
+          erreur: e.erreur,
+          codeErreur: e.code,
+          id: e.id,
+        }),
+    });
   }
 
   envoyerMessageÀIpa(message: MessagePourIpa): void {
@@ -34,11 +35,16 @@ class Mandataire extends Mandatairifiable {
   }
 }
 
-const connecterÀWs = ({ipa}: {ipa: mandataire.EnveloppeIpa}): () => void => {
+const connecterÀWs = ({
+  ipa,
+}: {
+  ipa: mandataire.EnveloppeIpa;
+}): (() => void) => {
   return ipa.connecterÉcouteurs({
-    fMessage, fErreur
-  })
-}
+    fMessage,
+    fErreur,
+  });
+};
 
 const obtPrisesRéponseMessage = (
   idMessage?: string,
@@ -97,32 +103,23 @@ export const attacherIpa = ({
   port,
 }: {
   serveur: ws.Server;
-  constellation?:
-    | client.optsConstellation
-    | mandataire.EnveloppeIpa;
+  constellation?: client.optsConstellation | mandataire.EnveloppeIpa;
   port: number;
-}): ({fFermer: () => Promise<void>; ipa: Constellation}) => {
+}): { fFermer: () => Promise<void>; ipa: Constellation } => {
   let ipa: mandataire.EnveloppeIpa;
   let fFermer: () => Promise<void>;
 
-  if (
-    constellation instanceof mandataire.EnveloppeIpa
-  ) {
+  if (constellation instanceof mandataire.EnveloppeIpa) {
     ipa = constellation;
-    const déconnecterDeWs = connecterÀWs({ipa});
-    
+    const déconnecterDeWs = connecterÀWs({ ipa });
+
     // On ne ferme pas l'instance Constellation si elle a été fournie de l'extérieur
     fFermer = async () => déconnecterDeWs();
-
   } else {
     constellation.messageVerrou = `{port: ${port}}`;
-    ipa = new mandataire.EnveloppeIpa(
-      fMessage,
-      fErreur,
-      {
-        ...constellation,
-      },
-    );
+    ipa = new mandataire.EnveloppeIpa(fMessage, fErreur, {
+      ...constellation,
+    });
     fFermer = async () => {
       await ipa.fermer();
     };
@@ -145,5 +142,8 @@ export const attacherIpa = ({
     });
   });
 
-  return {fFermer, ipa: générerMandataire<Constellation>(new Mandataire({ipa}))};
+  return {
+    fFermer,
+    ipa: générerMandataire<Constellation>(new Mandataire({ ipa })),
+  };
 };

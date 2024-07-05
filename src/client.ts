@@ -59,7 +59,7 @@ export const lancerClient = async ({
   await once(connexion, "open");
   const mandataire = new MandataireClientWS(connexion);
   const client = générerMandataire<Constellation>(mandataire);
-  
+
   return {
     client,
     fermerClient: async () => {
