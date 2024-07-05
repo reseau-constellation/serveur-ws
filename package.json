@@ -15,7 +15,7 @@
   "scripts": {
     "watch": "npm-watch",
     "nettoyer": "rimraf dist",
-    "compiler": "pnpm versioner && pnpm nettoyer && pnpm tspc -p tsconfig.build.json && chmod +x ./dist/src/bin.js ",
+    "compiler": "pnpm versioner && pnpm nettoyer && pnpm tspc -p tsconfig.build.json && chmod +x ./dist/src/bin.js",
     "test:processus": "pnpm compiler && env TYPE_SERVEUR=proc pnpm aegir test -t node --cov -- --exit",
     "test:binaire": "pnpm compiler && env TYPE_SERVEUR=bin pnpm aegir test -t node --cov -- --exit",
     "test": "pnpm test:processus && pnpm test:binaire",
