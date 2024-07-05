@@ -7,9 +7,9 @@ import { parse } from "url";
 import trouverUnPort from "find-free-port";
 import { generateMnemonic, wordlists } from "bip39";
 
-import { client, mandataire } from "@constl/ipa";
+import { Constellation, client, mandataire } from "@constl/ipa";
 
-import ipa from "@/ipa.js";
+import { attacherIpa } from "@/ipa.js";
 import EventEmitter from "events";
 
 type MessageÉvénementRequête = {
@@ -32,7 +32,7 @@ export const lancerServeur = async ({
   port?: number;
   optsConstellation:
     | client.optsConstellation
-    | mandataire.gestionnaireClient.GestionnaireClient;
+    | mandataire.EnveloppeIpa;
 }): Promise<{
   fermerServeur: () => Promise<void>;
   port: number;
@@ -40,6 +40,7 @@ export const lancerServeur = async ({
   suivreRequêtes: (f: (x: string[]) => void) => () => void;
   approuverRequête: (id: string) => void;
   refuserRequête: (id: string) => void;
+  ipa: Constellation;
 }> => {
   port = port || (await trouverUnPort(5000))[0];
   let requêtes: { id: string; rép: Response }[] = [];
@@ -57,7 +58,7 @@ export const lancerServeur = async ({
   // https://masteringjs.io/tutorials/express/websockets
 
   const serveurWs = new WebSocketServer({ noServer: true });
-  const fermerConstellation = ipa({
+  const { fFermer: fermerConstellation, ipa } = attacherIpa({
     serveur: serveurWs,
     constellation: optsConstellation,
     port,
@@ -109,6 +110,7 @@ export const lancerServeur = async ({
       return;
     }
   });
+
   const fermerServeur = () => {
     return new Promise<void>((résoudre) => {
       serveurWs.close(() => {
@@ -119,6 +121,7 @@ export const lancerServeur = async ({
       });
     });
   };
+
   return {
     fermerServeur,
     port,
@@ -126,5 +129,6 @@ export const lancerServeur = async ({
     suivreRequêtes,
     approuverRequête,
     refuserRequête,
+    ipa,
   };
 };

@@ -15,7 +15,7 @@ import { expect } from "aegir/chai";
 
 // Quand ça plante avec throw new Error('Listener is not ready yet');
 // ps -ef | grep "node" | grep -v grep
-// kill <idp>
+// kill [-9] <idp>
 
 const faisRien = () => {
   return;

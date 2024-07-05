@@ -10,7 +10,8 @@ import {
   MessageErreurDIpa,
   MessagePourIpa,
 } from "@constl/mandataire";
-import type { client } from "@constl/ipa";
+
+import type { Constellation, client } from "@constl/ipa";
 
 export class MandataireClientWS extends Mandatairifiable {
   connexion: ws.WebSocket;
@@ -37,7 +38,7 @@ export class MandataireClientWS extends Mandatairifiable {
     this.connexion.send(JSON.stringify(message));
   }
 
-  fermer(): void {
+  async fermerConnexion(): Promise<void> {
     this.connexion.close();
   }
 }
@@ -56,11 +57,14 @@ export const lancerClient = async ({
     `ws://localhost:${port}?code=${encodeURI(codeSecret)}`,
   );
   await once(connexion, "open");
-  const client = new MandataireClientWS(connexion);
+  const mandataire = new MandataireClientWS(connexion);
+  const client = générerMandataire<Constellation>(mandataire);
+  
   return {
-    client: générerMandataire(client),
+    client,
     fermerClient: async () => {
-      await client.fermer();
+      // Fermer uniquement la connexion WS, pas l'instance de Constellation (d'autres clients peuvent être connectés).
+      await mandataire.fermerConnexion();
     },
   };
 };

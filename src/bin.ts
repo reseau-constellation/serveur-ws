@@ -3,11 +3,11 @@ import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 import ora, { Ora } from "ora";
 import chalk from "chalk";
+import logUpdate from "log-update";
 import fs from "fs";
 import path from "path";
 import url from "url";
-
-import { type client, version as versionIPA } from "@constl/ipa";
+import { type client, type types, type Constellation, type réseau, version as versionIPA } from "@constl/ipa";
 
 import { lancerServeur } from "@/serveur.js";
 import { MessageBinaire, PRÉFIX_MACHINE } from "@/const.js";
@@ -19,6 +19,28 @@ const packageJson = JSON.parse(fs.readFileSync(fichierPackageJson, "utf8"));
 const envoyerMessageMachine = ({ message }: { message: MessageBinaire }) => {
   console.log(PRÉFIX_MACHINE + JSON.stringify(message));
 };
+
+const suivreConnexions = async ({ipa}: {ipa: Constellation}) => {
+  const connexions: {sfip: { pair: string; adresses: string[] }[], constellation: réseau.statutMembre[]} = {
+    sfip: [],
+    constellation: []
+  }
+  const fFinale = () => {
+    logUpdate(chalk.yellow(
+      // eslint-disable-next-line no-irregular-whitespace
+      `Connexions réseau : ${connexions.sfip.length}\nComptes Constellation en ligne : ${connexions.constellation.filter(c=>!c.vuÀ).length}`
+    ))
+  }
+  const fOublierConnexionsSFIP = await ipa.réseau.suivreConnexionsPostesSFIP({
+    f: x => {connexions.sfip = x; fFinale()}
+  });
+  const fOublierConnexionsConstellation = await ipa.réseau.suivreConnexionsMembres({
+    f: x => { connexions.constellation = x; fFinale()}
+  })
+  return async () => {
+    await Promise.all([fOublierConnexionsSFIP(), fOublierConnexionsConstellation()])
+  }
+}
 
 yargs(hideBin(process.argv))
   .usage("Utilisation: $0 <commande> [options]")
@@ -50,20 +72,24 @@ yargs(hideBin(process.argv))
     },
     async (argv) => {
       let roue: Ora | undefined = undefined;
+      let oublierConnexions: types.schémaFonctionOublier | undefined = undefined;
+
       if (argv.machine) {
         envoyerMessageMachine({ message: { type: "LANÇAGE NŒUD" } });
       } else {
-        roue = ora(chalk.yellow(`Initialisation du nœud).start()`));
+        roue = ora(chalk.yellow(`Initialisation du nœud)`)).start();
       }
+
       const optsConstellation: client.optsConstellation = {
         dossier: argv.dossier,
         sujetRéseau: argv.sujet,
       };
 
-      const { port, codeSecret, fermerServeur } = await lancerServeur({
+      const { port, codeSecret, fermerServeur, ipa } = await lancerServeur({
         port: argv.port ? Number.parseInt(argv.port) : undefined,
         optsConstellation,
       });
+
       process.stdin.on("data", async () => {
         if (argv.machine) {
           envoyerMessageMachine({ message: { type: "ON FERME" } });
@@ -71,6 +97,7 @@ yargs(hideBin(process.argv))
           roue?.start(chalk.yellow("On ferme le nœud..."));
         }
         try {
+          await oublierConnexions?.();
           await fermerServeur();
         } finally {
           if (argv.machine) {
@@ -81,6 +108,7 @@ yargs(hideBin(process.argv))
           process.exit(0);
         }
       });
+
       if (argv.machine) {
         envoyerMessageMachine({
           message: { type: "NŒUD PRÊT", port, codeSecret },
@@ -92,6 +120,7 @@ yargs(hideBin(process.argv))
             `Nœud local prêt sur port : ${port}\nCode secret : ${codeSecret}\nFrappez « retour » pour arrêter le nœud.`,
           ),
         );
+        oublierConnexions = await suivreConnexions({ipa})
       }
     },
   )
