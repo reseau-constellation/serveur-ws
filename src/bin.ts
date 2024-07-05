@@ -71,7 +71,7 @@ yargs(hideBin(process.argv))
           roue?.start(chalk.yellow("On ferme le nœud..."));
         }
         try {
-          fermerServeur();
+          await fermerServeur();
         } finally {
           if (argv.machine) {
             envoyerMessageMachine({ message: { type: "NŒUD FERMÉ" } });
