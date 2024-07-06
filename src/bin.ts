@@ -122,15 +122,16 @@ yargs(hideBin(process.argv))
         optsConstellation,
       });
 
-      process.stdin.on("data", async () => {
+      process.stdin.on("data", () => {
         if (argv.machine) {
           envoyerMessageMachine({ message: { type: "ON FERME" } });
         } else {
           roue?.start(chalk.yellow("On ferme le nœud..."));
         }
         try {
-          await oublierConnexions?.();
-          await fermerServeur();
+          (oublierConnexions?.() || Promise.resolve()).then(
+            () => fermerServeur()
+          );
         } finally {
           if (argv.machine) {
             envoyerMessageMachine({ message: { type: "NŒUD FERMÉ" } });
