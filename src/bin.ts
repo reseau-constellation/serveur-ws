@@ -109,7 +109,7 @@ yargs(hideBin(process.argv))
       if (argv.machine) {
         envoyerMessageMachine({ message: { type: "LANÇAGE NŒUD" } });
       } else {
-        roue = ora(chalk.yellow(`Initialisation du nœud)`)).start();
+        roue = ora(chalk.yellow(`Initialisation du nœud`));  // .start()
       }
 
       const optsConstellation: client.optsConstellation = {
@@ -121,17 +121,15 @@ yargs(hideBin(process.argv))
         port: argv.port ? Number.parseInt(argv.port) : undefined,
         optsConstellation,
       });
-
-      process.stdin.on("data", () => {
+      process.stdin.on("data", async () => {
         if (argv.machine) {
           envoyerMessageMachine({ message: { type: "ON FERME" } });
         } else {
           roue?.start(chalk.yellow("On ferme le nœud..."));
         }
         try {
-          (oublierConnexions?.() || Promise.resolve()).then(
-            () => fermerServeur()
-          );
+          await oublierConnexions?.();
+          await fermerServeur();
         } finally {
           if (argv.machine) {
             envoyerMessageMachine({ message: { type: "NŒUD FERMÉ" } });
@@ -141,7 +139,6 @@ yargs(hideBin(process.argv))
           process.exit(0);
         }
       });
-
       if (argv.machine) {
         envoyerMessageMachine({
           message: { type: "NŒUD PRÊT", port, codeSecret },
