@@ -65,7 +65,7 @@
     "genversion": "^3.2.0",
     "keyv": "^4.5.4",
     "prettier": "^3.3.2",
-    "rimraf": "^5.0.7",
+    "rimraf": "^6.0.0",
     "ts-patch": "^3.2.1",
     "typed-emitter": "^2.1.0",
     "typescript": "^5.5.3",
