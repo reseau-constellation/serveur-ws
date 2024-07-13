@@ -84,7 +84,7 @@ importers:
         version: 10.0.0
       '@types/ws':
         specifier: ^8.5.10
-        version: 8.5.10
+        version: 8.5.11
       '@types/yargs':
         specifier: ^17.0.32
         version: 17.0.32
@@ -2279,8 +2279,8 @@ packages:
   '@types/uuid@10.0.0':
     resolution: {integrity: sha512-7gqG38EyHgyP1S+7+xomFtL+ZNHcKv6DwNaCZmJmo1vgMugyF3TCnXVg4t1uk89mLNwnLtnY3TpOpCOyp1/xHQ==}
 
-  '@types/ws@8.5.10':
-    resolution: {integrity: sha512-vmQSUcfalpIq0R9q7uTo2lXs6eGIpt9wtnLdMv9LVpIjCA/+ufZRozlVoVelIYixx1ugCBKDhn89vnsEGOCx9A==}
+  '@types/ws@8.5.11':
+    resolution: {integrity: sha512-4+q7P5h3SpJxaBft0Dzpbr6lmMaqh0Jr2tbhJZ/luAwvD7ohSCniYkwz/pLxuT2h0EOa6QADgJj1Ko+TzRfZ+w==}
 
   '@types/yargs-parser@21.0.3':
     resolution: {integrity: sha512-I4q9QU9MQv4oEOz4tAHJtNz1cwuLxn2F3xcc2iV5WdqLPpUnj30aUuxt1mAxYTG+oe8CZMV/+6rU4S4gRDzqtQ==}
@@ -5766,6 +5766,10 @@ packages:
 
   mime-db@1.52.0:
     resolution: {integrity: sha512-sPU4uV7dYlvtWJxwwxHD0PuihVNiE7TyAbQ5SWxDCB9mUYvOgroQOwYQQOKPJ8CIbE+1ETVlOoK1UC2nU3gYvg==}
+    engines: {node: '>= 0.6'}
+
+  mime-db@1.53.0:
+    resolution: {integrity: sha512-oHlN/w+3MQ3rba9rqFr6V/ypF10LSkdwUysQL7GkXoTgIWeV+tcXGA852TBxH+gsh8UWoyhR1hKcoMJTuWflpg==}
     engines: {node: '>= 0.6'}
 
   mime-types@2.1.35:
@@ -10503,7 +10507,7 @@ snapshots:
       '@multiformats/mafmt': 12.1.6
       '@multiformats/multiaddr': 12.3.0
       '@multiformats/multiaddr-to-uri': 10.1.0
-      '@types/ws': 8.5.10
+      '@types/ws': 8.5.11
       it-ws: 6.1.1(bufferutil@4.0.8)
       p-defer: 4.0.1
       progress-events: 1.0.1
@@ -11480,7 +11484,7 @@ snapshots:
 
   '@types/uuid@10.0.0': {}
 
-  '@types/ws@8.5.10':
+  '@types/ws@8.5.11':
     dependencies:
       '@types/node': 20.14.10
 
@@ -12693,7 +12697,7 @@ snapshots:
 
   compressible@2.0.18:
     dependencies:
-      mime-db: 1.52.0
+      mime-db: 1.53.0
 
   compression@1.7.4:
     dependencies:
@@ -15202,7 +15206,7 @@ snapshots:
 
   it-ws@6.1.1(bufferutil@4.0.8):
     dependencies:
-      '@types/ws': 8.5.10
+      '@types/ws': 8.5.11
       event-iterator: 2.0.0
       it-stream-types: 2.0.1
       uint8arrays: 5.1.0
@@ -16314,6 +16318,8 @@ snapshots:
       brorand: 1.1.0
 
   mime-db@1.52.0: {}
+
+  mime-db@1.53.0: {}
 
   mime-types@2.1.35:
     dependencies:
