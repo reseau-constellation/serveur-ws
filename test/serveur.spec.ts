@@ -210,8 +210,7 @@ describe("Fermeture serveur sécuritaire", function () {
     describe(typeServeur, () => {
       it("Fermeture suivant ouverture", async () => {
         const { fermerServeur } = await fGénérerServeur({});
-        if (process.platform === "win32") fermerServeur();
-        else await fermerServeur();
+        await fermerServeur();
       });
     }),
   );
@@ -242,8 +241,7 @@ describe("Fonctionalités serveurs", function () {
 
       after(async () => {
         if (fermerServeur) {
-          if (process.platform === "win32") fermerServeur();
-          else await fermerServeur();
+          await fermerServeur();
         }
       });
 
