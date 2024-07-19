@@ -1,4 +1,9 @@
 name: Serveur WS
+
+concurrency:
+  group: tests-${{ github.ref }}
+  cancel-in-progress: true
+
 on:
   push:
     branches:
@@ -6,6 +11,7 @@ on:
   pull_request:
     branches:
       - principale
+
 jobs:
   tests-binaire:
     name: Ligne de commande
