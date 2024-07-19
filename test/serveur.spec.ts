@@ -182,8 +182,7 @@ describe("Configuration serveur", function () {
       });
 
       after(async () => {
-        if (process.platform === "win32") fermerServeur();
-        else await fermerServeur();
+        await fermerServeur();
 
         try {
           fEffacer?.();
