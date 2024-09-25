@@ -124,8 +124,8 @@ importers:
         specifier: ^3.2.0
         version: 3.2.0
       keyv:
-        specifier: ^4.5.4
-        version: 4.5.4
+        specifier: ^5.0.0
+        version: 5.0.3
       prettier:
         specifier: ^3.3.3
         version: 3.3.3
@@ -1442,6 +1442,9 @@ packages:
 
   '@jridgewell/trace-mapping@0.3.9':
     resolution: {integrity: sha512-3Belt6tdc8bPgAtbcmdtNJlirVoTmEb5e2gC94PnkwEW9jI6CAHUeoG85tjWP5WquqfavoMtMwiG4P926ZKKuQ==}
+
+  '@keyv/serialize@1.0.1':
+    resolution: {integrity: sha512-kKXeynfORDGPUEEl2PvTExM2zs+IldC6ZD8jPcfvI351MDNtfMlw9V9s4XZXuJNDK2qR5gbEKxRyoYx3quHUVQ==}
 
   '@lassi-js/kili@0.3.14':
     resolution: {integrity: sha512-ZMPRnQLdLVHOg342Qqfi8El72jeelUpUXLUEliN92I9zSEI6BsYN0RmZGEY1Dz9+sFOVQw+Vq2YJKuZlmMCghg==}
@@ -5191,6 +5194,9 @@ packages:
 
   keyv@4.5.4:
     resolution: {integrity: sha512-oxVHkHR/EJf2CNXnWxRLW6mg7JyCCUcG0DtEGmL2ctUo1PNTin1PUil+r/+4r5MpVgC/fn1kjsx7mjSujKqIpw==}
+
+  keyv@5.0.3:
+    resolution: {integrity: sha512-WmefGWaWkWiWDkIasfHxpWmM1lych/LPtRmNj8jnIQVGLsAgFw73Vg9utZ7ss97/JwRlERABb/fSejTPY4hlZQ==}
 
   kind-of@6.0.3:
     resolution: {integrity: sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==}
@@ -9966,6 +9972,10 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.0
 
+  '@keyv/serialize@1.0.1':
+    dependencies:
+      buffer: 6.0.3
+
   '@lassi-js/kili@0.3.14(@constl/ipa@1.1.3(bufferutil@4.0.8)(react-native@0.74.3(@babel/core@7.25.2)(@babel/preset-env@7.24.8(@babel/core@7.25.2))(bufferutil@4.0.8)(react@18.2.0)))':
     dependencies:
       '@constl/ipa': 1.1.3(bufferutil@4.0.8)(react-native@0.74.3(@babel/core@7.25.2)(@babel/preset-env@7.24.8(@babel/core@7.25.2))(bufferutil@4.0.8)(react@18.2.0))
@@ -10794,7 +10804,7 @@ snapshots:
       '@chainsafe/libp2p-gossipsub': 13.2.0
       '@orbitdb/core': 2.2.0
       blockstore-level: 1.1.8
-      helia: 4.2.4(bufferutil@4.0.8)(react-native@0.74.3(@babel/core@7.25.2)(@babel/preset-env@7.24.8(@babel/core@7.25.2))(bufferutil@4.0.8)(react@18.2.0))
+      helia: 4.2.5(bufferutil@4.0.8)(react-native@0.74.3(@babel/core@7.25.2)(@babel/preset-env@7.24.8(@babel/core@7.25.2))(bufferutil@4.0.8)(react@18.2.0))
     transitivePeerDependencies:
       - bufferutil
       - react-native
@@ -15347,6 +15357,10 @@ snapshots:
   keyv@4.5.4:
     dependencies:
       json-buffer: 3.0.1
+
+  keyv@5.0.3:
+    dependencies:
+      '@keyv/serialize': 1.0.1
 
   kind-of@6.0.3: {}
 
