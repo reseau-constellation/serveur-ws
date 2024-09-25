@@ -146,7 +146,7 @@ importers:
         version: 8.0.1(eslint@9.9.0)(typescript@5.5.4)
       typescript-transform-paths:
         specifier: ^3.4.7
-        version: 3.4.10(typescript@5.5.4)
+        version: 3.5.1(typescript@5.5.4)
 
 packages:
 
@@ -7753,8 +7753,8 @@ packages:
       typescript:
         optional: true
 
-  typescript-transform-paths@3.4.10:
-    resolution: {integrity: sha512-OPBjXDnwX/B4JzewvRAzEzcNK+hQn/JonCfUN93VARsFQcj/wk//4RJ3FPp/SgzsT1s1EJJhOass5grxy8Y2yA==}
+  typescript-transform-paths@3.5.1:
+    resolution: {integrity: sha512-nq+exuF+38rAby9zrP+S6t0HWuwv69jeFu0I5UwjdoCIDPmnKIAr6a7JfYkbft7h5OzYKEDRhT/jLvvtTvWF4Q==}
     peerDependencies:
       typescript: '>=3.6.5'
 
@@ -18510,9 +18510,9 @@ snapshots:
       - eslint
       - supports-color
 
-  typescript-transform-paths@3.4.10(typescript@5.5.4):
+  typescript-transform-paths@3.5.1(typescript@5.5.4):
     dependencies:
-      minimatch: 3.1.2
+      minimatch: 9.0.5
       typescript: 5.5.4
 
   typescript@5.5.4: {}
