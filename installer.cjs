@@ -12,14 +12,11 @@ const adressePkgJson = join(
 const pkgJson = existsSync(adressePkgJson) ? JSON.parse(readFileSync(adressePkgJson)) : {};
 (async () => {
   const réponsePackageJson = await fetch("https://raw.githubusercontent.com/reseau-constellation/serveur-ws/principale/package.json")
-  const résolutions = (await réponsePackageJson.json()).pnpm?.overrides || {};
-
-  if (!pkgJson.pnpm) pkgJson.pnpm = {};
-  pkgJson.pnpm.overrides = {
-    ...(pkgJson.pnpm.overrides || {}),
-    ...(résolutions || {}),
-  };  
+  const optsPnpm = (await réponsePackageJson.json()).pnpm || {};
   
+  if (!pkgJson.pnpm) pkgJson.pnpm = {};
+  pkgJson.pnpm = optsPnpm;  
+
   if (!existsSync(dossierPnpmGlobal)) mkdirSync(dossierPnpmGlobal, {recursive: true}); 
   writeFileSync(adressePkgJson, JSON.stringify(pkgJson, null, 2));
   
