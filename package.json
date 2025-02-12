@@ -78,6 +78,20 @@
   "pnpm": {
     "overrides": {
       "@orbitdb/core": "github:julienmalard/orbit-db#patch-1"
-    }
+    },
+    "onlyBuiltDependencies": [
+      "@localfirst/auth",
+      "@localfirst/crdx",
+      "@localfirst/crypto",
+      "@localfirst/shared",
+      "bufferutil",
+      "classic-level",
+      "core-js",
+      "electron",
+      "esbuild",
+      "iso-constants",
+      "msgpackr-extract",
+      "node-datachannel"
+    ]
   }
 }
