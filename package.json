@@ -1,6 +1,6 @@
 {
   "name": "@constl/serveur",
-  "version": "2.1.5",
+  "version": "2.1.6",
   "repository": "https://github.com/reseau-constellation/serveur-ws",
   "author": "Julien Jean Malard-Adam",
   "license": "AGPL-3.0",
@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "@constl/ipa": "^1.5.9",
+    "@orbitdb/core": "^2.4.3",
     "axios": "^1.7.9",
     "bip39": "^3.1.0",
     "bufferutil": "^4.0.9",
@@ -45,6 +46,7 @@
     "@constl/mandataire": "3.0.3",
     "@constl/utils-tests": "1.6.12",
     "@eslint/js": "^9.20.0",
+    "@orbitdb/core-types": "^1.0.13",
     "@types/express": "^5.0.0",
     "@types/mocha": "^10.0.10",
     "@types/node": "^22.13.1",
@@ -74,5 +76,10 @@
   },
   "bin": {
     "constl": "./dist/bin.js"
+  },
+  "pnpm": {
+    "patchedDependencies": {
+      "@orbitdb/core": "patches/@orbitdb__core.patch"
+    }
   }
 }

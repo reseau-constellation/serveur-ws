@@ -4,6 +4,11 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+patchedDependencies:
+  '@orbitdb/core':
+    hash: 30c86593827e8ffaa2d0f1ba096731c7a850df559e267c0ac3a8f761e035a465
+    path: patches/@orbitdb__core.patch
+
 importers:
 
   .:
@@ -11,6 +16,9 @@ importers:
       '@constl/ipa':
         specifier: ^1.5.9
         version: 1.5.9(bufferutil@4.0.9)(react-native@0.74.3(@babel/core@7.26.8)(@babel/preset-env@7.24.8(@babel/core@7.26.8))(bufferutil@4.0.9)(react@18.2.0))
+      '@orbitdb/core':
+        specifier: ^2.4.3
+        version: 2.4.3(patch_hash=30c86593827e8ffaa2d0f1ba096731c7a850df559e267c0ac3a8f761e035a465)
       axios:
         specifier: ^1.7.9
         version: 1.7.9(debug@4.4.0)
@@ -63,6 +71,9 @@ importers:
       '@eslint/js':
         specifier: ^9.20.0
         version: 9.20.0
+      '@orbitdb/core-types':
+        specifier: ^1.0.13
+        version: 1.0.13
       '@types/express':
         specifier: ^5.0.0
         version: 5.0.0
@@ -9146,7 +9157,7 @@ snapshots:
 
   '@constl/bohr-db@1.2.2(bufferutil@4.0.9)(react-native@0.74.3(@babel/core@7.26.8)(@babel/preset-env@7.24.8(@babel/core@7.26.8))(bufferutil@4.0.9)(react@18.2.0))':
     dependencies:
-      '@orbitdb/core': 2.4.3
+      '@orbitdb/core': 2.4.3(patch_hash=30c86593827e8ffaa2d0f1ba096731c7a850df559e267c0ac3a8f761e035a465)
       '@orbitdb/core-types': 1.0.13
       '@orbitdb/feed-db': 1.1.1(bufferutil@4.0.9)(react-native@0.74.3(@babel/core@7.26.8)(@babel/preset-env@7.24.8(@babel/core@7.26.8))(bufferutil@4.0.9)(react@18.2.0))
       '@orbitdb/ordered-keyvalue-db': 1.1.1(bufferutil@4.0.9)(react-native@0.74.3(@babel/core@7.26.8)(@babel/preset-env@7.24.8(@babel/core@7.26.8))(bufferutil@4.0.9)(react@18.2.0))
@@ -9191,7 +9202,7 @@ snapshots:
       '@localfirst/auth': 6.0.0
       '@localfirst/crypto': 6.0.0
       '@multiformats/multiaddr-matcher': 1.6.0
-      '@orbitdb/core': 2.4.3
+      '@orbitdb/core': 2.4.3(patch_hash=30c86593827e8ffaa2d0f1ba096731c7a850df559e267c0ac3a8f761e035a465)
       '@orbitdb/feed-db': 1.1.1(bufferutil@4.0.9)(react-native@0.74.3(@babel/core@7.26.8)(@babel/preset-env@7.24.8(@babel/core@7.26.8))(bufferutil@4.0.9)(react@18.2.0))
       '@orbitdb/ordered-keyvalue-db': 1.1.1(bufferutil@4.0.9)(react-native@0.74.3(@babel/core@7.26.8)(@babel/preset-env@7.24.8(@babel/core@7.26.8))(bufferutil@4.0.9)(react@18.2.0))
       '@orbitdb/set-db': 1.1.1(bufferutil@4.0.9)(react-native@0.74.3(@babel/core@7.26.8)(@babel/preset-env@7.24.8(@babel/core@7.26.8))(bufferutil@4.0.9)(react@18.2.0))
@@ -9264,7 +9275,7 @@ snapshots:
       '@helia/block-brokers': 4.0.3
       '@libp2p/peer-id': 5.0.12
       '@libp2p/webrtc': 5.0.27(react-native@0.74.3(@babel/core@7.26.8)(@babel/preset-env@7.24.8(@babel/core@7.26.8))(bufferutil@4.0.9)(react@18.2.0))
-      '@orbitdb/core': 2.4.3
+      '@orbitdb/core': 2.4.3(patch_hash=30c86593827e8ffaa2d0f1ba096731c7a850df559e267c0ac3a8f761e035a465)
       blockstore-core: 5.0.2
       blockstore-level: 2.0.1
       browserify-fs: 1.0.0
@@ -9802,13 +9813,13 @@ snapshots:
     dependencies:
       '@constl/ipa': 1.5.9(bufferutil@4.0.9)(react-native@0.74.3(@babel/core@7.26.8)(@babel/preset-env@7.24.8(@babel/core@7.26.8))(bufferutil@4.0.9)(react@18.2.0))
       '@constl/utils-ipa': 1.0.4
-      '@orbitdb/core': 2.4.3
+      '@orbitdb/core': 2.4.3(patch_hash=30c86593827e8ffaa2d0f1ba096731c7a850df559e267c0ac3a8f761e035a465)
       deepcopy: 2.1.0
 
   '@lassi-js/kili@0.4.1':
     dependencies:
       '@constl/utils-ipa': 1.0.4
-      '@orbitdb/core': 2.4.3
+      '@orbitdb/core': 2.4.3(patch_hash=30c86593827e8ffaa2d0f1ba096731c7a850df559e267c0ac3a8f761e035a465)
       deepcopy: 2.1.0
 
   '@leichtgewicht/ip-codec@2.0.5': {}
@@ -10537,7 +10548,7 @@ snapshots:
 
   '@orbitdb/core-types@1.0.13': {}
 
-  '@orbitdb/core@2.4.3':
+  '@orbitdb/core@2.4.3(patch_hash=30c86593827e8ffaa2d0f1ba096731c7a850df559e267c0ac3a8f761e035a465)':
     dependencies:
       '@ipld/dag-cbor': 9.2.2
       '@libp2p/crypto': 5.0.11
@@ -10551,7 +10562,7 @@ snapshots:
 
   '@orbitdb/feed-db@1.1.1(bufferutil@4.0.9)(react-native@0.74.3(@babel/core@7.26.8)(@babel/preset-env@7.24.8(@babel/core@7.26.8))(bufferutil@4.0.9)(react@18.2.0))':
     dependencies:
-      '@orbitdb/core': 2.4.3
+      '@orbitdb/core': 2.4.3(patch_hash=30c86593827e8ffaa2d0f1ba096731c7a850df559e267c0ac3a8f761e035a465)
       helia: 5.2.0(bufferutil@4.0.9)(react-native@0.74.3(@babel/core@7.26.8)(@babel/preset-env@7.24.8(@babel/core@7.26.8))(bufferutil@4.0.9)(react@18.2.0))
     transitivePeerDependencies:
       - bufferutil
@@ -10561,7 +10572,7 @@ snapshots:
 
   '@orbitdb/ordered-keyvalue-db@1.1.1(bufferutil@4.0.9)(react-native@0.74.3(@babel/core@7.26.8)(@babel/preset-env@7.24.8(@babel/core@7.26.8))(bufferutil@4.0.9)(react@18.2.0))':
     dependencies:
-      '@orbitdb/core': 2.4.3
+      '@orbitdb/core': 2.4.3(patch_hash=30c86593827e8ffaa2d0f1ba096731c7a850df559e267c0ac3a8f761e035a465)
       helia: 5.2.0(bufferutil@4.0.9)(react-native@0.74.3(@babel/core@7.26.8)(@babel/preset-env@7.24.8(@babel/core@7.26.8))(bufferutil@4.0.9)(react@18.2.0))
     transitivePeerDependencies:
       - bufferutil
@@ -10571,7 +10582,7 @@ snapshots:
 
   '@orbitdb/set-db@1.1.1(bufferutil@4.0.9)(react-native@0.74.3(@babel/core@7.26.8)(@babel/preset-env@7.24.8(@babel/core@7.26.8))(bufferutil@4.0.9)(react@18.2.0))':
     dependencies:
-      '@orbitdb/core': 2.4.3
+      '@orbitdb/core': 2.4.3(patch_hash=30c86593827e8ffaa2d0f1ba096731c7a850df559e267c0ac3a8f761e035a465)
       helia: 5.2.0(bufferutil@4.0.9)(react-native@0.74.3(@babel/core@7.26.8)(@babel/preset-env@7.24.8(@babel/core@7.26.8))(bufferutil@4.0.9)(react@18.2.0))
     transitivePeerDependencies:
       - bufferutil
