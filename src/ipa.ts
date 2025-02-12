@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from "uuid";
 import ws from "ws";
 
 import { Constellation, client, mandataire } from "@constl/ipa";
@@ -113,10 +114,17 @@ export const attacherIpa = ({
     ipa = constellation;
     const déconnecterDeWs = connecterÀWs({ ipa });
 
+    ipa.gérerMessage({
+      type: "action",
+      idRequête: uuidv4(),
+      fonction: ["spécifierMessageVerrou"],
+      args: { port }
+    })
+    
     // On ne ferme pas l'instance Constellation si elle a été fournie de l'extérieur
     fFermer = async () => déconnecterDeWs();
   } else {
-    constellation.messageVerrou = `{port: ${port}}`;
+    constellation.messageVerrou = JSON.stringify({ port });
     ipa = new mandataire.EnveloppeIpa(fMessage, fErreur, {
       ...constellation,
     });
