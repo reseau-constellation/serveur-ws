@@ -118,9 +118,9 @@ export const attacherIpa = ({
       type: "action",
       idRequête: uuidv4(),
       fonction: ["spécifierMessageVerrou"],
-      args: { port }
-    })
-    
+      args: { port },
+    });
+
     // On ne ferme pas l'instance Constellation si elle a été fournie de l'extérieur
     fFermer = async () => déconnecterDeWs();
   } else {
