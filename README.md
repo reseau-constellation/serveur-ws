@@ -60,9 +60,10 @@ JavaScript, vous pouvez l'installer ainsi :
 ```JavaScript
 import { lancerServeur } from "@constl/serveur";
 
-const { fermerServeur, port } = await lancerServeur();
+const { fermerServeur, port, codeSecret } = await lancerServeur();
 
 // `port` contient maintenant le numéro de port à utiliser dans le client
+// `codeSecret` contient le code secret que le client doit donner pour se connecter
 
 // Lorsqu'on a fini :
 fermerServeur();
@@ -76,7 +77,7 @@ Invoqué sans configuration, `lancerServeur` trouvera un port disponible sur
 ```TypeScript
 import { lancerServeur } from "@constl/serveur";
 
-const { fermerServeur, port } = await lancerServeur({
+const { fermerServeur, port, codeSecret } = await lancerServeur({
   port: 5003,
   optsConstellation: {
     dossier: "mon-dossier-constellation",  // Dossier du compte Constellation
@@ -93,7 +94,8 @@ dans cette librairie.
 import { lancerClient } from "@constl/serveur";
 
 const port = 5001  // Ou une autre valeur, selon `lancerServeur`
-const { client, fermerClient } = lancerClient(port);
+const codeSecret = "le code secret qui vient du serveur"
+const { client, fermerClient } = lancerClient({ port, codeSecret });
 
 // On peut maintenant appeler des fonctions sur le client comme s'il
 // s'agissait d'un client Constellation ordinaire :
