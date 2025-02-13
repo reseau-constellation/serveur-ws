@@ -40,7 +40,7 @@ analyse en Python, en R ou en Julia), c'est ceci ce que vous voulez.
 
 ### Ligne de commande
 Pour lancer le serveur :
-`constl lancer [-p <port>] [-b]`
+`constl lancer [--p <port>] [--dossier <dossier>]`
 
 Pour obtenir le numéro de la version :
 `constl version`
