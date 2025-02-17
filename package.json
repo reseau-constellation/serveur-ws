@@ -25,7 +25,7 @@
     "versioner": "pnpm genversion  --es6 --semi src/version.ts"
   },
   "dependencies": {
-    "@constl/ipa": "^1.5.9",
+    "@constl/ipa": "^1.5.12",
     "axios": "^1.7.9",
     "bip39": "^3.1.0",
     "bufferutil": "^4.0.9",
@@ -47,14 +47,14 @@
     "@eslint/js": "^9.20.0",
     "@types/express": "^5.0.0",
     "@types/mocha": "^10.0.10",
-    "@types/node": "^22.13.1",
+    "@types/node": "^22.13.4",
     "@types/uuid": "^10.0.0",
     "@types/ws": "^8.5.14",
     "@types/yargs": "^17.0.33",
     "@typescript-eslint/eslint-plugin": "^8.24.0",
     "@typescript-eslint/parser": "^8.24.0",
     "aegir": "^45.0.9",
-    "eslint": "^9.20.0",
+    "eslint": "^9.20.1",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^10.0.1",
     "eslint-config-standard": "^17.1.0",
@@ -64,7 +64,7 @@
     "execa": "^9.5.2",
     "genversion": "^3.2.0",
     "keyv": "^5.2.3",
-    "prettier": "^3.5.0",
+    "prettier": "^3.5.1",
     "rimraf": "^6.0.1",
     "ts-patch": "^3.3.0",
     "typed-emitter": "^2.1.0",
@@ -76,10 +76,8 @@
     "constl": "./dist/bin.js"
   },
   "pnpm": {
-    "overrides": {
-      "@orbitdb/core": "github:julienmalard/orbit-db#patch-1"
-    },
     "onlyBuiltDependencies": [
+      "@ipshipyard/node-datachannel",
       "@localfirst/auth",
       "@localfirst/crdx",
       "@localfirst/crypto",
