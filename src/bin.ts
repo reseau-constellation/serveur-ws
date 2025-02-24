@@ -18,6 +18,10 @@ import {
 import { lancerServeur } from "@/serveur.js";
 import { MessageBinaire, PRÉFIX_MACHINE } from "@/const.js";
 
+process.on('unhandledRejection', (reason, _p) => {
+  console.error('Rejet de promesse libre :', reason);
+});
+
 const dirBase = url.fileURLToPath(new URL("..", import.meta.url));
 const fichierPackageJson = path.join(dirBase, "./package.json");
 const fichierPackageJsonDév = path.join(dirBase, "../package.json");
@@ -44,10 +48,11 @@ const suivreConnexions = async ({ ipa }: { ipa: Constellation }) => {
     constellation: [],
   };
 
+  let maintenant = Date.now();
   const fFinale = () => {
     const nConnexionsSfip = connexions.sfip.length;
     const nConnexionsMembres = connexions.constellation.filter(
-      (c) => c.infoMembre.idCompte !== connexions.monId && !c.vuÀ,
+      (c) => c.infoMembre.idCompte !== connexions.monId && c.vuÀ && (maintenant - c.vuÀ <= 10000),
     ).length;
 
     logUpdate(
@@ -57,6 +62,9 @@ const suivreConnexions = async ({ ipa }: { ipa: Constellation }) => {
       ),
     );
   };
+
+  const intervaleMaintenant = setInterval(()=>maintenant = Date.now(), 1000)
+  const oublierMaintenant = ()=>clearInterval(intervaleMaintenant);
 
   const oublierMonId = await ipa.suivreIdCompte({
     f: (id) => (connexions.monId = id),
@@ -76,6 +84,7 @@ const suivreConnexions = async ({ ipa }: { ipa: Constellation }) => {
     });
   return async () => {
     await Promise.all([
+      oublierMaintenant(),
       oublierMonId(),
       oublierConnexionsSFIP(),
       oublierConnexionsConstellation(),
