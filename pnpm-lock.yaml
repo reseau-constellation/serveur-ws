@@ -122,7 +122,7 @@ importers:
         version: 5.2.3
       prettier:
         specifier: ^3.5.1
-        version: 3.5.1
+        version: 3.5.3
       rimraf:
         specifier: ^6.0.1
         version: 6.0.1
@@ -2085,11 +2085,14 @@ packages:
   '@types/node-forge@1.3.11':
     resolution: {integrity: sha512-FQx220y22OKNTqaByeBGqHWYz4cl94tpcxeFdvBo3wjG6XPBuZ0BNgNZRV5J5TFmmcsJ4IzsLkmGRiQbnYsBEQ==}
 
-  '@types/node@18.19.76':
-    resolution: {integrity: sha512-yvR7Q9LdPz2vGpmpJX5LolrgRdWvB67MJKDPSgIIzpFbaf9a1j/f5DnLp5VDyHGMR0QZHlTr1afsD87QCXFHKw==}
+  '@types/node@18.19.78':
+    resolution: {integrity: sha512-m1ilZCTwKLkk9rruBJXFeYN0Bc5SbjirwYX/Td3MqPfioYbgun3IvK/m8dQxMCnrPGZPg1kvXjp3SIekCN/ynw==}
 
   '@types/node@22.13.4':
     resolution: {integrity: sha512-ywP2X0DYtX3y08eFVx5fNIw7/uIv8hYUKgXoK8oayJlLnKcRfEYCxWMVE1XagUdVtCJlZT1AU4LXEABW+L1Peg==}
+
+  '@types/node@22.13.8':
+    resolution: {integrity: sha512-G3EfaZS+iOGYWLLRCEAXdWK9my08oHNZ+FHluRiggIYJPOXzhOiDgpVCUHaUvyIC5/fj7C/p637jdzC666AOKQ==}
 
   '@types/normalize-package-data@2.4.4':
     resolution: {integrity: sha512-37i+OaWTh9qeK4LSHPsyRC7NahnGotNuZvjLSgcPzblpHB3rrCJxAOgI5gCdKm7coonsaX1Of0ILiTcnZjbfxA==}
@@ -3157,6 +3160,9 @@ packages:
   core-js-compat@3.40.0:
     resolution: {integrity: sha512-0XEDpr5y5mijvw8Lbc6E5AkjrHfp7eEoPlu36SWeAbcL8fn1G1ANe8DBlo2XoNN89oVpxWwOjYIPVzR4ZvsKCQ==}
 
+  core-js-compat@3.41.0:
+    resolution: {integrity: sha512-RFsU9LySVue9RTwdDVX/T0e2Y6jRYWXERKElIjpuEOEnxaXffI0X7RUwVzfYLfzuLXSNJDYoRYUAmRUcyln20A==}
+
   core-js@3.40.0:
     resolution: {integrity: sha512-7vsMc/Lty6AGnn7uFpYT56QesI5D2Y/UkgKounk87OP9Z2H9Z8kj6jzcSGAxFmUtDOS0ntK6lbQz+Nsa0Jj6mQ==}
 
@@ -3963,8 +3969,8 @@ packages:
   fast-uri@3.0.6:
     resolution: {integrity: sha512-Atfo14OibSv5wAp4VWNsFYE1AchQRTv9cBGWET4pZWHzYshFSS9NQI6I57rdKn9croWVMbYFbLhJ+yJvmZIIHw==}
 
-  fast-xml-parser@4.5.1:
-    resolution: {integrity: sha512-y655CeyUQ+jj7KBbYMc4FG01V8ZQqjN+gDYGJ50RtfsUB8iG9AmwmwoAgeKLJdmueKKMrH1RJ7yXHTSoczdv5w==}
+  fast-xml-parser@4.5.3:
+    resolution: {integrity: sha512-RKihhV+SHsIUGXObeVy9AXiBbFwkVk7Syp8XgwN5U3JV416+Gwp/GO9i0JYKmikykgz/UHRrrV4ROuZEo/T0ig==}
     hasBin: true
 
   fastq@1.19.0:
@@ -4093,8 +4099,8 @@ packages:
   flow-enums-runtime@0.0.6:
     resolution: {integrity: sha512-3PYnM29RFXwvAN6Pc/scUfkI7RwhQ/xqyLUyPNlXUp9S40zI8nup9tUSrTLSVnWGBN38FNiGWbwZOB6uR4OGdw==}
 
-  flow-parser@0.261.1:
-    resolution: {integrity: sha512-2l5bBKeVtT+d+1CYSsTLJ+iP2FuoR7zjbDQI/v6dDRiBpx3Lb20Z/tLS37ReX/lcodyGSHC2eA/Nk63hB+mkYg==}
+  flow-parser@0.262.0:
+    resolution: {integrity: sha512-K3asSw4s2/sRoUC4xD2OfGi04gdYCCFRgkcwEXi5JyfFhS0HrFWLcDPp55ttv95OY5970WKl4T+7hWrnuOAUMQ==}
     engines: {node: '>=0.4.0'}
 
   follow-redirects@1.15.9:
@@ -6607,8 +6613,8 @@ packages:
     engines: {node: '>=6'}
     hasBin: true
 
-  prettier@3.5.1:
-    resolution: {integrity: sha512-hPpFQvHwL3Qv5AdRvBFMhnKo4tYxp0ReXiPn2bxkiohEX6mBeBwEpBSQTkD458RaaDKQMYSp4hX4UtfUTA5wDw==}
+  prettier@3.5.3:
+    resolution: {integrity: sha512-QQtaxnoDJeAkDvDKWCLiwIXkTgRhwYDEQCghU9Z6q03iyek/rxRh/2lC3HB7P8sWT2xC/y5JDctPLBIGzHKbhw==}
     engines: {node: '>=14'}
     hasBin: true
 
@@ -7353,8 +7359,8 @@ packages:
   stackframe@1.3.4:
     resolution: {integrity: sha512-oeVtt7eWQS+Na6F//S4kJ2K2VbRlS9D43mAlMyVpVWovy9o+jfgH8O9agzANzaiLjclA0oYzUXEM4PurhSUChw==}
 
-  stacktrace-parser@0.1.10:
-    resolution: {integrity: sha512-KJP1OCML99+8fhOHxwwzyWrlUuVX5GQ0ZpJTd1DFXhdkrvg1szxfHhawXUZ3g9TkXORQd4/WG68jMlQZ2p8wlg==}
+  stacktrace-parser@0.1.11:
+    resolution: {integrity: sha512-WjlahMgHmCJpqzU8bIBy4qtsZdU9lRlcZE3Lvyej6t4tuOuv1vk57OW3MBrj6hXBFx/nNoC9MPMTcr5YA7NQbg==}
     engines: {node: '>=6'}
 
   statuses@1.5.0:
@@ -7502,8 +7508,8 @@ packages:
     resolution: {integrity: sha512-k55yxKHwaXnpYGsOzg4Vl8+tDrWylxDEpknGjhTiZB8dFRU5rTo9CAzeycivxV3s+zlTKwrs6WxMxR95n26kwg==}
     engines: {node: '>=0.10.0'}
 
-  strnum@1.0.5:
-    resolution: {integrity: sha512-J8bbNyKKXl5qYcR36TIO8W3mVGVHrmmxsd5PAItGkmyzwJvybiw2IVq5nqd0i4LSNSkB/sx9VHllbfFdr9k1JA==}
+  strnum@1.1.2:
+    resolution: {integrity: sha512-vrN+B7DBIoTTZjnPNewwhx6cBA/H+IS7rfW68n7XxC1y7uoiGQBxaKzqucGUgavX15dJgiGztLJ8vxuEzwqBdA==}
 
   strong-log-transformer@2.1.0:
     resolution: {integrity: sha512-B3Hgul+z0L9a236FAUC9iZsL+nVHgoCJnqCbN588DjYxvGXaXaaFbfmQ/JhvKjZwsOukuR72XbHv71Qkug0HxA==}
@@ -9145,7 +9151,7 @@ snapshots:
       babel-plugin-polyfill-corejs2: 0.4.12(@babel/core@7.26.9)
       babel-plugin-polyfill-corejs3: 0.10.6(@babel/core@7.26.9)
       babel-plugin-polyfill-regenerator: 0.6.3(@babel/core@7.26.9)
-      core-js-compat: 3.40.0
+      core-js-compat: 3.41.0
       semver: 6.3.1
     transitivePeerDependencies:
       - supports-color
@@ -9868,14 +9874,14 @@ snapshots:
     dependencies:
       '@jest/fake-timers': 29.7.0
       '@jest/types': 29.6.3
-      '@types/node': 22.13.4
+      '@types/node': 22.13.8
       jest-mock: 29.7.0
 
   '@jest/fake-timers@29.7.0':
     dependencies:
       '@jest/types': 29.6.3
       '@sinonjs/fake-timers': 10.3.0
-      '@types/node': 22.13.4
+      '@types/node': 22.13.8
       jest-message-util: 29.7.0
       jest-mock: 29.7.0
       jest-util: 29.7.0
@@ -9888,7 +9894,7 @@ snapshots:
     dependencies:
       '@types/istanbul-lib-coverage': 2.0.6
       '@types/istanbul-reports': 3.0.4
-      '@types/node': 22.13.4
+      '@types/node': 22.13.8
       '@types/yargs': 15.0.19
       chalk: 4.1.2
 
@@ -9897,7 +9903,7 @@ snapshots:
       '@jest/schemas': 29.6.3
       '@types/istanbul-lib-coverage': 2.0.6
       '@types/istanbul-reports': 3.0.4
-      '@types/node': 22.13.4
+      '@types/node': 22.13.8
       '@types/yargs': 17.0.33
       chalk: 4.1.2
 
@@ -10888,7 +10894,7 @@ snapshots:
       chalk: 4.1.2
       execa: 5.1.1
       fast-glob: 3.3.3
-      fast-xml-parser: 4.5.1
+      fast-xml-parser: 4.5.3
       logkitty: 0.7.1
     transitivePeerDependencies:
       - encoding
@@ -10899,7 +10905,7 @@ snapshots:
       chalk: 4.1.2
       execa: 5.1.1
       fast-glob: 3.3.3
-      fast-xml-parser: 4.5.1
+      fast-xml-parser: 4.5.3
       ora: 5.4.1
     transitivePeerDependencies:
       - encoding
@@ -11113,7 +11119,7 @@ snapshots:
 
   '@rnx-kit/chromium-edge-launcher@1.0.0':
     dependencies:
-      '@types/node': 18.19.76
+      '@types/node': 18.19.78
       escape-string-regexp: 4.0.0
       is-wsl: 2.2.0
       lighthouse-logger: 1.4.2
@@ -11370,13 +11376,17 @@ snapshots:
 
   '@types/node-forge@1.3.11':
     dependencies:
-      '@types/node': 22.13.4
+      '@types/node': 22.13.8
 
-  '@types/node@18.19.76':
+  '@types/node@18.19.78':
     dependencies:
       undici-types: 5.26.5
 
   '@types/node@22.13.4':
+    dependencies:
+      undici-types: 6.20.0
+
+  '@types/node@22.13.8':
     dependencies:
       undici-types: 6.20.0
 
@@ -12516,7 +12526,7 @@ snapshots:
 
   chrome-launcher@0.15.2:
     dependencies:
-      '@types/node': 22.13.4
+      '@types/node': 22.13.8
       escape-string-regexp: 4.0.0
       is-wsl: 2.2.0
       lighthouse-logger: 1.4.2
@@ -12742,6 +12752,10 @@ snapshots:
       p-event: 6.0.1
 
   core-js-compat@3.40.0:
+    dependencies:
+      browserslist: 4.24.4
+
+  core-js-compat@3.41.0:
     dependencies:
       browserslist: 4.24.4
 
@@ -13956,9 +13970,9 @@ snapshots:
 
   fast-uri@3.0.6: {}
 
-  fast-xml-parser@4.5.1:
+  fast-xml-parser@4.5.3:
     dependencies:
-      strnum: 1.0.5
+      strnum: 1.1.2
 
   fastq@1.19.0:
     dependencies:
@@ -14110,7 +14124,7 @@ snapshots:
 
   flow-enums-runtime@0.0.6: {}
 
-  flow-parser@0.261.1: {}
+  flow-parser@0.262.0: {}
 
   follow-redirects@1.15.9(debug@4.4.0):
     optionalDependencies:
@@ -15206,7 +15220,7 @@ snapshots:
       '@jest/environment': 29.7.0
       '@jest/fake-timers': 29.7.0
       '@jest/types': 29.6.3
-      '@types/node': 22.13.4
+      '@types/node': 22.13.8
       jest-mock: 29.7.0
       jest-util: 29.7.0
 
@@ -15227,13 +15241,13 @@ snapshots:
   jest-mock@29.7.0:
     dependencies:
       '@jest/types': 29.6.3
-      '@types/node': 22.13.4
+      '@types/node': 22.13.8
       jest-util: 29.7.0
 
   jest-util@29.7.0:
     dependencies:
       '@jest/types': 29.6.3
-      '@types/node': 22.13.4
+      '@types/node': 22.13.8
       chalk: 4.1.2
       ci-info: 3.9.0
       graceful-fs: 4.2.11
@@ -15250,7 +15264,7 @@ snapshots:
 
   jest-worker@29.7.0:
     dependencies:
-      '@types/node': 22.13.4
+      '@types/node': 22.13.8
       jest-util: 29.7.0
       merge-stream: 2.0.0
       supports-color: 8.1.1
@@ -15292,7 +15306,7 @@ snapshots:
       '@babel/register': 7.25.9(@babel/core@7.26.9)
       babel-core: 7.0.0-bridge.0(@babel/core@7.26.9)
       chalk: 4.1.2
-      flow-parser: 0.261.1
+      flow-parser: 0.262.0
       graceful-fs: 4.2.11
       micromatch: 4.0.8
       neo-async: 2.6.2
@@ -17147,7 +17161,7 @@ snapshots:
 
   premove@4.0.0: {}
 
-  prettier@3.5.1: {}
+  prettier@3.5.3: {}
 
   pretty-format@26.6.2:
     dependencies:
@@ -17408,7 +17422,7 @@ snapshots:
       react-shallow-renderer: 16.15.0(react@18.2.0)
       regenerator-runtime: 0.13.11
       scheduler: 0.24.0-canary-efb381bbf-20230505
-      stacktrace-parser: 0.1.10
+      stacktrace-parser: 0.1.11
       whatwg-fetch: 3.6.20
       ws: 6.2.3(bufferutil@4.0.9)
       yargs: 17.7.2
@@ -18076,7 +18090,7 @@ snapshots:
 
   stackframe@1.3.4: {}
 
-  stacktrace-parser@0.1.10:
+  stacktrace-parser@0.1.11:
     dependencies:
       type-fest: 0.7.1
 
@@ -18221,7 +18235,7 @@ snapshots:
     dependencies:
       escape-string-regexp: 1.0.5
 
-  strnum@1.0.5: {}
+  strnum@1.1.2: {}
 
   strong-log-transformer@2.1.0:
     dependencies:
