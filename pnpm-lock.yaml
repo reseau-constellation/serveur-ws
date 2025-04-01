@@ -10,7 +10,7 @@ importers:
     dependencies:
       '@constl/ipa':
         specifier: ^1.6.1
-        version: 1.6.4(bufferutil@4.0.9)(react-native@0.74.3(@babel/core@7.26.10)(@babel/preset-env@7.24.8(@babel/core@7.26.10))(bufferutil@4.0.9)(react@18.2.0))
+        version: 1.6.5(bufferutil@4.0.9)(react-native@0.74.3(@babel/core@7.26.10)(@babel/preset-env@7.24.8(@babel/core@7.26.10))(bufferutil@4.0.9)(react@18.2.0))
       axios:
         specifier: ^1.8.2
         version: 1.8.4(debug@4.4.0)
@@ -962,8 +962,8 @@ packages:
   '@constl/bohr-db@1.2.3':
     resolution: {integrity: sha512-IJXOqeMnJEOqD7DRNMowwPOY7bVKlTdQNu3DNn9zoSKj+fBzTXLzkxl4uRbKLu9vwWzjoXyxgvp2iw7vkt/amQ==}
 
-  '@constl/ipa@1.6.4':
-    resolution: {integrity: sha512-K4SrbY06ahux7L/d65o0oV//dE/QOI2KeM3A7kodF6DlyqxMG7+klH10gOo7/j6gtz5MU/e69oH2WePq2dR2iQ==}
+  '@constl/ipa@1.6.5':
+    resolution: {integrity: sha512-CF4mzGUBf0ZIDusoE5Lmm0V2ER8/jC1RhPbIMH66i1Cy4WdI4e4S1iUoqKrciNW2TF2qtjf18t1cSHRcex/ODA==}
     engines: {node: '>=20'}
 
   '@constl/mandataire@3.0.3':
@@ -1861,6 +1861,9 @@ packages:
   '@multiformats/multiaddr-matcher@1.6.0':
     resolution: {integrity: sha512-E77lLvQR+50kTAfvjV3g4wr9qCu77Z+6yT0s1hgfh8B4sAXZ8u/YdQJGhjgstgW1kmGy7BXPppROKYijqQsesQ==}
 
+  '@multiformats/multiaddr-matcher@1.7.0':
+    resolution: {integrity: sha512-WfobrJy7XLaYL7PQ3IcFoXdGN5jmdv5FsuKQkZIIreC1pSR4Q9PSOWu2ULxP/M2JT738Xny0PFoCke0ENbyfww==}
+
   '@multiformats/multiaddr-to-uri@11.0.0':
     resolution: {integrity: sha512-9RNmlIGwZbBLsHekT50dbt4o4u8Iciw9kGjv+WHiGxQdsJ6xKKjU1+C0Vbas6RilMbaVOAOnEyfNcXbUmTkLxQ==}
 
@@ -1873,6 +1876,9 @@ packages:
 
   '@multiformats/uri-to-multiaddr@8.0.0':
     resolution: {integrity: sha512-86O+gY6JTnCv0O/IxTKV+1+GACoEBTr5Cfyh+FdzStWneviz2AZwLK8Hsys5dbfMgT//Vs7FolMiEHURlCel8w==}
+
+  '@multiformats/uri-to-multiaddr@8.1.0':
+    resolution: {integrity: sha512-NHFqdKEwJ0A6JDXzC645Lgyw72zWhbM1QfaaD00ZYRrNvtx64p1bD9aIrWZIhLWZN87/lsV4QkJSNRF3Fd3ryw==}
 
   '@noble/ciphers@1.2.1':
     resolution: {integrity: sha512-rONPWMC7PeExE077uLE4oqWrZ1IvAfz3oH9LibVAcVCopJiA9R62uavnbEzdkVmJYI6M6Zgkbeb07+tWjlq2XA==}
@@ -2345,14 +2351,14 @@ packages:
   '@types/node-forge@1.3.11':
     resolution: {integrity: sha512-FQx220y22OKNTqaByeBGqHWYz4cl94tpcxeFdvBo3wjG6XPBuZ0BNgNZRV5J5TFmmcsJ4IzsLkmGRiQbnYsBEQ==}
 
-  '@types/node@18.19.85':
-    resolution: {integrity: sha512-61sLB7tXUMpkHJagZQAzPV4xGyqzulLvphe0lquRX80rZG24VupRv9p6Qo06V9VBNeGBM8Sv8rRVVLji6pi7QQ==}
+  '@types/node@18.19.86':
+    resolution: {integrity: sha512-fifKayi175wLyKyc5qUfyENhQ1dCNI1UNjp653d8kuYcPQN5JhX3dGuP/XmvPTg/xRBn1VTLpbmi+H/Mr7tLfQ==}
 
   '@types/node@22.13.14':
     resolution: {integrity: sha512-Zs/Ollc1SJ8nKUAgc7ivOEdIBM8JAKgrqqUYi2J997JuKO7/tpQC+WCetQ1sypiKCQWHdvdg9wBNpUPEWZae7w==}
 
-  '@types/node@22.13.16':
-    resolution: {integrity: sha512-15tM+qA4Ypml/N7kyRdvfRjBQT2RL461uF1Bldn06K0Nzn1lY3nAPgHlsVrJxdZ9WhZiW0Fmc1lOYMtDsAuB3w==}
+  '@types/node@22.13.17':
+    resolution: {integrity: sha512-nAJuQXoyPj04uLgu+obZcSmsfOenUg6DxPKogeUy6yNCFwWaj5sBF8/G/pNo8EtBJjAfSVgfIlugR/BCOleO+g==}
 
   '@types/normalize-package-data@2.4.4':
     resolution: {integrity: sha512-37i+OaWTh9qeK4LSHPsyRC7NahnGotNuZvjLSgcPzblpHB3rrCJxAOgI5gCdKm7coonsaX1Of0ILiTcnZjbfxA==}
@@ -9650,7 +9656,7 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@constl/ipa@1.6.4(bufferutil@4.0.9)(react-native@0.74.3(@babel/core@7.26.10)(@babel/preset-env@7.24.8(@babel/core@7.26.10))(bufferutil@4.0.9)(react@18.2.0))':
+  '@constl/ipa@1.6.5(bufferutil@4.0.9)(react-native@0.74.3(@babel/core@7.26.10)(@babel/preset-env@7.24.8(@babel/core@7.26.10))(bufferutil@4.0.9)(react@18.2.0))':
     dependencies:
       '@chainsafe/libp2p-gossipsub': 14.1.0
       '@chainsafe/libp2p-noise': 16.1.0
@@ -9679,7 +9685,7 @@ snapshots:
       '@libp2p/webrtc': 5.2.9(react-native@0.74.3(@babel/core@7.26.10)(@babel/preset-env@7.24.8(@babel/core@7.26.10))(bufferutil@4.0.9)(react@18.2.0))
       '@libp2p/websockets': 9.2.8(bufferutil@4.0.9)
       '@libp2p/webtransport': 5.0.37
-      '@multiformats/multiaddr-matcher': 1.6.0
+      '@multiformats/multiaddr-matcher': 1.7.0
       '@noble/hashes': 1.7.1
       '@orbitdb/core': 2.5.0
       '@orbitdb/feed-db': 1.1.2(bufferutil@4.0.9)(react-native@0.74.3(@babel/core@7.26.10)(@babel/preset-env@7.24.8(@babel/core@7.26.10))(bufferutil@4.0.9)(react@18.2.0))
@@ -10323,7 +10329,7 @@ snapshots:
       '@libp2p/interface': 2.7.0
       '@libp2p/utils': 6.6.0
       '@multiformats/multiaddr': 12.4.0
-      '@multiformats/multiaddr-matcher': 1.6.0
+      '@multiformats/multiaddr-matcher': 1.7.0
       '@multiformats/multiaddr-to-uri': 11.0.0
       interface-blockstore: 5.3.1
       interface-store: 6.0.2
@@ -10386,7 +10392,7 @@ snapshots:
       '@helia/interface': 5.2.1
       '@libp2p/interface': 2.7.0
       '@libp2p/peer-id': 5.1.0
-      '@multiformats/uri-to-multiaddr': 8.0.0
+      '@multiformats/uri-to-multiaddr': 8.1.0
       ipns: 10.0.2
       it-first: 3.0.7
       it-map: 3.1.2
@@ -10561,14 +10567,14 @@ snapshots:
     dependencies:
       '@jest/fake-timers': 29.7.0
       '@jest/types': 29.6.3
-      '@types/node': 22.13.16
+      '@types/node': 22.13.17
       jest-mock: 29.7.0
 
   '@jest/fake-timers@29.7.0':
     dependencies:
       '@jest/types': 29.6.3
       '@sinonjs/fake-timers': 10.3.0
-      '@types/node': 22.13.16
+      '@types/node': 22.13.17
       jest-message-util: 29.7.0
       jest-mock: 29.7.0
       jest-util: 29.7.0
@@ -10581,7 +10587,7 @@ snapshots:
     dependencies:
       '@types/istanbul-lib-coverage': 2.0.6
       '@types/istanbul-reports': 3.0.4
-      '@types/node': 22.13.16
+      '@types/node': 22.13.17
       '@types/yargs': 15.0.19
       chalk: 4.1.2
 
@@ -10590,7 +10596,7 @@ snapshots:
       '@jest/schemas': 29.6.3
       '@types/istanbul-lib-coverage': 2.0.6
       '@types/istanbul-reports': 3.0.4
-      '@types/node': 22.13.16
+      '@types/node': 22.13.17
       '@types/yargs': 17.0.33
       chalk: 4.1.2
 
@@ -10665,7 +10671,7 @@ snapshots:
       '@libp2p/peer-record': 8.0.25
       '@libp2p/utils': 6.6.0
       '@multiformats/multiaddr': 12.4.0
-      '@multiformats/multiaddr-matcher': 1.6.0
+      '@multiformats/multiaddr-matcher': 1.7.0
       any-signal: 4.1.1
       it-protobuf-stream: 1.1.6
       it-stream-types: 2.0.2
@@ -10701,7 +10707,7 @@ snapshots:
       '@libp2p/interface-internal': 2.3.9
       '@libp2p/utils': 6.6.0
       '@multiformats/multiaddr': 12.4.0
-      '@multiformats/multiaddr-matcher': 1.6.0
+      '@multiformats/multiaddr-matcher': 1.7.0
       delay: 6.0.0
       it-protobuf-stream: 1.1.6
       protons-runtime: 5.5.0
@@ -10730,7 +10736,7 @@ snapshots:
       '@libp2p/peer-record': 8.0.25
       '@libp2p/utils': 6.6.0
       '@multiformats/multiaddr': 12.4.0
-      '@multiformats/multiaddr-matcher': 1.6.0
+      '@multiformats/multiaddr-matcher': 1.7.0
       it-drain: 3.0.8
       it-parallel: 3.0.9
       it-protobuf-stream: 1.1.6
@@ -11017,7 +11023,7 @@ snapshots:
       '@libp2p/interface': 2.7.0
       '@libp2p/utils': 6.6.0
       '@multiformats/multiaddr': 12.4.0
-      '@multiformats/multiaddr-matcher': 1.6.0
+      '@multiformats/multiaddr-matcher': 1.7.0
       '@types/sinon': 17.0.4
       p-defer: 4.0.1
       p-event: 6.0.1
@@ -11049,7 +11055,7 @@ snapshots:
       '@libp2p/interface-internal': 2.3.9
       '@libp2p/utils': 6.6.0
       '@multiformats/multiaddr': 12.4.0
-      '@multiformats/multiaddr-matcher': 1.6.0
+      '@multiformats/multiaddr-matcher': 1.7.0
       p-defer: 4.0.1
       race-signal: 1.1.3
 
@@ -11147,7 +11153,7 @@ snapshots:
       '@libp2p/peer-id': 5.1.0
       '@libp2p/utils': 6.6.0
       '@multiformats/multiaddr': 12.4.0
-      '@multiformats/multiaddr-matcher': 1.6.0
+      '@multiformats/multiaddr-matcher': 1.7.0
       '@peculiar/webcrypto': 1.5.0
       '@peculiar/x509': 1.12.3
       any-signal: 4.1.1
@@ -11178,7 +11184,7 @@ snapshots:
       '@libp2p/interface': 2.7.0
       '@libp2p/utils': 6.6.0
       '@multiformats/multiaddr': 12.4.0
-      '@multiformats/multiaddr-matcher': 1.6.0
+      '@multiformats/multiaddr-matcher': 1.7.0
       '@multiformats/multiaddr-to-uri': 11.0.0
       '@types/ws': 8.18.1
       it-ws: 6.1.5(bufferutil@4.0.9)
@@ -11198,7 +11204,7 @@ snapshots:
       '@libp2p/peer-id': 5.1.0
       '@libp2p/utils': 6.6.0
       '@multiformats/multiaddr': 12.4.0
-      '@multiformats/multiaddr-matcher': 1.6.0
+      '@multiformats/multiaddr-matcher': 1.7.0
       it-stream-types: 2.0.2
       multiformats: 13.3.2
       progress-events: 1.0.1
@@ -11226,6 +11232,12 @@ snapshots:
       '@multiformats/multiaddr': 12.4.0
       multiformats: 13.3.2
 
+  '@multiformats/multiaddr-matcher@1.7.0':
+    dependencies:
+      '@chainsafe/is-ip': 2.1.0
+      '@multiformats/multiaddr': 12.4.0
+      multiformats: 13.3.2
+
   '@multiformats/multiaddr-to-uri@11.0.0':
     dependencies:
       '@multiformats/multiaddr': 12.4.0
@@ -11245,6 +11257,11 @@ snapshots:
       murmurhash3js-revisited: 3.0.0
 
   '@multiformats/uri-to-multiaddr@8.0.0':
+    dependencies:
+      '@multiformats/multiaddr': 12.4.0
+      is-ip: 5.0.1
+
+  '@multiformats/uri-to-multiaddr@8.1.0':
     dependencies:
       '@multiformats/multiaddr': 12.4.0
       is-ip: 5.0.1
@@ -11794,7 +11811,7 @@ snapshots:
 
   '@rnx-kit/chromium-edge-launcher@1.0.0':
     dependencies:
-      '@types/node': 18.19.85
+      '@types/node': 18.19.86
       escape-string-regexp: 4.0.0
       is-wsl: 2.2.0
       lighthouse-logger: 1.4.2
@@ -12044,9 +12061,9 @@ snapshots:
 
   '@types/node-forge@1.3.11':
     dependencies:
-      '@types/node': 22.13.16
+      '@types/node': 22.13.17
 
-  '@types/node@18.19.85':
+  '@types/node@18.19.86':
     dependencies:
       undici-types: 5.26.5
 
@@ -12054,7 +12071,7 @@ snapshots:
     dependencies:
       undici-types: 6.20.0
 
-  '@types/node@22.13.16':
+  '@types/node@22.13.17':
     dependencies:
       undici-types: 6.20.0
 
@@ -13204,7 +13221,7 @@ snapshots:
 
   chrome-launcher@0.15.2:
     dependencies:
-      '@types/node': 22.13.16
+      '@types/node': 22.13.17
       escape-string-regexp: 4.0.0
       is-wsl: 2.2.0
       lighthouse-logger: 1.4.2
@@ -16070,7 +16087,7 @@ snapshots:
       '@jest/environment': 29.7.0
       '@jest/fake-timers': 29.7.0
       '@jest/types': 29.6.3
-      '@types/node': 22.13.16
+      '@types/node': 22.13.17
       jest-mock: 29.7.0
       jest-util: 29.7.0
 
@@ -16091,13 +16108,13 @@ snapshots:
   jest-mock@29.7.0:
     dependencies:
       '@jest/types': 29.6.3
-      '@types/node': 22.13.16
+      '@types/node': 22.13.17
       jest-util: 29.7.0
 
   jest-util@29.7.0:
     dependencies:
       '@jest/types': 29.6.3
-      '@types/node': 22.13.16
+      '@types/node': 22.13.17
       chalk: 4.1.2
       ci-info: 3.9.0
       graceful-fs: 4.2.11
@@ -16114,7 +16131,7 @@ snapshots:
 
   jest-worker@29.7.0:
     dependencies:
-      '@types/node': 22.13.16
+      '@types/node': 22.13.17
       jest-util: 29.7.0
       merge-stream: 2.0.0
       supports-color: 8.1.1
@@ -16363,7 +16380,7 @@ snapshots:
       '@libp2p/utils': 6.6.0
       '@multiformats/dns': 1.0.6
       '@multiformats/multiaddr': 12.4.0
-      '@multiformats/multiaddr-matcher': 1.6.0
+      '@multiformats/multiaddr-matcher': 1.7.0
       any-signal: 4.1.1
       datastore-core: 10.0.2
       interface-datastore: 8.3.1
