@@ -81,7 +81,7 @@
       "bufferutil",
       "classic-level",
       "core-js",
-      "iso-constants",
+      "iso-constants"
     ]
   }
 }
