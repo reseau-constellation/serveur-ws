@@ -39,7 +39,7 @@
     "ora": "^8.2.0",
     "uuid": "^11.1.0",
     "ws": "^8.18.1",
-    "yargs": "^17.7.2"
+    "yargs": "^18.0.0"
   },
   "devDependencies": {
     "@constl/mandataire": "^3.0.3",
