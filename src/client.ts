@@ -51,7 +51,7 @@ export const lancerClient = async ({
   codeSecret: string;
 }): Promise<{
   client: MandataireConstellation<client.Constellation>;
-  fermerClient: () => void;
+  fermerClient: () => Promise<void>;
 }> => {
   const connexion = new ws.WebSocket(
     `ws://localhost:${port}?code=${encodeURI(codeSecret)}`,

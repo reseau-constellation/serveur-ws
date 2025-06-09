@@ -235,10 +235,16 @@ export const lancerServeur = async ({
   const fermerServeur = () => {
     return new Promise<void>((résoudre) => {
       serveurWs.close(() => {
-        fermerConstellation().finally(() => {
-          serveur.close();
-          résoudre();
-        });
+        console.log("serveur ws fermé");
+        fermerConstellation()
+          .catch(console.log)
+          .finally(() => {
+            console.log("constellation fermée");
+            serveur.close(() => {
+              console.log("serveur fermé");
+              résoudre();
+            });
+          });
       });
     });
   };
