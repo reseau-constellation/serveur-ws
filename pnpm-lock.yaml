@@ -37,7 +37,7 @@ importers:
         version: https://codeload.github.com/inverted-capital/iso-constants/tar.gz/2af6fdfb2cacaa03ebd58543703918783e62649f
       isomorphic-ws:
         specifier: ^5.0.0
-        version: 5.0.0(ws@8.18.2(bufferutil@4.0.9))
+        version: 5.0.0(ws@8.18.3(bufferutil@4.0.9))
       log-update:
         specifier: ^6.1.0
         version: 6.1.0
@@ -49,7 +49,7 @@ importers:
         version: 11.1.0
       ws:
         specifier: ^8.18.1
-        version: 8.18.2(bufferutil@4.0.9)
+        version: 8.18.3(bufferutil@4.0.9)
       yargs:
         specifier: ^18.0.0
         version: 18.0.0
@@ -8594,8 +8594,8 @@ packages:
       utf-8-validate:
         optional: true
 
-  ws@8.18.2:
-    resolution: {integrity: sha512-DMricUmwGZUVr++AEAe2uiVM7UoO9MAVZMDu05UQOaUII0lp+zOzLLU4Xqh/JvTqklB1T4uELaaPBKyjE1r4fQ==}
+  ws@8.18.3:
+    resolution: {integrity: sha512-PEIGCY5tSlUt50cqyMXfCzX+oOPqN0vuGqWzbcJ2xvnkzkq46oOpz7dQaTDBdfICb4N14+GARUDw2XV2N4tvzg==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
       bufferutil: ^4.0.1
@@ -11472,7 +11472,7 @@ snapshots:
       p-event: 6.0.1
       progress-events: 1.0.1
       race-signal: 1.1.3
-      ws: 8.18.2(bufferutil@4.0.9)
+      ws: 8.18.3(bufferutil@4.0.9)
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -16026,9 +16026,9 @@ snapshots:
 
   isobject@3.0.1: {}
 
-  isomorphic-ws@5.0.0(ws@8.18.2(bufferutil@4.0.9)):
+  isomorphic-ws@5.0.0(ws@8.18.3(bufferutil@4.0.9)):
     dependencies:
-      ws: 8.18.2(bufferutil@4.0.9)
+      ws: 8.18.3(bufferutil@4.0.9)
 
   isstream@0.1.2: {}
 
@@ -16257,7 +16257,7 @@ snapshots:
       event-iterator: 2.0.0
       it-stream-types: 2.0.2
       uint8arrays: 5.1.0
-      ws: 8.18.2(bufferutil@4.0.9)
+      ws: 8.18.3(bufferutil@4.0.9)
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -20078,7 +20078,7 @@ snapshots:
     optionalDependencies:
       bufferutil: 4.0.9
 
-  ws@8.18.2(bufferutil@4.0.9):
+  ws@8.18.3(bufferutil@4.0.9):
     optionalDependencies:
       bufferutil: 4.0.9
 
