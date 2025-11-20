@@ -31,7 +31,7 @@ jobs:
           version: latest
 
       - name: Ouvrir la branche
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Installer
         run: pnpm install
@@ -60,7 +60,7 @@ jobs:
           version: latest
 
       - name: Ouvrir la branche
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Installer
         run: pnpm install
