@@ -35,7 +35,7 @@
     "find-free-port": "^2.0.0",
     "iso-constants": "github:inverted-capital/iso-constants#patch-1",
     "isomorphic-ws": "^5.0.0",
-    "log-update": "^6.1.0",
+    "log-update": "^7.0.0",
     "ora": "^8.2.0",
     "uuid": "^11.1.0",
     "ws": "^8.18.1",
